@@ -94,3 +94,6 @@ ALTER TABLE
     `interactions` ADD CONSTRAINT `interactions_user_id_foreign` FOREIGN KEY(`user_id`) REFERENCES `users`(`id`);
 ALTER TABLE
     `playlist` ADD CONSTRAINT `playlist_user_id_foreign` FOREIGN KEY(`user_id`) REFERENCES `users`(`id`);
+ALTER TABLE `music_streaming`.`albums` 
+    CHANGE COLUMN `cover_img` `cover_img` LONGTEXT NOT NULL ;
+
