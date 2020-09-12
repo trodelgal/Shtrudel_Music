@@ -67,6 +67,13 @@ CREATE TABLE `playlist_songs`(
     PRIMARY KEY (id)
 );
 
+CREATE TABLE `user_playlists`(
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `user_id` INT NOT NULL,
+    `playlist_id` INT NOT NULL,
+    PRIMARY KEY (id)
+);
+
 CREATE TABLE `interactions`(
     `id` BIGINT NOT NULL AUTO_INCREMENT,
     `user_id` INT NOT NULL,
@@ -93,7 +100,9 @@ ALTER TABLE
 ALTER TABLE
     `interactions` ADD CONSTRAINT `interactions_user_id_foreign` FOREIGN KEY(`user_id`) REFERENCES `users`(`id`);
 ALTER TABLE
-    `playlist` ADD CONSTRAINT `playlist_user_id_foreign` FOREIGN KEY(`user_id`) REFERENCES `users`(`id`);
+    `user_playlists` ADD CONSTRAINT `user_playlists_user_id_foreign` FOREIGN KEY(`user_id`) REFERENCES `users`(`id`);
+ALTER TABLE
+    `user_playlists` ADD CONSTRAINT `user_playlists_playlist_id_foreign` FOREIGN KEY(`playlist_id`) REFERENCES `playlist`(`id`);
 
 INSERT INTO `artists` (`id`, `name`, `cover_img`, `upload_at`) VALUES (1, 'ut', 'http://lorempixel.com/640/480/', '1982-08-05 02:41:25');
 INSERT INTO `artists` (`id`, `name`, `cover_img`, `upload_at`) VALUES (2, 'cumque', 'http://lorempixel.com/640/480/', '2003-07-20 05:06:52');
@@ -481,3 +490,53 @@ INSERT INTO `interactions` (`id`, `user_id`, `song_id`, `is_liked`, `play_count`
 INSERT INTO `interactions` (`id`, `user_id`, `song_id`, `is_liked`, `play_count`, `created_at`) VALUES ('88', 8, 18, 1, 91454259, '1980-10-09 23:35:11');
 INSERT INTO `interactions` (`id`, `user_id`, `song_id`, `is_liked`, `play_count`, `created_at`) VALUES ('89', 9, 19, 0, 3098, '2006-05-30 19:55:40');
 INSERT INTO `interactions` (`id`, `user_id`, `song_id`, `is_liked`, `play_count`, `created_at`) VALUES ('90', 10, 20, 0, 2868081, '2013-04-15 05:39:25');
+INSERT INTO `user_playlists` VALUES ('1','1','1'),
+('2','2','2'),
+('3','3','3'),
+('4','4','4'),
+('5','5','5'),
+('6','6','6'),
+('7','7','7'),
+('8','8','8'),
+('9','9','9'),
+('10','10','10'),
+('11','11','11'),
+('12','12','12'),
+('13','13','13'),
+('14','14','14'),
+('15','15','15'),
+('16','16','16'),
+('17','17','17'),
+('18','18','18'),
+('19','19','19'),
+('20','20','20'),
+('21','21','21'),
+('22','22','22'),
+('23','23','23'),
+('24','24','24'),
+('25','25','25'),
+('26','26','26'),
+('27','27','27'),
+('28','28','28'),
+('29','29','29'),
+('30','30','30'),
+('31','31','31'),
+('32','32','32'),
+('33','33','33'),
+('34','34','34'),
+('35','35','35'),
+('36','36','1'),
+('37','37','2'),
+('38','38','3'),
+('39','39','4'),
+('40','40','5'),
+('41','1','6'),
+('42','2','7'),
+('43','3','8'),
+('44','4','9'),
+('45','5','10'),
+('46','6','11'),
+('47','7','12'),
+('48','8','13'),
+('49','9','14'),
+('50','10','15');

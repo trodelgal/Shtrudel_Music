@@ -25,17 +25,57 @@ mysqlCon.connect(err => {
 });
 
 // a GET request to /top_songs/ returns a list of top 20 songs
+app.get('/api/top_songs', (req, res) => {
+    const sql = 'SELECT i.song_id, count(i.song_id) AS interactions_with_song, s.title AS song_name, sum(play_count) AS number_of_plays FROM music_streaming_demo.interactions i JOIN music_streaming_demo.songs s ON i.song_id = s.id GROUP BY song_id ORDER BY number_of_plays DESC LIMIT 20;'
+    mysqlCon.query(sql, (error, results, fields) => {
+        if (error) {
+            res.send(error.message);
+            throw error
+        };
+        res.send(results);
+    });
+});
 
-// a GET request to /top_artists/ returns a list of top 20 artists
+// a GET request to /top_artists/ returns a list of top 10 artists
+app.get('/api/top_artists', (req, res) => {
+    const sql = 'SELECT a.name, count(s.artist_id) AS number_of_songs FROM music_streaming_demo.songs s JOIN music_streaming_demo.artists a ON s.artist_id = a.id group by artist_id order by number_of_songs DESC LIMIT 10;'
+    mysqlCon.query(sql, (error, results, fields) => {
+        if (error) {
+            res.send(error.message);
+            throw error
+        };
+        res.send(results);
+    });
+});
 
 // a GET request to /top_albums/ returns a list of top 20 albums
+app.get('/api/top_albums', (req, res) => {
+    const sql = 'SELECT a.id AS album_id, a.name , count(i.song_id) as interactions_with_album FROM albums a  JOIN music_streaming_demo.songs s ON a.id = s.album_id JOIN music_streaming_demo.interactions i ON i.song_id = s.id GROUP BY a.id ORDER BY interactions_with_album DESC LIMIT 20;'
+    mysqlCon.query(sql, (error, results, fields) => {
+        if (error) {
+            res.send(error.message);
+            throw error
+        };
+        res.send(results);
+    });
+});
 
 // a GET request to /top_playlist/ returns a list of top 20 playlist
+app.get('/api/top_playlist', (req, res) => {
+    const sql = 'SELECT playlist_id, count(playlist_id) AS number_of_users_use_this_playlist, p.name FROM music_streaming_demo.user_playlists up JOIN music_streaming_demo.playlist p ON p.id = up.playlist_id GROUP BY playlist_id ORDER BY number_of_users_use_this_playlist DESC LIMIT 20;'
+    mysqlCon.query(sql, (error, results, fields) => {
+        if (error) {
+            res.send(error.message);
+            throw error
+        };
+        res.send(results);
+    });
+});
 
 app.get('/api/songs', (req, res) => {
     mysqlCon.query('SELECT * FROM songs', (error, results, fields) => {
         if (error) {
-            res.send(err.message);
+            res.send(error.message);
             throw error
         };
         res.send(results);
@@ -46,7 +86,7 @@ app.get('/api/songs', (req, res) => {
 app.get('/api/song/:id', (req, res) => {
     mysqlCon.query('SELECT * FROM songs WHERE id = ?',[req.params.id], (error, results, fields) => {
         if (error) {
-            res.send(err.message);
+            res.send(error.message);
             throw error
         };
         res.send(results);
@@ -57,7 +97,7 @@ app.get('/api/song/:id', (req, res) => {
 app.get('/api/artist/:id', (req, res) => {
     mysqlCon.query('SELECT * FROM artists WHERE id = ?',[req.params.id], (error, results, fields) => {
         if (error) {
-            res.send(err.message);
+            res.send(error.message);
             throw error
         };
         res.send(results);
@@ -68,7 +108,7 @@ app.get('/api/artist/:id', (req, res) => {
 app.get('/api/album/:id', (req, res) => {
     mysqlCon.query(`SELECT * FROM albums WHERE id =${req.params.id}`, (error, results, fields) => {
         if (error) {
-            res.send(err.message);
+            res.send(error.message);
             throw error
         };
         res.send(results);
@@ -79,7 +119,7 @@ app.get('/api/album/:id', (req, res) => {
 app.get('/api/playlist/:id', (req, res) => {
     mysqlCon.query(`SELECT * FROM playlist WHERE id =${req.params.id}`, (error, results, fields) => {
         if (error) {
-           res.send(err.message);
+           res.send(error.message);
            throw error
         };
         res.send(results);
