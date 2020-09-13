@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import TopArtists from './components/TopArtists';
+import Artists from './components/Artists';
+import Playlists from './components/Playlists';
 import TopSongs from './components/TopSongs';
+import Songs from './components/Songs';
 import TopPlaylists from './components/TopPlaylists';
 import TopAlbums from './components/TopAlbums';
 import Header from './components/Header';
@@ -14,10 +17,7 @@ function App() {
   const [topTwentyPlaylists, setTopTwentyPlaylists] = useState([]);
   const [topTwentyAlbums, setTopTwentyAlbums] = useState([]);
   const [chooseTable, setChooseTable] = useState('');
-  const [songs,setSongs] = useState([]);
-  const [artists, setArtists] = useState([]);
-  const [playlists, setPlaylists] = useState([]);
-  const [search, setSearch] = useState('')
+
   let showCoosenTable ='';
 
   useEffect(()=>{
@@ -29,7 +29,7 @@ function App() {
       const playlists = await axios.get('/api/top_playlist');
       setTopTwentyPlaylists(playlists.data);
       const albums = await axios.get('/api/top_albums');
-      setTopTwentyAlbums(albums.data); 
+      setTopTwentyAlbums(albums.data);
     }
     ajax();
   },[])
@@ -64,6 +64,28 @@ function App() {
     setChooseTable('showTopAlbums')
     }
   };
+  const showAllSong = async () => {
+    if(chooseTable==='showAllSongs'){
+      setChooseTable('') 
+    }else{
+    setChooseTable('showAllSongs')
+    }
+  };
+  const showAllArtists = async () => {
+    if(chooseTable==='showAllArtists'){
+      setChooseTable('') 
+    }else{
+    setChooseTable('showAllArtists')
+    }
+  };
+  const showAllPlaylists = async () => {
+    if(chooseTable==='showAllPlaylists'){
+      setChooseTable('') 
+    }else{
+    setChooseTable('showAllPlaylists')
+    }
+  };
+
 
   if(chooseTable === 'showTopSongs'){
     showCoosenTable = <TopSongs topTwentySongs={topTwentySongs}/>
@@ -73,6 +95,12 @@ function App() {
     showCoosenTable = <TopPlaylists topTwentyPlaylists={topTwentyPlaylists}/>
   }else if(chooseTable === 'showTopAlbums'){
     showCoosenTable = <TopAlbums topTwentyAlbums={topTwentyAlbums}/>
+  }else if(chooseTable === 'showAllSongs'){
+    showCoosenTable = <Songs />
+  }else if(chooseTable === 'showAllArtists'){
+    showCoosenTable = <Artists />
+  }else if(chooseTable === 'showAllPlaylists'){
+    showCoosenTable = <Playlists />
   }else{
     showCoosenTable = '';
   } 
@@ -80,8 +108,10 @@ function App() {
 
   return (
     <div className="App">
-      <Header/>
-      <input type="text" placeholder="search"/><br/>
+      <Header />
+      <button onClick={showAllSong} >SONGS</button>
+      <button onClick={showAllArtists}>ARTISTS</button>
+      <button onClick={showAllPlaylists}>PLAYLISTS</button><br/>
       <button onClick={showTopSongs}>The 20 most popular songs</button>
       <button onClick={showTopArtists}>The artists with the most songs</button>
       <button onClick={showTopPlaylists}>The 20 popular playlists</button>

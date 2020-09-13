@@ -86,7 +86,7 @@ app.get('/api/songs/:name', (req, res) => {
 });
 
 // a GET request to /artist/123 returns the artist 123
-app.get('/api/artist/:name', (req, res) => {
+app.get('/api/artists/:name', (req, res) => {
   mysqlCon.query(`SELECT * FROM artists WHERE name LIKE '%${req.params.name}%'`, (error, results) => {
     if (error) {
       res.send(error.message);
@@ -109,7 +109,8 @@ app.get('/api/album/:id', (req, res) => {
 
 // a GET request to /playlist/123 returns the playlist 123
 app.get('/api/playlist/:name', (req, res) => {
-  mysqlCon.query(`SELECT * FROM playlist WHERE name LIKE '%${req.params.name}%'`, (error, results) => {
+  const sql = `SELECT * FROM playlist WHERE name LIKE '%${req.params.name}%'`;
+  mysqlCon.query(sql, (error, results) => {
     if (error) {
       res.send(error.message);
       throw error;
@@ -261,8 +262,8 @@ app.get('/api/songs', (req, res) => {
   });
 });
 
-app.get('/api/artists', (req, res) => {
-  mysqlCon.query('SELECT * FROM artists JOIN albums ON artists.id = album.artist_id', (error, results) => {
+app.get('/api/artists/', (req, res) => {
+  mysqlCon.query('SELECT * FROM artists;', (error, results) => {
     if (error) {
       res.send(error.message);
       throw error;
@@ -271,8 +272,9 @@ app.get('/api/artists', (req, res) => {
   });
 });
 
-app.get('/api/playlists', (req, res) => {
-  mysqlCon.query('SELECT * FROM music_streaming_demo.playlist_songs ps JOIN playlist p ON p.id = ps.playlist_id JOIN songs s ON s.id = ps.song_id order by p.id', (error, results) => {
+app.get('/api/playlist/', (req, res) => {
+  const sql = 'SELECT * FROM playlist;';
+  mysqlCon.query(sql, (error, results) => {
     if (error) {
       res.send(error.message);
       throw error;
