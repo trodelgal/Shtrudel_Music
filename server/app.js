@@ -74,19 +74,9 @@ app.get('/api/top_playlist', (req, res) => {
   });
 });
 
-app.get('/api/songs', (req, res) => {
-  mysqlCon.query('SELECT * FROM songs', (error, results) => {
-    if (error) {
-      res.send(error.message);
-      throw error;
-    }
-    return res.send(results);
-  });
-});
-
 // a GET request to /song/123 returns the details of song 123
-app.get('/api/song/:id', (req, res) => {
-  mysqlCon.query('SELECT * FROM songs WHERE id = ?', [req.params.id], (error, results) => {
+app.get('/api/songs/:name', (req, res) => {
+  mysqlCon.query(`SELECT * FROM songs JOIN albums ON albums.id = songs.album_id WHERE title LIKE '%${req.params.name}%'`, (error, results) => {
     if (error) {
       res.send(error.message);
       throw error;
@@ -96,8 +86,8 @@ app.get('/api/song/:id', (req, res) => {
 });
 
 // a GET request to /artist/123 returns the artist 123
-app.get('/api/artist/:id', (req, res) => {
-  mysqlCon.query('SELECT * FROM artists WHERE id = ?', [req.params.id], (error, results) => {
+app.get('/api/artist/:name', (req, res) => {
+  mysqlCon.query(`SELECT * FROM artists WHERE name LIKE '%${req.params.name}%'`, (error, results) => {
     if (error) {
       res.send(error.message);
       throw error;
@@ -118,8 +108,8 @@ app.get('/api/album/:id', (req, res) => {
 });
 
 // a GET request to /playlist/123 returns the playlist 123
-app.get('/api/playlist/:id', (req, res) => {
-  mysqlCon.query(`SELECT * FROM playlist WHERE id =${req.params.id}`, (error, results) => {
+app.get('/api/playlist/:name', (req, res) => {
+  mysqlCon.query(`SELECT * FROM playlist WHERE name LIKE '%${req.params.name}%'`, (error, results) => {
     if (error) {
       res.send(error.message);
       throw error;
@@ -255,6 +245,37 @@ app.delete('/api/playlist/:id', async (req, res) => {
   mysqlCon.query('DELETE FROM playlist WHERE id=?', [req.params.id], (error, results) => {
     if (error) {
       return res.send(error.message);
+    }
+    return res.send(results);
+  });
+});
+
+// get requests for client
+app.get('/api/songs', (req, res) => {
+  mysqlCon.query('SELECT * FROM songs JOIN albums ON albums.id = songs.album_id', (error, results) => {
+    if (error) {
+      res.send(error.message);
+      throw error;
+    }
+    return res.send(results);
+  });
+});
+
+app.get('/api/artists', (req, res) => {
+  mysqlCon.query('SELECT * FROM artists JOIN albums ON artists.id = album.artist_id', (error, results) => {
+    if (error) {
+      res.send(error.message);
+      throw error;
+    }
+    return res.send(results);
+  });
+});
+
+app.get('/api/playlists', (req, res) => {
+  mysqlCon.query('SELECT * FROM music_streaming_demo.playlist_songs ps JOIN playlist p ON p.id = ps.playlist_id JOIN songs s ON s.id = ps.song_id order by p.id', (error, results) => {
+    if (error) {
+      res.send(error.message);
+      throw error;
     }
     return res.send(results);
   });
