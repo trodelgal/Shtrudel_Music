@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 function TopPlaylists({topTwentyPlaylists}){
     return(
         <>
-            <h2>The 20 most popular playlists</h2>
+            <h2>Top 20 popular playlists</h2>
             <ol >
             {
                 topTwentyPlaylists.map((value,index)=>{

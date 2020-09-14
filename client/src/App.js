@@ -106,17 +106,17 @@ function App() {
   }else{
     showCoosenTable = '';
   } 
-  
+
   return (
     <div className="App">
       <Header />
       <button onClick={showAllSong} >SONGS</button>
       <button onClick={showAllArtists}>ARTISTS</button>
       <button onClick={showAllPlaylists}>PLAYLISTS</button><br/>
-      <button onClick={showTopSongs}>The 20 most popular songs</button>
-      <button onClick={showTopArtists}>The artists with the most songs</button>
-      <button onClick={showTopPlaylists}>The 20 popular playlists</button>
-      <button onClick={showTopAlbums}>The 20 popular Albums</button>
+      <button onClick={showTopSongs}>Top songs</button>
+      <button onClick={showTopArtists}>Leading artists</button>
+      <button onClick={showTopPlaylists}>Popular playlists</button>
+      <button onClick={showTopAlbums}>Popular Albums</button>
       {
         showCoosenTable
       }

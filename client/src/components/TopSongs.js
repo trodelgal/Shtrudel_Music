@@ -4,7 +4,7 @@ function TopSongs({topTwentySongs}){
 
     return(
         <>
-            <h2>The 20 most playing songs</h2>
+            <h2>The top 20 most played songs</h2>
             <ol >
                 {
                     topTwentySongs.map((value,index)=>{

@@ -14,7 +14,7 @@ function Artists(){
 
     return(
         <>
-        <h2>All The Artists</h2>
+        <h2>All Artists</h2>
         <br/>
         <input onChange={(e) => setSearch(e.target.value)} placeholder="search"/>
             <ol>

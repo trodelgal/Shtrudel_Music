@@ -178,7 +178,7 @@ useEffect(()=>{
  
   const body = (
     <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">Add Artists/Album/Songs</h2>
+      <h2 id="simple-modal-title">Add Artist/Album/Song</h2>
       <div id="simple-modal-description">
         <button onClick={()=>setChoosenToAdd('album')}>add Album</button>
         <button onClick={()=>setChoosenToAdd('artist')}>add Artist</button>

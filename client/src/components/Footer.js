@@ -2,10 +2,10 @@ import React from 'react';
 
 function Footer({openModal}){
     return(
-        <>
-            <h1>HELP US TO GROW</h1>
-            <button onClick={openModal}>add data</button>
-        </>
+        <footer>
+            <h3>HELP US TO GROW</h3>
+            <button style={{marginBottom: 10}} onClick={openModal}>add data</button>
+        </footer>
     )
 }
 

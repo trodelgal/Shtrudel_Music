@@ -15,7 +15,7 @@ function Playlists(){
 
     return(
         <>
-        <h2>All The Playlists</h2>
+        <h2>All Playlists</h2>
         <br/>
         <input onChange={(e) => setSearch(e.target.value)} placeholder="search"/>
             <ol >
