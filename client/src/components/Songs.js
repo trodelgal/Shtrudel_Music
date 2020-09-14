@@ -14,6 +14,7 @@ function Songs(){
     },[search])
     return(
         <>
+        <h2>All The Songs</h2>
         <br/>
         <input onChange={(e) => setSearch(e.target.value)} placeholder="search"/>
             <ol >
@@ -22,7 +23,7 @@ function Songs(){
                     return(
                         <li>
                             <div>
-                                <b>Name:</b> {value.title}  <b>album name:</b> {value.name}
+                                <b>Name:</b> {value.title}
                             </div>
                         </li>
                     )

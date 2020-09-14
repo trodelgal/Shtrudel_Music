@@ -8,6 +8,7 @@ import TopPlaylists from './components/TopPlaylists';
 import TopAlbums from './components/TopAlbums';
 import Header from './components/Header';
 import './App.css';
+import SimpleModal from "./components/Modal";
 const axios = require('axios');
 
 
@@ -17,6 +18,7 @@ function App() {
   const [topTwentyPlaylists, setTopTwentyPlaylists] = useState([]);
   const [topTwentyAlbums, setTopTwentyAlbums] = useState([]);
   const [chooseTable, setChooseTable] = useState('');
+  // const [displayModal, setDisplayModal] = useState(false)
 
   let showCoosenTable ='';
 
@@ -104,8 +106,7 @@ function App() {
   }else{
     showCoosenTable = '';
   } 
-
-
+  
   return (
     <div className="App">
       <Header />
@@ -119,6 +120,7 @@ function App() {
       {
         showCoosenTable
       }
+      <SimpleModal/>
     </div>
   );
 }
