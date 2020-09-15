@@ -40,7 +40,7 @@ app.get('/api/top_songs', (req, res) => {
 
 // a GET request to /top_artists/ returns a list of top 10 artists
 app.get('/api/top_artists', (req, res) => {
-  const sql = 'SELECT a.name, count(s.artist_id) AS number_of_songs FROM music_streaming_demo.songs s JOIN music_streaming_demo.artists a ON s.artist_id = a.id group by artist_id order by number_of_songs DESC LIMIT 10;';
+  const sql = 'SELECT s.artist_id, a.name, count(s.artist_id) AS number_of_songs FROM music_streaming_demo.songs s JOIN music_streaming_demo.artists a ON s.artist_id = a.id group by artist_id order by number_of_songs DESC LIMIT 10;';
   mysqlCon.query(sql, (error, results) => {
     if (error) {
       res.send(error.message);

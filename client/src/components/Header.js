@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Header(){
     return(
@@ -8,7 +9,7 @@ function Header(){
             width:'100%',
             height: '220px',
         }}>
-            <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTE-qgMPnsXTp5CSGJQ65aFsTVajO3s17yZUQ&usqp=CAU' className="basket-logo" alt="basket"  style={{height: '100px', marginTop:'10px'}}/>
+            <Link to="/"><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTE-qgMPnsXTp5CSGJQ65aFsTVajO3s17yZUQ&usqp=CAU' className="basket-logo" alt="basket"  style={{height: '100px', marginTop:'10px'}}/></Link>
             <h2 style={{color:'white'}}>Music_Streamer</h2>
         </header>
     )

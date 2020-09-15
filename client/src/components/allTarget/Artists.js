@@ -1,29 +1,30 @@
 import React, { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 const axios = require('axios');
 
-function Songs(){
-    const [songsToDesplay, setSongToDesplay] = useState([]) 
+function Artists(){
+    const [artistsToDesplay, setArtistsToDesplay] = useState([]) 
     const [search, setSearch] = useState('') 
-
     useEffect(()=>{
         const ajax = async () =>{
-        const songs = await axios.get(`/api/songs/${search}`);
-        setSongToDesplay(songs.data)
+        const artists = await axios.get(`/api/artists/${search}`);
+        setArtistsToDesplay(artists.data)
         }
         ajax()
     },[search])
+
     return(
         <>
-        <h2>All Songs</h2>
+        <h2>All Artists</h2>
         <br/>
         <input onChange={(e) => setSearch(e.target.value)} placeholder="search"/>
-            <ol >
+            <ol>
             {
-                songsToDesplay.map((value,index)=>{
+                artistsToDesplay.map((value,index)=>{
                     return(
                         <li>
                             <div>
-                                <b>Name:</b> {value.title}
+                                <b>Name:</b> <Link to={`/artist/${value.id}`}>{value.name}</Link>
                             </div>
                         </li>
                     )
@@ -33,4 +34,4 @@ function Songs(){
         </>
     )
 }
-export default Songs;
+export default Artists;

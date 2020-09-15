@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 
 function TopSongs({topTwentySongs}){
 
@@ -11,7 +12,7 @@ function TopSongs({topTwentySongs}){
                         return(
                             <li>
                                 <div>
-                                    <b>Name:</b> {value.song_name}<br/>  <b>Number of plays:</b> {value.number_of_plays}
+                                    <b>Name:</b> <Link to={`/song/${value.song_id}`}>{value.song_name}</Link> <br/><b>Number of plays:</b> {value.number_of_plays}
                                 </div>
                             </li>
                         )

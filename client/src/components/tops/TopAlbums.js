@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 
 function TopAlbums({topTwentyAlbums}){
 
@@ -11,7 +12,7 @@ function TopAlbums({topTwentyAlbums}){
                     return(
                         <li>
                             <div>
-                                <b>Name:</b> {value.name}
+                                <b>Name:</b> <Link to={`/album/${value.album_id}`}>{value.name}</Link>
                             </div>
                         </li>
                     )
