@@ -51,12 +51,12 @@ ALTER TABLE
     `users` ADD UNIQUE `users_email_unique`(`email`);
 CREATE TABLE `playlist`(
     `id` INT NOT NULL AUTO_INCREMENT,
-    `user_id` INT NOT NULL,
+    -- `user_id` INT NOT NULL,
     `name` VARCHAR(255) NOT NULL,
     `created_at` DATETIME NOT NULL,
-    `upload_at` DATETIME NOT NULL,
+    `uploaded_at` DATETIME NOT NULL,
     `rules` TEXT NULL,
-    `cover_img`LONGTEXT NOT NULL,
+    `cover_img`LONGTEXT NULL,
     PRIMARY KEY (id)
 );
 
@@ -363,74 +363,91 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `is_admin`, `preferences
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `is_admin`, `preferences`, `created_at`, `remember_token`, `upload_at`) VALUES (39, 'rem', 'eddie.ledner@example.net', 'a63a6420e9bf5d487629826c2d5c49786004523e', 1, NULL, '1985-10-20 22:18:44', NULL, '2006-03-19 05:20:11');
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `is_admin`, `preferences`, `created_at`, `remember_token`, `upload_at`) VALUES (40, 'at', 'stoltenberg.jasmin@example.net', 'fa926424fb1eb513aa6d301aebaa602733274e4b', 1, NULL, '1989-09-05 20:19:08', NULL, '1978-06-09 19:31:52');
 
-
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (1, 1, 'in', '1999-08-08 18:20:32', '1991-02-17 16:25:54', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (2, 2, 'accusamus', '1978-12-09 17:19:53', '1986-01-27 00:44:48', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (3, 3, 'ab', '1988-09-04 12:41:56', '1976-02-25 18:28:40', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (4, 4, 'sint', '2008-08-09 03:47:44', '1991-06-06 10:39:56', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (5, 5, 'enim', '2008-03-12 05:48:20', '2004-04-02 01:11:46', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (6, 6, 'et', '2016-01-18 12:43:54', '1976-01-29 07:30:07', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (7, 7, 'eius', '2003-07-23 18:32:38', '2018-07-16 23:50:16', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (8, 8, 'doloribus', '2013-11-15 19:03:19', '1998-12-06 00:27:35', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (9, 9, 'nihil', '1983-11-01 10:37:38', '2011-04-28 18:44:53', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (10, 10, 'dicta', '1978-04-11 12:36:04', '2000-06-13 09:44:02', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (11, 11, 'ut', '1977-01-26 04:41:23', '1985-12-16 15:24:36', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (12, 12, 'vero', '1992-06-07 03:59:11', '1999-08-26 06:52:38', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (13, 13, 'ducimus', '2004-09-13 18:00:41', '1984-05-04 18:43:57', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (14, 14, 'aspernatur', '1992-06-29 16:18:27', '2016-05-07 03:01:57', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (15, 15, 'sunt', '1999-09-22 19:48:08', '1991-05-02 05:13:01', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (16, 16, 'autem', '1976-05-01 23:05:09', '2014-04-12 19:06:50', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (17, 17, 'enim', '1970-02-23 15:12:44', '2009-04-13 04:29:56', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (18, 18, 'voluptatem', '1973-01-07 08:59:29', '2014-04-11 19:54:57', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (19, 19, 'nam', '1974-06-24 02:50:20', '1979-02-26 23:03:27', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (20, 20, 'iure', '1989-06-29 15:22:51', '2006-11-12 07:02:00', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (21, 21, 'atque', '2003-03-26 08:22:59', '2018-07-28 10:42:31', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (22, 22, 'eos', '2002-11-03 20:51:50', '1996-12-19 01:27:58', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (23, 23, 'eos', '2001-01-08 07:45:30', '2012-02-06 06:00:51', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (24, 24, 'soluta', '1993-12-02 00:48:36', '2010-06-01 22:55:40', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (25, 25, 'culpa', '1985-09-07 08:47:46', '1977-10-17 09:49:45', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (26, 26, 'qui', '1980-11-13 08:02:05', '1998-03-15 17:17:57', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (27, 27, 'numquam', '2020-02-29 19:48:18', '1996-04-04 19:07:21', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (28, 28, 'explicabo', '1988-12-30 18:47:13', '2010-12-29 08:45:55', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (29, 29, 'similique', '2018-09-03 03:34:34', '1974-10-21 15:25:12', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (30, 30, 'soluta', '1991-03-04 20:17:07', '2020-06-07 12:31:17', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (31, 31, 'dolores', '2016-03-21 18:03:37', '1985-01-04 21:51:37', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (32, 32, 'et', '2020-02-29 01:36:46', '2016-09-26 14:07:07', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (33, 33, 'nemo', '2004-04-20 02:50:52', '1995-09-28 08:52:59', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (34, 34, 'minima', '1977-11-05 00:31:53', '1996-01-25 19:59:53', NULL, 'http://lorempixel.com/640/480/');
-INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (35, 35, 'sit', '1983-05-09 07:17:32', '2015-03-10 07:49:08', NULL, 'http://lorempixel.com/640/480/');
+INSERT INTO `playlist` (`name`, `uploaded_at`, `created_at`) VALUES ('Chill', '2008-04-12', '2007-04-12');
+INSERT INTO `playlist` (`name`, `uploaded_at`, `created_at`) VALUES ('Rock', '2010-04-13', '2008-07-17');
+INSERT INTO `playlist` (`name`, `uploaded_at`, `created_at`) VALUES ('Metal', '2015-07-18', '2013-01-12');
 
 
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (1, 1, 1);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (2, 2, 2);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (3, 3, 3);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (4, 4, 4);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (5, 5, 5);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (6, 6, 6);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (7, 7, 7);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (8, 8, 8);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (9, 9, 9);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (10, 10, 10);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (11, 11, 11);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (12, 12, 12);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (13, 13, 13);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (14, 14, 14);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (15, 15, 15);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (16, 16, 16);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (17, 17, 17);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (18, 18, 18);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (19, 19, 19);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (20, 20, 20);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (21, 21, 21);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (22, 22, 22);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (23, 23, 23);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (24, 24, 24);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (25, 25, 25);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (26, 26, 26);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (27, 27, 27);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (28, 28, 28);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (29, 29, 29);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (30, 30, 30);
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (1, 1, 'in', '1999-08-08 18:20:32', '1991-02-17 16:25:54', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (2, 2, 'accusamus', '1978-12-09 17:19:53', '1986-01-27 00:44:48', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (3, 3, 'ab', '1988-09-04 12:41:56', '1976-02-25 18:28:40', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (4, 4, 'sint', '2008-08-09 03:47:44', '1991-06-06 10:39:56', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (5, 5, 'enim', '2008-03-12 05:48:20', '2004-04-02 01:11:46', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (6, 6, 'et', '2016-01-18 12:43:54', '1976-01-29 07:30:07', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (7, 7, 'eius', '2003-07-23 18:32:38', '2018-07-16 23:50:16', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (8, 8, 'doloribus', '2013-11-15 19:03:19', '1998-12-06 00:27:35', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (9, 9, 'nihil', '1983-11-01 10:37:38', '2011-04-28 18:44:53', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (10, 10, 'dicta', '1978-04-11 12:36:04', '2000-06-13 09:44:02', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (11, 11, 'ut', '1977-01-26 04:41:23', '1985-12-16 15:24:36', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (12, 12, 'vero', '1992-06-07 03:59:11', '1999-08-26 06:52:38', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (13, 13, 'ducimus', '2004-09-13 18:00:41', '1984-05-04 18:43:57', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (14, 14, 'aspernatur', '1992-06-29 16:18:27', '2016-05-07 03:01:57', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (15, 15, 'sunt', '1999-09-22 19:48:08', '1991-05-02 05:13:01', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (16, 16, 'autem', '1976-05-01 23:05:09', '2014-04-12 19:06:50', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (17, 17, 'enim', '1970-02-23 15:12:44', '2009-04-13 04:29:56', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (18, 18, 'voluptatem', '1973-01-07 08:59:29', '2014-04-11 19:54:57', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (19, 19, 'nam', '1974-06-24 02:50:20', '1979-02-26 23:03:27', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (20, 20, 'iure', '1989-06-29 15:22:51', '2006-11-12 07:02:00', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (21, 21, 'atque', '2003-03-26 08:22:59', '2018-07-28 10:42:31', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (22, 22, 'eos', '2002-11-03 20:51:50', '1996-12-19 01:27:58', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (23, 23, 'eos', '2001-01-08 07:45:30', '2012-02-06 06:00:51', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (24, 24, 'soluta', '1993-12-02 00:48:36', '2010-06-01 22:55:40', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (25, 25, 'culpa', '1985-09-07 08:47:46', '1977-10-17 09:49:45', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (26, 26, 'qui', '1980-11-13 08:02:05', '1998-03-15 17:17:57', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (27, 27, 'numquam', '2020-02-29 19:48:18', '1996-04-04 19:07:21', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (28, 28, 'explicabo', '1988-12-30 18:47:13', '2010-12-29 08:45:55', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (29, 29, 'similique', '2018-09-03 03:34:34', '1974-10-21 15:25:12', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (30, 30, 'soluta', '1991-03-04 20:17:07', '2020-06-07 12:31:17', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (31, 31, 'dolores', '2016-03-21 18:03:37', '1985-01-04 21:51:37', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (32, 32, 'et', '2020-02-29 01:36:46', '2016-09-26 14:07:07', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (33, 33, 'nemo', '2004-04-20 02:50:52', '1995-09-28 08:52:59', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (34, 34, 'minima', '1977-11-05 00:31:53', '1996-01-25 19:59:53', NULL, 'http://lorempixel.com/640/480/');
+-- INSERT INTO `playlist` (`id`, `user_id`, `name`, `created_at`, `upload_at`, `rules`, `cover_img`) VALUES (35, 35, 'sit', '1983-05-09 07:17:32', '2015-03-10 07:49:08', NULL, 'http://lorempixel.com/640/480/');
+
+INSERT INTO `playlist_songs`(`playlist_id`,`song_id`)VALUES ('3','1');
+INSERT INTO `playlist_songs`(`playlist_id`,`song_id`)VALUES ('3','2');
+INSERT INTO `playlist_songs`(`playlist_id`,`song_id`)VALUES ('3','3');
+INSERT INTO `playlist_songs`(`playlist_id`,`song_id`)VALUES ('3','4');
+INSERT INTO `playlist_songs`(`playlist_id`,`song_id`)VALUES ('3','5');
+INSERT INTO `playlist_songs`(`playlist_id`,`song_id`)VALUES ('1','1');
+INSERT INTO `playlist_songs`(`playlist_id`,`song_id`)VALUES ('1','7');
+INSERT INTO `playlist_songs`(`playlist_id`,`song_id`)VALUES ('1','3');
+INSERT INTO `playlist_songs`(`playlist_id`,`song_id`)VALUES ('1','8');
+INSERT INTO `playlist_songs`(`playlist_id`,`song_id`)VALUES ('1','15');
+INSERT INTO `playlist_songs`(`playlist_id`,`song_id`)VALUES ('2','2');
+INSERT INTO `playlist_songs`(`playlist_id`,`song_id`)VALUES ('2','3');
+INSERT INTO `playlist_songs`(`playlist_id`,`song_id`)VALUES ('2','6');
+INSERT INTO `playlist_songs`(`playlist_id`,`song_id`)VALUES ('1','11');
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (1, 1, 1);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (2, 2, 2);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (3, 3, 3);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (4, 4, 4);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (5, 5, 5);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (6, 6, 6);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (7, 7, 7);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (8, 8, 8);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (9, 9, 9);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (10, 10, 10);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (11, 11, 11);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (12, 12, 12);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (13, 13, 13);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (14, 14, 14);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (15, 15, 15);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (16, 16, 16);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (17, 17, 17);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (18, 18, 18);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (19, 19, 19);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (20, 20, 20);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (21, 21, 21);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (22, 22, 22);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (23, 23, 23);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (24, 24, 24);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (25, 25, 25);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (26, 26, 26);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (27, 27, 27);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (28, 28, 28);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (29, 29, 29);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (30, 30, 30);
 -- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (31, 31, 31);
 -- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (32, 32, 32);
 -- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (33, 33, 33);
@@ -471,36 +488,36 @@ INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (30, 30, 30
 -- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (68, 33, 68);
 -- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (69, 34, 69);
 -- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (70, 35, 70);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (71, 1, 1);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (72, 2, 2);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (73, 3, 3);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (74, 4, 4);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (75, 5, 5);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (76, 6, 6);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (77, 7, 7);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (78, 8, 8);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (79, 9, 9);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (80, 10, 10);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (81, 11, 11);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (82, 12, 12);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (83, 13, 13);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (84, 14, 14);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (85, 15, 15);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (86, 16, 16);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (87, 17, 17);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (88, 18, 18);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (89, 19, 19);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (90, 20, 20);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (91, 21, 21);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (92, 22, 22);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (93, 23, 23);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (94, 24, 24);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (95, 25, 25);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (96, 26, 26);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (97, 27, 27);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (98, 28, 28);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (99, 29, 29);
-INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (100, 30, 30);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (71, 1, 1);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (72, 2, 2);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (73, 3, 3);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (74, 4, 4);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (75, 5, 5);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (76, 6, 6);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (77, 7, 7);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (78, 8, 8);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (79, 9, 9);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (80, 10, 10);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (81, 11, 11);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (82, 12, 12);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (83, 13, 13);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (84, 14, 14);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (85, 15, 15);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (86, 16, 16);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (87, 17, 17);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (88, 18, 18);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (89, 19, 19);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (90, 20, 20);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (91, 21, 21);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (92, 22, 22);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (93, 23, 23);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (94, 24, 24);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (95, 25, 25);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (96, 26, 26);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (97, 27, 27);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (98, 28, 28);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (99, 29, 29);
+-- INSERT INTO `playlist_songs` (`id`, `playlist_id`, `song_id`) VALUES (100, 30, 30);
 
 
 INSERT INTO `interactions` (`id`, `user_id`, `song_id`, `is_liked`, `play_count`, `created_at`) VALUES ('1', 1, 1, 1, 0, '2012-08-27 22:23:04');
@@ -595,51 +612,51 @@ INSERT INTO `interactions` (`id`, `user_id`, `song_id`, `is_liked`, `play_count`
 INSERT INTO `interactions` (`id`, `user_id`, `song_id`, `is_liked`, `play_count`, `created_at`) VALUES ('90', 10, 20, 0, 2868081, '2013-04-15 05:39:25');
 INSERT INTO `user_playlists` VALUES ('1','1','1'),
 ('2','2','2'),
-('3','3','3'),
-('4','4','4'),
-('5','5','5'),
-('6','6','6'),
-('7','7','7'),
-('8','8','8'),
-('9','9','9'),
-('10','10','10'),
-('11','11','11'),
-('12','12','12'),
-('13','13','13'),
-('14','14','14'),
-('15','15','15'),
-('16','16','16'),
-('17','17','17'),
-('18','18','18'),
-('19','19','19'),
-('20','20','20'),
-('21','21','21'),
-('22','22','22'),
-('23','23','23'),
-('24','24','24'),
-('25','25','25'),
-('26','26','26'),
-('27','27','27'),
-('28','28','28'),
-('29','29','29'),
-('30','30','30'),
-('31','31','31'),
-('32','32','32'),
-('33','33','33'),
-('34','34','34'),
-('35','35','35'),
-('36','36','1'),
-('37','37','2'),
-('38','38','3'),
-('39','39','4'),
-('40','40','5'),
-('41','1','6'),
-('42','2','7'),
-('43','3','8'),
-('44','4','9'),
-('45','5','10'),
-('46','6','11'),
-('47','7','12'),
-('48','8','13'),
-('49','9','14'),
-('50','10','15');
+('3','3','3');
+-- ('4','4','4'),
+-- ('5','5','5'),
+-- ('6','6','6'),
+-- ('7','7','7'),
+-- ('8','8','8'),
+-- ('9','9','9'),
+-- ('10','10','10'),
+-- ('11','11','11'),
+-- ('12','12','12'),
+-- ('13','13','13'),
+-- ('14','14','14'),
+-- ('15','15','15'),
+-- ('16','16','16'),
+-- ('17','17','17'),
+-- ('18','18','18'),
+-- ('19','19','19'),
+-- ('20','20','20'),
+-- ('21','21','21'),
+-- ('22','22','22'),
+-- ('23','23','23'),
+-- ('24','24','24'),
+-- ('25','25','25'),
+-- ('26','26','26'),
+-- ('27','27','27'),
+-- ('28','28','28'),
+-- ('29','29','29'),
+-- ('30','30','30'),
+-- ('31','31','31'),
+-- ('32','32','32'),
+-- ('33','33','33'),
+-- ('34','34','34'),
+-- ('35','35','35'),
+-- ('36','36','1'),
+-- ('37','37','2'),
+-- ('38','38','3'),
+-- ('39','39','4'),
+-- ('40','40','5'),
+-- ('41','1','6'),
+-- ('42','2','7'),
+-- ('43','3','8'),
+-- ('44','4','9'),
+-- ('45','5','10'),
+-- ('46','6','11'),
+-- ('47','7','12'),
+-- ('48','8','13'),
+-- ('49','9','14'),
+-- ('50','10','15');
