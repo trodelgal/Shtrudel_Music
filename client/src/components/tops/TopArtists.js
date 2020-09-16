@@ -11,7 +11,7 @@ function TopArtists({topTenArtists}){
                     return(
                         <li>
                             <div>
-                                <b>Name:</b> <Link to={`/artist/${value.artist_id}`}>{value.name}</Link><br/>  <b>Number of plays:</b> {value.number_of_songs}
+                                <b>Name:</b> <Link to={`/artists/${value.artist_id}`}>{value.name}</Link><br/>  <b>Number of plays:</b> {value.number_of_songs}
                             </div>
                         </li>
                     )

@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 const axios = require('axios');
 
-function Artists(){
+function Albums(){
     const [artistsToDesplay, setArtistsToDesplay] = useState([]) 
     const [search, setSearch] = useState('') 
     useEffect(()=>{
         const ajax = async () =>{
-        const artists = await axios.get(`/api/artists/${search}`);
+        const artists = await axios.get(`/api/albums/${search}`);
         setArtistsToDesplay(artists.data)
         }
         ajax()
@@ -23,7 +23,7 @@ function Artists(){
                     return(
                         <li>
                             <div>
-                                <b>Name:</b> <Link to={`/artists/${value.id}`}>{value.name}</Link>
+                                <b>Name:</b> <Link to={`/albums/${value.id}`}>{value.name}</Link>
                             </div>
                         </li>
                     )
@@ -33,4 +33,4 @@ function Artists(){
         </>
     )
 }
-export default Artists;
+export default Albums;

@@ -12,7 +12,7 @@ function TopSongs({topTwentySongs}){
                         return(
                             <li>
                                 <div>
-                                    <b>Name:</b> <Link to={`/song/${value.song_id}`}>{value.song_name}</Link> <br/><b>Number of plays:</b> {value.number_of_plays}
+                                    <b>Name:</b> <Link to={`/songs/${value.song_id}`}>{value.song_name}</Link> <br/><b>Number of plays:</b> {value.number_of_plays}
                                 </div>
                             </li>
                         )

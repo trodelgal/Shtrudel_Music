@@ -1,7 +1,7 @@
 .App {
   text-align: center;
-  background-color: black;
-  color: white;
+  /* background-color: black; */
+  color: black;
   min-height: 1000px;
 }
 ol{
@@ -11,6 +11,25 @@ ol{
   text-align: left;
   margin-left: 20%;
   margin-bottom:100px ;
+}
+
+nav{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 10vh;
+  background-color: black;
+  color: white;
+}
+.navigationList{
+  width: 40%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  list-style: none;
+}
+.navLink{
+  color: white;
 }
 footer{
   width: 100%;

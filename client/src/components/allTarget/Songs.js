@@ -15,7 +15,6 @@ function Songs(){
     },[search])
     return(
         <>
-        <h2>All Songs</h2>
         <br/>
         <input onChange={(e) => setSearch(e.target.value)} placeholder="search"/>
             <ol >
@@ -24,7 +23,7 @@ function Songs(){
                     return(
                         <li>
                             <div>
-                                <b>Name:</b> <Link to={`/song/${value.id}`}>{value.title}</Link>
+                                <b>Name:</b> <Link to={`/songs/${value.id}`}>{value.title}</Link>
                             </div>
                         </li>
                     )

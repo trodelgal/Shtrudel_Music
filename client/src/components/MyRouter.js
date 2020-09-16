@@ -7,28 +7,55 @@ import SinglePlaylist from './single/SinglePlaylist';
 import SingleAlbum from './single/SingleAlbum';
 import SimpleModal from "./Modal";
 import Header from './Header';
+import Playlists from './allTarget/Playlists';
+import Artists from './allTarget/Artists';
+import Albums from './allTarget/Albums';
+import Songs from './allTarget/Songs';
 
 function MyRouter() {
  return (
  <Router>
-    <Header />
     <Switch>
         <Route exact path="/">
-            <Main />
-        ‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫ </Route>
-        <Route exact path="/song/:id">
-            <SingleSong />
-        ‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫ </Route>
-        <Route exact path="/artist/:id">
-            <SingleArtist />
-        ‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫ </Route>
+            <Header title='SHTRUDEL MUSIC' />
+            <Main/>
+        </Route>
+        <Route exact path="/songs">
+            <Header title='ALL SONGS' />
+            <Songs/>
+        </Route>
+        <Route exact path="/artists">
+            <Header title='ALL ARTISTS' />
+            <Artists/>
+        </Route>
+        <Route exact path="/playlist">
+            <Header title='ALL PLAYLISTS' />
+            <Playlists/>
+        </Route>
+        <Route exact path="/albums">
+            <Header title='ALL ALBUMS' />
+            <Albums/>
+        </Route>
+        <Route exact path="/songs/:id">
+            <Header title='SONG' />
+            <SingleSong/>
+        </Route>
+        <Route exact path="/artists/:id">
+            <Header title='ARTIST' />
+            <SingleArtist/>
+        </Route>
         <Route exact path="/playlist/:id">
-            <SinglePlaylist />
-        ‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫ </Route>
-        <Route exact path="/album/:id">
-            <SingleAlbum />
-        ‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫‫ </Route>
-    </Switch>
+            <Header title='PLAYLIST' />
+            <SinglePlaylist/>
+        </Route>
+        <Route exact path="/albums/:id">
+            <Header title='ALBUM' />
+            <SingleAlbum/>
+        </Route>
+        <Route>
+           <h1>404</h1>
+        </Route>
+    </Switch>       
     <SimpleModal/>
  </Router>
  );

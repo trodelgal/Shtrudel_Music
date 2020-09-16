@@ -12,7 +12,7 @@ function TopAlbums({topTwentyAlbums}){
                     return(
                         <li>
                             <div>
-                                <b>Name:</b> <Link to={`/album/${value.album_id}`}>{value.name}</Link>
+                                <b>Name:</b> <Link to={`/albums/${value.album_id}`}>{value.name}</Link>
                             </div>
                         </li>
                     )

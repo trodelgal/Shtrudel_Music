@@ -28,7 +28,12 @@ mysqlCon.connect((err) => {
 
 // a GET request to /top_songs/ returns a list of top 20 songs
 app.get('/api/top_songs', (req, res) => {
-  const sql = 'SELECT i.song_id, count(i.song_id) AS interactions_with_song, s.title AS song_name, sum(play_count) AS number_of_plays FROM music_streaming_demo.interactions i JOIN music_streaming_demo.songs s ON i.song_id = s.id GROUP BY song_id ORDER BY number_of_plays DESC LIMIT 20;';
+  const sql = `SELECT i.song_id, count(i.song_id) AS interactions_with_song, s.title AS song_name, sum(play_count) AS number_of_plays 
+  FROM music_streaming_demo.interactions i 
+  JOIN music_streaming_demo.songs s ON i.song_id = s.id 
+  GROUP BY song_id 
+  ORDER BY number_of_plays DESC 
+  LIMIT 20;`;
   mysqlCon.query(sql, (error, results) => {
     if (error) {
       res.send(error.message);
@@ -40,7 +45,12 @@ app.get('/api/top_songs', (req, res) => {
 
 // a GET request to /top_artists/ returns a list of top 10 artists
 app.get('/api/top_artists', (req, res) => {
-  const sql = 'SELECT s.artist_id, a.name, count(s.artist_id) AS number_of_songs FROM music_streaming_demo.songs s JOIN music_streaming_demo.artists a ON s.artist_id = a.id group by artist_id order by number_of_songs DESC LIMIT 10;';
+  const sql = `SELECT s.artist_id, a.name, count(s.artist_id) AS number_of_songs 
+  FROM music_streaming_demo.songs s 
+  JOIN music_streaming_demo.artists a 
+  ON s.artist_id = a.id 
+  group by artist_id order by number_of_songs DESC 
+  LIMIT 10;`;
   mysqlCon.query(sql, (error, results) => {
     if (error) {
       res.send(error.message);
@@ -52,7 +62,15 @@ app.get('/api/top_artists', (req, res) => {
 
 // a GET request to /top_albums/ returns a list of top 20 albums
 app.get('/api/top_albums', (req, res) => {
-  const sql = 'SELECT a.id AS album_id, a.name , count(i.song_id) as interactions_with_album FROM albums a  JOIN music_streaming_demo.songs s ON a.id = s.album_id JOIN music_streaming_demo.interactions i ON i.song_id = s.id GROUP BY a.id ORDER BY interactions_with_album DESC LIMIT 20;';
+  const sql = `SELECT a.id AS album_id, a.name , count(i.song_id) as interactions_with_album 
+  FROM albums a  
+  JOIN music_streaming_demo.songs s 
+  ON a.id = s.album_id 
+  JOIN music_streaming_demo.interactions i 
+  ON i.song_id = s.id 
+  GROUP BY a.id 
+  ORDER BY interactions_with_album DESC 
+  LIMIT 20;`;
   mysqlCon.query(sql, (error, results) => {
     if (error) {
       res.send(error.message);
@@ -64,7 +82,13 @@ app.get('/api/top_albums', (req, res) => {
 
 // a GET request to /top_playlist/ returns a list of top 20 playlist
 app.get('/api/top_playlist', (req, res) => {
-  const sql = 'SELECT playlist_id, count(playlist_id) AS number_of_users_use_this_playlist, p.name FROM music_streaming_demo.user_playlists up JOIN music_streaming_demo.playlist p ON p.id = up.playlist_id GROUP BY playlist_id ORDER BY number_of_users_use_this_playlist DESC LIMIT 20;';
+  const sql = `SELECT playlist_id, count(playlist_id) AS number_of_users_use_this_playlist, p.name 
+  FROM music_streaming_demo.user_playlists up 
+  JOIN music_streaming_demo.playlist p 
+  ON p.id = up.playlist_id 
+  GROUP BY playlist_id 
+  ORDER BY number_of_users_use_this_playlist DESC 
+  LIMIT 20;`;
   mysqlCon.query(sql, (error, results) => {
     if (error) {
       res.send(error.message);
@@ -89,7 +113,9 @@ app.get('/api/:table/', (req, res) => {
 // a GET request to /artists /playlist /songs /albums - to use search
 app.get('/api/:table/:name', (req, res) => {
   const whereColumn = req.params.table === 'songs' ? 'title' : 'name';
-  const sql = `SELECT * FROM ${req.params.table} WHERE ${whereColumn} LIKE '%${req.params.name}%'`;
+  const sql = `SELECT * 
+  FROM ${req.params.table} 
+  WHERE ${whereColumn} LIKE '%${req.params.name}%'`;
   mysqlCon.query(sql, (error, results) => {
     if (error) {
       res.send(error.message);
@@ -126,6 +152,95 @@ app.delete('/api/:table/:id', async (req, res) => {
   mysqlCon.query(`DELETE FROM ${req.params.table} WHERE id=${req.params.id}`, (error, results) => {
     if (error) {
       return res.send(error.message);
+    }
+    return res.send(results);
+  });
+});
+
+// get data to show each single song
+
+app.get('/api/single/song/:id', (req, res) => {
+  const sql = `SELECT songs.*, artists.name AS artist, albums.name AS album
+  FROM songs
+  JOIN artists 
+  ON songs.artist_id = artists.id
+  JOIN albums
+  ON songs.album_id = albums.id
+  WHERE songs.id = ${req.params.id};`;
+  mysqlCon.query(sql, (error, results) => {
+    if (error) {
+      res.send(error.message);
+      throw error;
+    }
+    return res.send(results);
+  });
+});
+
+// get data to show the songs of each artist
+app.get('/api/single/artist/:id', (req, res) => {
+  const sql = `SELECT artists.*, songs.title AS song_name, songs.length, songs.youtube_link ,songs.id AS song_id 
+  FROM artists 
+  JOIN songs 
+  ON songs.artist_id = artists.id
+  WHERE artists.id = ${req.params.id};`;
+  mysqlCon.query(sql, (error, results) => {
+    if (error) {
+      res.send(error.message);
+      throw error;
+    }
+    return res.send(results);
+  });
+});
+
+// get data to show the albumds of each artist
+
+app.get('/api/single/artist/albums/:id', (req, res) => {
+  const sql = `SELECT ar.*, al.name AS album_name, al.cover_img AS album_image
+  FROM artists ar
+  JOIN albums al
+  ON ar.id = al.artist_id
+  where ar.id = ${req.params.id};`;
+  mysqlCon.query(sql, (error, results) => {
+    if (error) {
+      res.send(error.message);
+      throw error;
+    }
+    return res.send(results);
+  });
+});
+
+// get data to show the album
+
+app.get('/api/single/albums/:id', (req, res) => {
+  const sql = `SELECT al.*, ar.name AS artist_name, s.title AS song_name, s.length, s.youtube_link, s.id AS song_id 
+  FROM albums al
+  JOIN artists ar
+  ON al.artist_id= ar.id
+  JOIN songs s
+  ON s.album_id = al.id
+  WHERE al.id = ${req.params.id};`;
+  mysqlCon.query(sql, (error, results) => {
+    if (error) {
+      res.send(error.message);
+      throw error;
+    }
+    return res.send(results);
+  });
+});
+
+// get data to show playlist
+app.get('/api/single/playlist/:id', (req, res) => {
+  const sql = `SELECT p.* , s.title AS song_name, s.length, s.youtube_link, s.id AS song_id
+  FROM playlist p
+  JOIN playlist_songs ps
+  ON p.id = ps.playlist_id
+  JOIN songs s
+  ON s.id = ps.song_id
+  WHERE p.id = ${req.params.id};`;
+  mysqlCon.query(sql, (error, results) => {
+    if (error) {
+      res.send(error.message);
+      throw error;
     }
     return res.send(results);
   });
