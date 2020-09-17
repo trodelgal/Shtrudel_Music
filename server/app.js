@@ -28,11 +28,16 @@ mysqlCon.connect((err) => {
 
 // a GET request to /top_songs/ returns a list of top 20 songs
 app.get('/api/top_songs', (req, res) => {
-  const sql = `SELECT i.song_id, count(i.song_id) AS interactions_with_song, s.title AS song_name, sum(play_count) AS number_of_plays 
-  FROM interactions i 
-  JOIN songs s ON i.song_id = s.id 
-  GROUP BY song_id 
-  ORDER BY number_of_plays DESC 
+  const sql = `SELECT s.*, sum(play_count) AS number_of_plays, a.name AS artist_name, al.cover_img ,al.name AS album_name
+  FROM interactions i
+  JOIN songs s
+  ON i.song_id = s.id
+  JOIN artists a
+  ON s.artist_id = a.id 
+  JOIN albums al
+  ON s.album_id = al.id
+  GROUP BY song_id
+  ORDER BY number_of_plays DESC
   LIMIT 20;`;
   mysqlCon.query(sql, (error, results) => {
     if (error) {
@@ -45,12 +50,13 @@ app.get('/api/top_songs', (req, res) => {
 
 // a GET request to /top_artists/ returns a list of top 10 artists
 app.get('/api/top_artists', (req, res) => {
-  const sql = `SELECT s.artist_id, a.name, count(s.artist_id) AS number_of_songs 
+  const sql = `SELECT a.* ,count(s.artist_id) AS number_of_songs 
   FROM songs s 
   JOIN artists a 
   ON s.artist_id = a.id 
-  group by artist_id order by number_of_songs DESC 
-  LIMIT 10;`;
+  group by artist_id 
+  order by number_of_songs DESC 
+  LIMIT 20;`;
   mysqlCon.query(sql, (error, results) => {
     if (error) {
       res.send(error.message);
@@ -62,15 +68,17 @@ app.get('/api/top_artists', (req, res) => {
 
 // a GET request to /top_albums/ returns a list of top 20 albums
 app.get('/api/top_albums', (req, res) => {
-  const sql = `SELECT a.id AS album_id, a.name , count(i.song_id) as interactions_with_album 
+  const sql = `SELECT a.*, ar.name AS artist_name, sum(i.play_count)
   FROM albums a  
   JOIN songs s 
   ON a.id = s.album_id 
   JOIN interactions i 
   ON i.song_id = s.id 
+  JOIN artists ar
+  ON ar.id = a.artist_id
   GROUP BY a.id 
-  ORDER BY interactions_with_album DESC 
-  LIMIT 10;`;
+  ORDER BY sum(i.play_count) DESC 
+  LIMIT 20;`;
   mysqlCon.query(sql, (error, results) => {
     if (error) {
       res.send(error.message);
@@ -82,9 +90,9 @@ app.get('/api/top_albums', (req, res) => {
 
 // a GET request to /top_playlist/ returns a list of top 20 playlist
 app.get('/api/top_playlist', (req, res) => {
-  const sql = `SELECT playlist_id, count(playlist_id) AS number_of_users_use_this_playlist, p.name 
+  const sql = `SELECT *, count(playlist_id) AS number_of_users_use_this_playlist
   FROM user_playlists up 
-  JOIN playlist p 
+  JOIN playlist p
   ON p.id = up.playlist_id 
   GROUP BY playlist_id 
   ORDER BY number_of_users_use_this_playlist DESC 

@@ -29,7 +29,7 @@ nav{
   list-style: none;
 }
 .navLink{
-  color: white;
+  color: rgb(224, 19, 19);
 }
 footer{
   width: 100%;
@@ -39,6 +39,20 @@ footer{
   position: fixed;
   bottom: 0px;
   margin-top: 0;
+}
+.top{
+  display: flex;
+}
+.topDetails{
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  list-style: none;
+  border: black solid 1px;
+}
+.main{
+  margin-bottom: 100px;
 }
 
 .App-logo {

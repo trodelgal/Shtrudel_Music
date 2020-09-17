@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
-import Main from './Main';
+import Main from './tops/Main';
 import SingleSong from './single/SingleSong';
 import SingleArtist from './single/SingleArtist';
 import SinglePlaylist from './single/SinglePlaylist';
@@ -38,7 +38,7 @@ function MyRouter() {
         </Route>
         <Route exact path="/songs/:id">
             <Header title='SONG' />
-            <SingleSong/>
+            <SingleSong />
         </Route>
         <Route exact path="/artists/:id">
             <Header title='ARTIST' />

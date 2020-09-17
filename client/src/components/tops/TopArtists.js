@@ -1,23 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-function TopArtists({topTenArtists}){
+function TopArtists(){
+    const [topTenArtists, setTopTenArtists] = useState([]);
+
+    const getTopArtists = async () => {
+        try{
+            const artists = await axios.get(`/api/top_artists`);
+            setTopTenArtists(artists.data); 
+        }catch(e){
+            console.error(e.message);
+        }
+        
+    } 
+    useEffect(()=>{
+        getTopArtists()
+      },[])
+
     return(
         <>
-            <h2>The 10 artists with the most songs</h2>
-            <ol >
-            {
-                topTenArtists.map((value,index)=>{
-                    return(
-                        <li>
-                            <div>
-                                <b>Name:</b> <Link to={`/artists/${value.artist_id}`}>{value.name}</Link><br/>  <b>Number of plays:</b> {value.number_of_songs}
-                            </div>
-                        </li>
-                    )
-                })
-            }
-            </ol>
+            <h2>Top Artists</h2>
+            <div className="top">
+                {
+                    topTenArtists.map((value,index)=>{
+                        return(
+                            <ul className="topDetails">
+                                <li> <Link to={`/songs/${value.id}`}>{value.name}</Link></li>
+                                <li><img src={value.cover_img} alt="artist img" height="30px" width="30px"/></li>
+                            </ul>
+                        )
+                    })
+                }
+            </div>
         </>
     )
 }

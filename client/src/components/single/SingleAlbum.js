@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams, useRouteMatch } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 const axios = require('axios');
@@ -9,6 +9,9 @@ function SingleAlbum(){
     const [albumDetails, setAlbumDetails] = useState([]) 
     const [createdDate, setCreatedDate] = useState('') 
     let {id} = useParams();
+ 
+
+
     let body = '';
 
     const getAlbumDetails = async () =>{
@@ -20,8 +23,6 @@ function SingleAlbum(){
         getAlbumDetails()
     },[])
 
-    console.log(albumDetails);
-    console.log(createdDate);
     if (albumDetails[0] !== undefined){
         body = (
             <>
@@ -34,7 +35,7 @@ function SingleAlbum(){
                     albumDetails.map(value=>{
                         return(
                             <ul id="songsOfAlbum">
-                                    <Link to={`/songs/${value.song_id}?album=${value.id}`}><li>{value.song_name}</li></Link>
+                                    <Link to={`/songs/${value.song_id}?albums=${value.id}`}><li>{value.song_name}</li></Link>
                                     <li>{value.length}</li>
                             </ul>
                         )
