@@ -15,16 +15,23 @@ function Songs(){
         }
         ajax()
     },[search])
+    console.log(songsToDesplay);
     return(
         <>
         <br/>
         <input onChange={(e) => setSearch(e.target.value)} placeholder="search"/>
-        <ListGroup className="my-2">
+        <ListGroup style={{width:'150vh', marginLeft:'15%'}} className="my-2">
             {
                 songsToDesplay.map((value,index)=>{
                     return(
                         <Link to={`/songs/${value.id}`}>
-                            <ListGroup.Item> <span> icon </span> <span> {value.title} </span> <span>{value.length}</span></ListGroup.Item>
+                            <ListGroup.Item  > 
+                            <div style={{display:'flex', justifyContent:'space-around'}}> 
+                                <div>icon</div>   
+                                <div> {value.title} </div>
+                                <div>{value.length}</div>
+                            </div>                            
+                            </ListGroup.Item>
                         </Link>
                     )
                 })

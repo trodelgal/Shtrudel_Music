@@ -2,7 +2,9 @@ import React from "react";
 import { useHistory, useLocation, useParams, useRouteMatch } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-const axios = require('axios');
+import ListGroup from 'react-bootstrap/ListGroup';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import axios from 'axios';
    
 
 function SingleAlbum(){
@@ -28,19 +30,26 @@ function SingleAlbum(){
             <>
                 <h1>{albumDetails[0].name}</h1>
                 <h2>{albumDetails[0].artist_name}</h2>
-                {/* <img src={albumDetails[0].cover_img} alt="album image"/> */}
+                <img src={albumDetails[0].cover_img} alt="album image"/>
                 <div>{createdDate.slice(0,10)}</div>
                 <h2>Songs</h2>
+                <ListGroup style={{width:'150vh', marginLeft:'15%'}} className="my-2">
                 {
                     albumDetails.map(value=>{
                         return(
-                            <ul id="songsOfAlbum">
-                                    <Link to={`/songs/${value.song_id}?albums=${value.id}`}><li>{value.song_name}</li></Link>
-                                    <li>{value.length}</li>
-                            </ul>
+                            <Link to={`/songs/${value.song_id}?albums=${value.id}`}>
+                            <ListGroup.Item  > 
+                                <div style={{display:'flex', justifyContent:'space-around'}}> 
+                                    <div>icon</div>   
+                                    <div> {value.song_name}</div>
+                                    <div>{value.length}</div>
+                                </div>                            
+                            </ListGroup.Item>
+                            </Link>
                         )
                     }) 
                 }
+                </ListGroup>
             </>
             )
         }
