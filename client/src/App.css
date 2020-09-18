@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
   /* background-color: black; */
   color: black;
   min-height: 1000px;
@@ -12,7 +12,10 @@ ol{
   margin-left: 20%;
   margin-bottom:100px ;
 }
-
+.allTarget{
+  display: flex;
+  flex-wrap: wrap;
+}
 nav{
   display: flex;
   justify-content: space-around;

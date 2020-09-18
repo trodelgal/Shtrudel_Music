@@ -14,7 +14,7 @@ function Header({title}){
                     <li><Link className="navLink" to={`/songs`}>Songs</Link></li>
                     <li><Link className="navLink" to={`/artists`}>Artists</Link></li>
                     <li><Link className="navLink" to={`/playlist`}>Playlists</Link></li>
-                    <li><Link className="navLink" to={`/albums`}>Album</Link></li>
+                    <li><Link className="navLink" to={`/albums`}>Albums</Link></li>
                 </ul>
             </nav>
         </header>

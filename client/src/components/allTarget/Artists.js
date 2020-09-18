@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
-const axios = require('axios');
+import {Card} from 'react-bootstrap';
+import axios from 'axios';
 
 function Artists(){
     const [artistsToDesplay, setArtistsToDesplay] = useState([]) 
@@ -15,21 +16,19 @@ function Artists(){
 
     return(
         <>
-        <br/>
         <input onChange={(e) => setSearch(e.target.value)} placeholder="search"/>
-            <ol>
+            <div className="allTarget">
             {
                 artistsToDesplay.map((value,index)=>{
                     return(
-                        <li>
-                            <div>
-                                <b>Name:</b> <Link to={`/artists/${value.id}`}>{value.name}</Link>
-                            </div>
-                        </li>
+                        <Card style={{ width: '18rem',margin:'5px', textAlign: 'center' }}>
+                            <Link to={`/artists/${value.id}`}><Card.Img style={{borderRadius:'50%'}} variant="top" src={value.cover_img} height="100px" width="180px" roundedCircle /></Link>
+                            <Card.Title><b>{value.name}</b></Card.Title>
+                        </Card>
                     )
                 })
             }
-            </ol>
+            </div>
         </>
     )
 }

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Footer from './Footer';
-const axios = require('axios');
+import axios from 'axios';
+
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 function SimpleModal({}) {
   const classes = useStyles();
-  const [modalStyle] = React.useState(getModalStyle);
+  const [modalStyle] = useState(getModalStyle);
   const [choosenToAdd, setChoosenToAdd] = useState('');
   const [allArtists, setAllArtists] = useState([]);
   const [allAlbums, setAllAlbums] = useState([]);
