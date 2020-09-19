@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import {Card} from 'react-bootstrap';
-const axios = require('axios');
+import axios from 'axios';
 
 function Playlists(){
     const [playlistsToDesplay, setPlaylistsToDesplay] = useState([]) 
@@ -16,8 +16,8 @@ function Playlists(){
     },[search])
 
     return(
-        <>
-        <input onChange={(e) => setSearch(e.target.value)} placeholder="search"/>
+        <div className="all">
+        <input  className="searchInput" onChange={(e) => setSearch(e.target.value)} placeholder="search"/>
         <div className="allTarget">
             {
                 playlistsToDesplay.map((value,index)=>{
@@ -31,7 +31,7 @@ function Playlists(){
                 })
             }
         </div>
-        </>
+        </div>
     )
 }
 export default Playlists;

@@ -26,12 +26,12 @@ function SinglePlaylist(){
     console.log(createdDate);
     if (songsOfPlaylist[0] !== undefined){
         body = (
-            <>
+            <div className="single">
                 <h1>{songsOfPlaylist[0].name}</h1>
-                <img src={songsOfPlaylist[0].cover_img} alt="playlist image"/>
+                <img src={songsOfPlaylist[0].cover_img} alt="playlist image" />
                 <div>{createdDate.slice(0,10)}</div>
                 <h2>Songs</h2>
-                <ListGroup style={{width:'150vh', marginLeft:'15%'}} className="my-2">
+                <ListGroup style={{width:'150vh'}} className="my-2">
                 {
                     songsOfPlaylist.map(value=>{
                         return(  
@@ -48,7 +48,7 @@ function SinglePlaylist(){
                     }) 
                 }
                 </ListGroup>
-            </>
+            </div>
             )
         }
 

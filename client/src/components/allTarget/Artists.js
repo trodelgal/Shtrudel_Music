@@ -15,8 +15,8 @@ function Artists(){
     },[search])
 
     return(
-        <>
-        <input onChange={(e) => setSearch(e.target.value)} placeholder="search"/>
+        <div className="all">
+        <input  className="searchInput" onChange={(e) => setSearch(e.target.value)} placeholder="search"/>
             <div className="allTarget">
             {
                 artistsToDesplay.map((value,index)=>{
@@ -29,7 +29,7 @@ function Artists(){
                 })
             }
             </div>
-        </>
+        </div>
     )
 }
 export default Artists;

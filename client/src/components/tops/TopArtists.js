@@ -36,9 +36,9 @@ function TopArtists(){
                     {
                         topTenArtists.map((value,index)=>{
                             return(
-                                <Card style={{ width: '12rem',margin:'5px' }}>
+                                <Card style={{ width: '12rem',height:'10rem',margin:'5px', padding:'5px' }}>
                                     <Link to={`/artists/${value.id}`}><Card.Img style={{borderRadius:'50%'}} variant="top" src={value.cover_img} height="100px" width="180px" roundedCircle /></Link>
-                                    <Card.Title style={{textAlign: 'center'}}><b>{value.name}</b></Card.Title>
+                                    <Card.Title style={{textAlign: 'center'}}>{value.name}</Card.Title>
                                 </Card>
                             )
                         })

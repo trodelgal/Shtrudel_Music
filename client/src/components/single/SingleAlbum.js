@@ -27,13 +27,13 @@ function SingleAlbum(){
 
     if (albumDetails[0] !== undefined){
         body = (
-            <>
+            <div className="single">
                 <h1>{albumDetails[0].name}</h1>
-                <h2>{albumDetails[0].artist_name}</h2>
                 <img src={albumDetails[0].cover_img} alt="album image"/>
+                <div>{albumDetails[0].artist_name}</div>
                 <div>{createdDate.slice(0,10)}</div>
                 <h2>Songs</h2>
-                <ListGroup style={{width:'150vh', marginLeft:'15%'}} className="my-2">
+                <ListGroup style={{width:'150vh'}} className="my-2">
                 {
                     albumDetails.map(value=>{
                         return(
@@ -50,7 +50,7 @@ function SingleAlbum(){
                     }) 
                 }
                 </ListGroup>
-            </>
+            </div>
             )
         }
 

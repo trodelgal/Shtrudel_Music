@@ -43,12 +43,13 @@ function SingleArtist(){
             <>
                 <Image src={songsOfArtist[0].cover_img} width='100%' height='300px'/>
                 {/* <img src={songsOfArtist[0].cover_img} alt="artist image"/> */}
-                <h1>{songsOfArtist[0].name}</h1>
+                <div className="single">
+                <h1 className="singleTitile">{songsOfArtist[0].name}</h1>
                 <h2>Songs</h2>
                 {
-                    songsOfArtist.map(value=>{
+                    songsOfArtist.slice(0,5).map(value=>{
                         return(
-                            <ListGroup style={{width:'150vh', marginLeft:'15%'}} className="my-2">
+                            <ListGroup style={{width:'150vh'}} className="my-2">
                                     <Link to={`/songs/${value.song_id}?artist=${value.id}`}>
                                     <ListGroup.Item  > 
                                         <div style={{display:'flex', justifyContent:'space-around'}}> 
@@ -62,25 +63,21 @@ function SingleArtist(){
                         )
                     }) 
                 }
+                </div>
                 </>
             )
             bodyAlbums = (
                 <>
                 <h2>Albums</h2>
-
                 <Carousel breakPoints={breakPoints}>
                 {
                     albumsOfArtist.map((value,index)=>{
                         return(
                             <Card style={{ width: '12rem',margin:'5px', textAlign: 'center' }}>
-                                <Card.Title><b>{value.album_name}</b></Card.Title>
-                                <Link to={`/albums/${value.id}`}>
-                                    <Card.Img variant="top" src={value.cover_img} height="100px" width="180px" />
+                                <Card.Title>{value.album_name}</Card.Title>
+                                <Link to={`/albums/${value.album_id}`}>
+                                    <Card.Img variant="top" src={value.album_image} height="100px" width="180px" />
                                     </Link>
-                                {/* <Card.Text>
-                                    <div>{value.artist_name}</div>
-                                    <div>{value.created_at.slice(0,10)}</div>
-                                </Card.Text> */}
                             </Card>
                         )
                     })

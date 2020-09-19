@@ -33,12 +33,12 @@ function TopSongs(){
                 {
                     topTwentySongs.map((value,index)=>{
                         return(
-                            <Card style={{ width: '12rem',margin:'5px' }}>
+                            <Card style={{ width: '12rem',margin:'5px',  textAlign: 'center', padding:'5px' }}>
                                 <Link to={`/songs/${value.id}`}><Card.Img variant="top" src={value.cover_img} height="100px" width="180px" /></Link>
                                 <Card.Body>
-                                    <Card.Title><b>{value.title}</b></Card.Title>
+                                    <Card.Title>{value.title}</Card.Title>
                                     <Card.Text>
-                                        <div>{value.length}</div>
+                                        <div >{value.length}</div>
                                         <span>{value.artist_name} | </span>
                                         <span>{value.album_name}</span>
                                     </Card.Text>

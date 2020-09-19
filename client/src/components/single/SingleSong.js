@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useHistory, useLocation, useParams, useRouteMatch } from 'react-router-dom';
 import Youtube from './Youtube';
+import ListGroup from 'react-bootstrap/ListGroup';
+import 'bootstrap/dist/css/bootstrap.min.css'
 import axios from 'axios';
 
 
@@ -8,23 +10,27 @@ function SingleSong(){
     const [songData, setSongData] = useState([]) 
     const [youtubeId, setYoutubeId] = useState('')
     const [sideData, setSideData] = useState([])
-    const [fresh, setFresh] = useState('')
     
     let {id} = useParams();
     let queryId = useLocation().search.split("=")[1]
     let queryFrom = useLocation().search.split("=")[0]
-    console.log(queryId);
-    console.log(queryFrom.slice(1));
-    console.log(songData);
-  
+    let sideTitle='';
+  console.log(queryId);
+  console.log(songData);
     const getSongData = async () =>{
         const song = await axios.get(`/api/single/song/${id}`);
         setSongData(song.data)
-        // setCreateDate(song.data[0].created_at)
-        setYoutubeId(song.data[0].youtube_link)
-        const side = await axios.get(`/api/single/${queryFrom.slice(1)}/${queryId}`);
-        setSideData(side.data)
+        setYoutubeId(getIdSong(song.data[0].youtube_link))
+        if(queryFrom){
+            const side = await axios.get(`/api/single/${queryFrom.slice(1)}/${queryId}`);
+            setSideData(side.data)
+        }else{
+            const side = await axios.get(`/api/top_songs`);
+            setSideData(side.data)
+            sideTitle=<h4>Top Songs</h4>
+        }
     }
+console.log(sideData);
 
     useEffect(()=>{
         getSongData()
@@ -39,6 +45,12 @@ function SingleSong(){
        return video_id;
     }
 
+    async function changeSong(value){
+        const song = await axios.get(`/api/single/song/${value.song_id}`);
+        setSongData(song.data)
+        setYoutubeId(getIdSong(song.data[0].youtube_link))
+    }
+
     return(
         <div id="singleSong">
             <div id="iframe">
@@ -48,31 +60,37 @@ function SingleSong(){
                 {
                 songData.map(value=>{
                     return(
-                        <div id="songDetails">
+                        <>
                             <div>Name: {value.title}</div>
                             <div>{value.length}</div>
                             <div>{value.created_at.slice(0,10)}</div>
                             <div>Album: {value.album}</div>
                             <div>Artist: {value.artist}</div>
                             <div>Lyrics: {value.lyrics}</div>
-                        </div>
+                        </>
                     )
-                })  
-                }
-                
+                    })  
+                    }
+                <ListGroup style={{width:'90%', padding:'8%', color:'black'}} className="my-2">
                     {
                         sideData.map((value, index)=>{
+                        let play = value.song_id===songData[0].id ?  '#343a40':'black';
                             return(
-                                <ul>
-                                    <li onClick={()=>{setYoutubeId(getIdSong(value.youtube_link))}}>{value.song_name}</li>
-                                    <li>{value.length}</li>
-                                </ul>
+                                <ListGroup.Item > 
+                                    <Link  activeStyle={{ bacgroundColor: 'red' }} style={{color:'white'}} to={`/songs/${value.song_id}`}>
+                                        <div onClick={()=>changeSong(value)} style={{display:'flex', justifyContent:'space-between', backgroundColor:play}}> 
+                                            <div style={{alignSelf:'left'}}><img src={value.cover_img} width="30px"/></div>   
+                                                <div >{value.song_name}</div>
+                                                <div>{value.length}</div>
+                                        </div>   
+                                    </Link>
+                                </ListGroup.Item  > 
                             )
                          
                         })
                     }
                
-              
+                </ListGroup>
             </div>
            
         </div>

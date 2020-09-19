@@ -17,10 +17,9 @@ function Songs(){
     },[search])
     console.log(songsToDesplay);
     return(
-        <>
-        <br/>
-        <input onChange={(e) => setSearch(e.target.value)} placeholder="search"/>
-        <ListGroup style={{width:'150vh', marginLeft:'15%'}} className="my-2">
+        <div className="all">
+        <input  className="searchInput" onChange={(e) => setSearch(e.target.value)} placeholder="search"/>
+        <ListGroup style={{width:'150vh'}} className="my-2">
             {
                 songsToDesplay.map((value,index)=>{
                     return(
@@ -37,7 +36,7 @@ function Songs(){
                 })
             }
         </ListGroup>
-        </>
+        </div>
     )
 }
 export default Songs;

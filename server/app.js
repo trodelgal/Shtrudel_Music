@@ -28,7 +28,7 @@ mysqlCon.connect((err) => {
 
 // a GET request to /top_songs/ returns a list of top 20 songs
 app.get('/api/top_songs', (req, res) => {
-  const sql = `SELECT s.*, sum(play_count) AS number_of_plays, a.name AS artist_name, al.cover_img ,al.name AS album_name
+  const sql = `SELECT s.*, sum(play_count) AS number_of_plays, a.name AS artist_name, al.cover_img ,al.name AS album_name, s.title AS song_name, s.id AS song_id
   FROM interactions i
   JOIN songs s
   ON i.song_id = s.id
@@ -200,10 +200,10 @@ app.get('/api/single/artist/:id', (req, res) => {
   });
 });
 
-// get data to show the albumds of each artist
+// get data to show the albums of each artist
 
 app.get('/api/single/artist/albums/:id', (req, res) => {
-  const sql = `SELECT ar.*, al.name AS album_name, al.cover_img AS album_image
+  const sql = `SELECT ar.*, al.name AS album_name, al.cover_img AS album_image, al.id AS album_id
   FROM artists ar
   JOIN albums al
   ON ar.id = al.artist_id
