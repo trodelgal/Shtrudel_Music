@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {Navbar, NavDropdown,Nav} from 'react-bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import logo from './files/logo.png'
-import '../App.css'
-import SimpleModal from './SimpleModal'
+import {Navbar, NavDropdown,Nav} from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import logo from './files/logo.png';
+import '../App.css';
+
 
 function Header({openArtistModal,openAlbumModal,openSongModal}){
     return(
@@ -14,7 +14,7 @@ function Header({openArtistModal,openAlbumModal,openSongModal}){
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
-                <Nav.Link><Link className="navLink" to={`/`}>Home</Link></Nav.Link>
+                <Nav.Link ><Link className="navLink" to={`/`}>Home</Link></Nav.Link>
                 <Nav.Link><Link className="navLink" to={`/songs`}>Songs</Link></Nav.Link>
                 <Nav.Link><Link className="navLink" to={`/artists`}>Artists</Link></Nav.Link>
                 <Nav.Link><Link className="navLink" to={`/playlist`}>Playlists</Link></Nav.Link>
@@ -25,8 +25,6 @@ function Header({openArtistModal,openAlbumModal,openSongModal}){
                     <NavDropdown.Item > <span onClick={()=>openArtistModal()}>Add Artist</span></NavDropdown.Item>
                     <NavDropdown.Item onClick={openAlbumModal}>Add Album</NavDropdown.Item>
                     <NavDropdown.Item onClick={openSongModal}>Add Song</NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item>Contact</NavDropdown.Item>
                 </NavDropdown>
             </Nav>
         </Navbar.Collapse>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import {Card} from 'react-bootstrap';
 import axios from 'axios';
@@ -7,12 +7,17 @@ function Playlists(){
     const [playlistsToDesplay, setPlaylistsToDesplay] = useState([]) 
     const [search, setSearch] = useState('') 
 
-    useEffect(()=>{
-        const ajax = async () =>{
-        const playlists = await axios.get(`/api/playlist/${search}`);
-        setPlaylistsToDesplay(playlists.data)
+    const getPlaylists = async () =>{
+        try{
+            const playlists = await axios.get(`/api/playlist/${search}`);
+            setPlaylistsToDesplay(playlists.data)
+        }catch(e){
+            console.error(e.message)
         }
-        ajax()
+    }
+
+    useEffect(()=>{
+        getPlaylists()
     },[search])
 
     return(

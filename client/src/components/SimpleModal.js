@@ -1,51 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
+import Modal from 'react-bootstrap/Modal'
 import Header from './Header';
 import axios from 'axios';
 
-
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
-
-function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    position: 'absolute',
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-}));
-
-function SimpleModal({}) {
-  const classes = useStyles();
-  const [modalStyle] = useState(getModalStyle);
-  // const [choosenToAdd, setChoosenToAdd] = useState('');
+function SimpleModal() {
   const [allArtists, setAllArtists] = useState([]);
   const [allAlbums, setAllAlbums] = useState([]);
-  const [displayArtistModal, setDisplayArtistModal] = useState(false)
-  const [displayAlbumModal, setDisplayAlbumModal] = useState(false)
-  const [displaySongModal, setDisplaySongModal] = useState(false)
-  let addForm='';
-
+  const [displayArtistModal, setDisplayArtistModal] = useState(false);
+  const [displayAlbumModal, setDisplayAlbumModal] = useState(false);
+  const [displaySongModal, setDisplaySongModal] = useState(false);
+  const [artistIdSong, setArtistIdSong ]= useState('');
+  const [response,setResponse]=useState(false);
+  const [add, setAdd] = useState('');
 
   async function postSong(){
-    let songArtistId = document.getElementById('songArtistId');
-    songArtistId = songArtistId.value.slice(0,2);
     let albumId = document.getElementById('albumId');
     albumId = albumId.value.slice(0,2);
     const songName = document.getElementById('songName');
@@ -56,18 +24,19 @@ function SimpleModal({}) {
     const lyrics = document.getElementById('lyrics');
     const TrackNumber = document.getElementById('TrackNumber');
     let postSongObj = {
-            artist_id: songArtistId,
+            artist_id: artistIdSong,
             title: songName.value,
             album_id: albumId,
             length: songLength.value,
             created_at: songCreate.value,
-            upload_at: songUpload.value,
+            uploaded_at: songUpload.value,
             youtube_link:youtubeLink.value,
             lyrics: lyrics.value,
             track_number: TrackNumber.value
     }
-    await axios.post('/api/songs',postSongObj);
-    handleClose()
+    const res = await axios.post('/api/songs',postSongObj);
+    setAdd(res.data)
+    setResponse(true)
   }
 
 async function postArtist () {
@@ -77,10 +46,11 @@ async function postArtist () {
     let postArtistObj = {
             name: artistName.value ,
             cover_img: artistImage.value,
-            upload_at: artistUpload.value
+            uploaded_at: artistUpload.value
     }
-    await axios.post('/api/artists',postArtistObj);
-    handleClose()
+    const res = await axios.post('/api/artists',postArtistObj);
+    setAdd(res.data)
+    setResponse(true)
 }
 
 async function postAlbum () {
@@ -94,11 +64,12 @@ async function postAlbum () {
             artist_id: artistId,
             name: albumName.value,
             created_at: albumCreate.value,
-            upload_at: albumUpload.value,
+            uploaded_at: albumUpload.value,
             cover_img: albumImage.value
     }
-    await axios.post('/api/albums',postAlbumObj);
-    handleClose()
+    const res = await axios.post('/api/albums',postAlbumObj);
+    setAdd(res.data)
+    setResponse(true)
 }
 
 useEffect(()=>{
@@ -128,56 +99,72 @@ useEffect(()=>{
 
   return (
     <div>
-      <Modal
-        open={displayArtistModal}
-        onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-      <div style={modalStyle} className={classes.paper}>
-        <h4>Artist details</h4>
-        Name: <input id="artistName"/><br/>
-        Cover image url: <input type="url" id="artistImage"/><br/>
-        Upload at: <input id="artistUpload" type="date"/><br/>
-        <button type="submit" onClick={()=>postArtist()}>add</button>  
-      </div> 
-      </Modal>
-      <Modal
-        open={displayAlbumModal}
-        onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-      <div style={modalStyle} className={classes.paper}>
-        <h4>Album details</h4>
-        Artist:
-        <select id="artistId">
-            {
-              allArtists.map(value=>{
-                  return(
-                      <option>{value.id} {value.name}</option>
-                  )
-              })  
-            }
-        </select><br/>
-        Name: <input id="albumName"/><br/>
-        Created at: <input id="albumCreate" type="date"/><br/>
-        Upload at: <input id="albumUpload" type="date"/><br/>
-        Cover image url: <input id="albumImage" type="url"/><br/>
-        <button type="submit" onClick={()=>postAlbum()}>add</button>  
-    </div> 
-      </Modal>
-      <Modal
-        open={displaySongModal}
-        onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-       <div style={modalStyle} className={classes.paper}>
-        <h4>Song details</h4>
-        <p>(the second number at the album must be equal to artist number)</p>
+        <Modal
+        size="lg"
+        show={displayArtistModal}
+        onHide={handleClose}
+        aria-labelledby="example-modal-sizes-title-lg"
+        >
+            <Modal.Header closeButton>
+              <Modal.Title id="example-modal-sizes-title-lg">
+                Artist details
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>  
+              <div>
+                  Name: <input id="artistName"/><br/>
+                  Cover image url: <input type="url" id="artistImage"/><br/>
+                  Upload at: <input id="artistUpload" type="date"/><br/>
+                  <button type="submit" onClick={()=>postArtist()}>add</button>  
+              </div> 
+          </Modal.Body>
+        </Modal>
+        <Modal
+        size="lg"
+        show={displayAlbumModal}
+        onHide={handleClose}
+        aria-labelledby="example-modal-sizes-title-lg"
+        >
+            <Modal.Header closeButton>
+              <Modal.Title id="example-modal-sizes-title-lg">
+                Album details
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>  
+              <div>
+                  Artist:
+                  <select id="artistId">
+                      {
+                        allArtists.map(value=>{
+                            return(
+                                <option>{value.id} {value.name}</option>
+                            )
+                        })  
+                      }
+                  </select><br/>
+                  Name: <input id="albumName"/><br/>
+                  Created at: <input id="albumCreate" type="date"/><br/>
+                  Upload at: <input id="albumUpload" type="date"/><br/>
+                  Cover image url: <input id="albumImage" type="url"/><br/>
+                  <button type="submit" onClick={()=>postAlbum()}>add</button>  
+              </div> 
+          </Modal.Body>
+        </Modal>
+        <Modal
+        size="lg"
+        show={displaySongModal}
+        onHide={handleClose}
+        aria-labelledby="example-modal-sizes-title-lg"
+        >
+            <Modal.Header closeButton>
+              <Modal.Title id="example-modal-sizes-title-lg">
+              Song details
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>  
+              <div>
         Artist: 
-        <select id="songArtistId">
+        <select onChange={(e)=>setArtistIdSong(e.target.value.slice(0,2))} id="songArtistId">
             {
               allArtists.map(value=>{
                   return(
@@ -190,9 +177,11 @@ useEffect(()=>{
         <select id="albumId">
             {
               allAlbums.map(value => {
+                if(value.artist_id==artistIdSong){
                   return(
-                  <option>{value.id} {value.name} {value.artist_id}</option>
+                  <option>{value.id} {value.name}</option>
                   )
+                }
               })  
             }
         </select><br/>
@@ -201,11 +190,24 @@ useEffect(()=>{
         Created at: <input id="songCreate" type="date"/><br/>
         Upload at: <input id="songUpload" type="date"/><br/>
         Youtube link: <input id="youtubeLink" type="url"/><br/>
-        Lyrics: <input id="lyrics"/><br/>
+        Lyrics:<br/> <textarea  id="lyrics"/><br/>
         Track number: <input id="TrackNumber"/><br/>
         <button type="submit" onClick={postSong}>add</button>  
-    </div> 
-      </Modal>
+              </div> 
+          </Modal.Body>
+        </Modal>
+        <Modal
+        size="sm"
+        show={response}
+        onHide={()=>setResponse(false)}
+        aria-labelledby="example-modal-sizes-title-lg"
+        >
+            <Modal.Header closeButton>
+              <Modal.Title id="example-modal-sizes-title-lg">
+              {add}
+              </Modal.Title>
+            </Modal.Header>
+        </Modal>
       <Header openArtistModal={openArtistModal} openAlbumModal={openAlbumModal} openSongModal={openSongModal}/>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import {Card} from 'react-bootstrap';
 import axios from 'axios';
@@ -6,12 +6,18 @@ import axios from 'axios';
 function Artists(){
     const [artistsToDesplay, setArtistsToDesplay] = useState([]) 
     const [search, setSearch] = useState('') 
-    useEffect(()=>{
-        const ajax = async () =>{
-        const artists = await axios.get(`/api/artists/${search}`);
-        setArtistsToDesplay(artists.data)
+    
+    const getArtists =async () =>{
+        try{
+            const artists = await axios.get(`/api/artists/${search}`);
+            setArtistsToDesplay(artists.data)
+        }catch(e){
+            console.error(e.message)
         }
-        ajax()
+    }
+    
+    useEffect(()=>{
+        getArtists()
     },[search])
 
     return(

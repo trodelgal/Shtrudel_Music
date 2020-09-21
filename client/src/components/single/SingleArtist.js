@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Image from 'react-bootstrap/Image'
+import Image from 'react-bootstrap/Image';
 import ListGroup from 'react-bootstrap/ListGroup';
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { FileMusic } from 'react-bootstrap-icons';
 import {Card} from 'react-bootstrap';
 import Carousel from 'react-elastic-carousel';
 import axios from 'axios';
@@ -17,12 +18,16 @@ function SingleArtist(){
     let bodySongs = '';
     let bodyAlbums = '';
 
-    const getSongsOfArtist = async () =>{
-        const songs = await axios.get(`/api/single/artist/${id}`);
-        setSongsOfArtist(songs.data)
-        const albums = await axios.get(`/api/single/artist/albums/${id}`);
-        setAlbumsOfArtist(albums.data)
-    }
+    const getSongsOfArtist = useCallback(async () =>{
+        try{
+            const songs = await axios.get(`/api/single/artist/${id}`);
+            setSongsOfArtist(songs.data)
+            const albums = await axios.get(`/api/single/artist/albums/${id}`);
+            setAlbumsOfArtist(albums.data)
+        }catch(e){
+            console.error(e.message)
+        }
+    },[])
     useEffect(()=>{
         getSongsOfArtist()
     },[])
@@ -42,7 +47,6 @@ function SingleArtist(){
         bodySongs = (
             <>
                 <Image src={songsOfArtist[0].cover_img} width='100%' height='300px'/>
-                {/* <img src={songsOfArtist[0].cover_img} alt="artist image"/> */}
                 <div className="single">
                 <h1 className="singleTitile">{songsOfArtist[0].name}</h1>
                 <h2>Songs</h2>
@@ -52,8 +56,8 @@ function SingleArtist(){
                             <ListGroup style={{width:'150vh'}} className="my-2">
                                     <Link to={`/songs/${value.song_id}?artist=${value.id}`}>
                                     <ListGroup.Item  > 
-                                        <div style={{display:'flex', justifyContent:'space-around'}}> 
-                                            <div>icon</div>   
+                                        <div style={{display:'flex', justifyContent:'space-between'}}> 
+                                            <div><FileMusic style={{color:'white'}}/></div>   
                                             <div> {value.song_name} </div>
                                             <div>{value.length}</div>
                                         </div>                            

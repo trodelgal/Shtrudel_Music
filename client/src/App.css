@@ -76,5 +76,11 @@ h2{
 .list-group-item :hover{
   background-color: rgb(41, 35, 35)!important ;
   font-size: 1.1em;
-  /* transition: font-size 0.1s; */
+  transition: 0.2s;
 }
+/* #songLyrics{
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+} */

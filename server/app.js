@@ -139,8 +139,8 @@ app.post('/api/:table', async (req, res) => {
     if (error) {
       return res.send(error.message);
     }
-    console.log(`added ${req.params.table}`);
-    return res.send(results);
+    console.log(`${req.params.table} added`);
+    return res.send(`${req.params.table} added`);
   });
 });
 

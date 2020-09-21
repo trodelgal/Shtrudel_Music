@@ -1,36 +1,39 @@
-import React, { useEffect, useState } from "react";
-import { Link, useHistory, useLocation, useParams, useRouteMatch } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from "react";
+import { Link, useLocation, useParams } from 'react-router-dom';
 import Youtube from './Youtube';
 import ListGroup from 'react-bootstrap/ListGroup';
 import 'bootstrap/dist/css/bootstrap.min.css'
+import Modal from 'react-bootstrap/Modal'
 import axios from 'axios';
 
 
 function SingleSong(){
-    const [songData, setSongData] = useState([]) 
-    const [youtubeId, setYoutubeId] = useState('')
-    const [sideData, setSideData] = useState([])
-    
+    const [songData, setSongData] = useState([]);
+    const [youtubeId, setYoutubeId] = useState('');
+    const [sideData, setSideData] = useState([]);
+    const [showlyrics, setShowLyrics] = useState(false)
+
     let {id} = useParams();
-    let queryId = useLocation().search.split("=")[1]
-    let queryFrom = useLocation().search.split("=")[0]
-    let sideTitle='';
-  console.log(queryId);
-  console.log(songData);
-    const getSongData = async () =>{
-        const song = await axios.get(`/api/single/song/${id}`);
-        setSongData(song.data)
-        setYoutubeId(getIdSong(song.data[0].youtube_link))
-        if(queryFrom){
-            const side = await axios.get(`/api/single/${queryFrom.slice(1)}/${queryId}`);
-            setSideData(side.data)
-        }else{
-            const side = await axios.get(`/api/top_songs`);
-            setSideData(side.data)
-            sideTitle=<h4>Top Songs</h4>
+    let queryId = useLocation().search.split("=")[1];
+    let queryFrom = useLocation().search.split("=")[0];
+    let query=  useLocation().search;
+
+    const getSongData = useCallback(async () =>{
+        try{
+                const song = await axios.get(`/api/single/song/${id}`);
+                setSongData(song.data)
+                setYoutubeId(getIdSong(song.data[0].youtube_link))
+                if(queryFrom){
+                    const side = await axios.get(`/api/single/${queryFrom.slice(1)}/${queryId}`);
+                    setSideData(side.data)
+                }else{
+                    const side = await axios.get(`/api/top_songs`);
+                    setSideData(side.data)
+            }
+        }catch(e){
+            console.error(e.message)
         }
-    }
-console.log(sideData);
+    },[])
 
     useEffect(()=>{
         getSongData()
@@ -66,20 +69,37 @@ console.log(sideData);
                             <div>{value.created_at.slice(0,10)}</div>
                             <div>Album: {value.album}</div>
                             <div>Artist: {value.artist}</div>
-                            <div>Lyrics: {value.lyrics}</div>
+                            <button onClick={()=>setShowLyrics(true)}>lyrics</button>
+                            <Modal
+                            size="sm"
+                            show={showlyrics}
+                            onHide={() => setShowLyrics(false)}
+                            aria-labelledby="example-modal-sizes-title-lg"
+                            >
+                                <Modal.Header closeButton>
+                                    <Modal.Title id="example-modal-sizes-title-lg">
+                                        song lyrics
+                                    </Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>  
+                                    <div>
+                                    {value.lyrics}
+                                    </div> 
+                                </Modal.Body>
+                            </Modal>
                         </>
                     )
                     })  
-                    }
+                }
                 <ListGroup style={{width:'90%', padding:'8%', color:'black'}} className="my-2">
                     {
                         sideData.map((value, index)=>{
                         let play = value.song_id===songData[0].id ?  '#343a40':'black';
                             return(
                                 <ListGroup.Item > 
-                                    <Link  activeStyle={{ bacgroundColor: 'red' }} style={{color:'white'}} to={`/songs/${value.song_id}`}>
+                                    <Link  style={{color:'white'}} to={`/songs/${value.song_id}${query}`}>
                                         <div onClick={()=>changeSong(value)} style={{display:'flex', justifyContent:'space-between', backgroundColor:play}}> 
-                                            <div style={{alignSelf:'left'}}><img src={value.cover_img} width="30px"/></div>   
+                                            <div style={{alignSelf:'left'}}><img src={value.cover_img} width="30px" alt="pic"/></div>   
                                                 <div >{value.song_name}</div>
                                                 <div>{value.length}</div>
                                         </div>   

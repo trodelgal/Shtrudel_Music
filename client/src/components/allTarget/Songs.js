@@ -1,21 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { FileMusic } from 'react-bootstrap-icons';
 import axios from 'axios';
 
 function Songs(){
     const [songsToDesplay, setSongToDesplay] = useState([]) 
     const [search, setSearch] = useState('') 
 
-    useEffect(()=>{
-        const ajax = async () =>{
-        const songs = await axios.get(`/api/songs/${search}`);
-        setSongToDesplay(songs.data)
+    const getSongs =async () =>{
+        try{
+            const songs = await axios.get(`/api/songs/${search}`);
+            setSongToDesplay(songs.data)
+        }catch(e){
+            console.error(e.message)
         }
-        ajax()
+    }
+
+    useEffect(()=>{
+        getSongs()
     },[search])
-    console.log(songsToDesplay);
+
     return(
         <div className="all">
         <input  className="searchInput" onChange={(e) => setSearch(e.target.value)} placeholder="search"/>
@@ -25,8 +31,8 @@ function Songs(){
                     return(
                         <Link to={`/songs/${value.id}`}>
                             <ListGroup.Item  > 
-                            <div style={{display:'flex', justifyContent:'space-around'}}> 
-                                <div>icon</div>   
+                            <div style={{display:'flex', justifyContent:'space-between'}}> 
+                                <div><FileMusic style={{color:'white'}}/></div>   
                                 <div> {value.title} </div>
                                 <div>{value.length}</div>
                             </div>                            
