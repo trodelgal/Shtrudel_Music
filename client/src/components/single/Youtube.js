@@ -10,13 +10,9 @@ function Youtube ({youtubeLink}) {
         autoplay: 1,
       }
     };
- console.log(youtubeLink);
-    const _onReady=(event) => {
-        event.target.pauseVideo();
-        event.target.nextVideo(()=>{
 
-        })
-        console.log(event.target);
+    const _onReady=(event) => {
+        // event.target.pauseVideo();
       }
 
     return(
