@@ -1,16 +1,26 @@
 const { Router } = require('express');
+const Sequelize = require('sequelize');
 const { Songs } = require('../models');
+
+const { Op } = Sequelize;
 
 const router = Router();
 // get all
 router.get('/', async (req, res) => {
-  const allSongs = await songs.findAll();
+  const allSongs = await Songs.findAll();
   return res.json(allSongs);
 });
 // get search
-router.get('/:name', async (req,res) =>{
-
-})
+router.get('/:name', async (req, res) => {
+  const allSong = await Songs.findAll({
+    where: {
+      title: {
+        [Op.like]: `%${req.params.name}%`,
+      },
+    },
+  });
+  return res.json(allSong)
+});
 // get top
 router.get('/top', async (req, res) => {
 
@@ -19,7 +29,6 @@ router.get('/top', async (req, res) => {
 router.get('/:id/single', async (req, res) => {
 
 });
-
 
 module.exports = router;
 
