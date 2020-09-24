@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const Sequelize = require('sequelize');
-const { Songs } = require('../models');
+const { Songs, Albums, Artists } = require('../models');
 
 const { Op } = Sequelize;
 
@@ -19,7 +19,7 @@ router.get('/:name', async (req, res) => {
       },
     },
   });
-  return res.json(allSong)
+  return res.json(allSong);
 });
 // get top
 router.get('/top', async (req, res) => {
@@ -27,7 +27,29 @@ router.get('/top', async (req, res) => {
 });
 // get one song
 router.get('/:id/single', async (req, res) => {
+  const song = await Songs.findAll({
+    where: {
+      id: req.params.id,
+    },
+    include: [{
+      model: Albums,
+      attributes: ['name'],
+    }, {
+      model: Artists,
+      attributes: ['name'],
+    }],
+  });
+  return res.json(song);
+});
 
+// post songs
+router.post('/', async (req, res) => {
+  try {
+    const newSong = await Songs.create(req.body);
+    return res.json(newSong);
+  } catch (e) {
+    console.error(e);
+  }
 });
 
 module.exports = router;

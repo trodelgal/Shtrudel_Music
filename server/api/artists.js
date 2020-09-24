@@ -55,9 +55,9 @@ router.get('/:id/albums', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const newArtist = await Artists.create(req.body);
+    return res.json(newArtist);
   } catch (e) {
     console.error(e);
   }
-  return res.json(newArtist);
 });
 module.exports = router;
