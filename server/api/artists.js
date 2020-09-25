@@ -22,10 +22,6 @@ router.get('/:name', async (req, res) => {
   return res.json(allArtists);
 });
 
-router.get('/top', async (req, res) => {
-
-});
-
 // get all the songs of artist
 router.get('/:id/songs', async (req, res) => {
   const artist = await Artists.findAll({
@@ -43,15 +39,28 @@ router.get('/:id/albums', async (req, res) => {
     where: { id: req.params.id },
     include: [{
       model: Albums,
-      include:[{
-        row: false,
-        model: Songs
-      }]
+      include: [{
+        model: Songs,
+      }],
     }],
+    // raw : true
   });
   return res.json(artist);
 });
 
+// get top artists
+router.get('/top/artist', async (req, res) => {
+  const topArtists = await Songs.findAll({
+    attributes: [[Sequelize.fn('COUNT', Sequelize.col('artist_id')), 'numberOfSongs']],
+    order: [[Sequelize.fn('COUNT', Sequelize.col('artist_id')), 'DESC']],
+    limit: 20,
+    group: 'artist_id',
+    include: [{ model: Artists }],
+  });
+  return res.json(topArtists);
+});
+
+// post artist
 router.post('/', async (req, res) => {
   try {
     const newArtist = await Artists.create(req.body);
@@ -60,4 +69,22 @@ router.post('/', async (req, res) => {
     console.error(e);
   }
 });
+
+// delete artist
+router.delete('/:id', async (req, res) => {
+  const delArtist = await Artists.destroy({
+    where: {
+      id: req.params.id,
+    },
+  });
+  return res.json(delArtist);
+});
+
+// update artist
+router.put('/:artistId', async (req, res) => {
+  const artist = await Artist.findByPk(req.params.artistId);
+  await artist.update(req.body);
+  res.json(artist);
+});
+
 module.exports = router;

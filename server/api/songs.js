@@ -1,15 +1,18 @@
 const { Router } = require('express');
 const Sequelize = require('sequelize');
-const { Songs, Albums, Artists } = require('../models');
+const {
+  Songs, Albums, Artists, Interactions,
+} = require('../models');
 
 const { Op } = Sequelize;
-
 const router = Router();
+
 // get all
 router.get('/', async (req, res) => {
   const allSongs = await Songs.findAll();
   return res.json(allSongs);
 });
+
 // get search
 router.get('/:name', async (req, res) => {
   const allSong = await Songs.findAll({
@@ -21,10 +24,7 @@ router.get('/:name', async (req, res) => {
   });
   return res.json(allSong);
 });
-// get top
-router.get('/top', async (req, res) => {
 
-});
 // get one song
 router.get('/:id/single', async (req, res) => {
   const song = await Songs.findAll({
@@ -42,6 +42,23 @@ router.get('/:id/single', async (req, res) => {
   return res.json(song);
 });
 
+// get top_songs
+router.get('/top/songs', async (req, res) => {
+  const topSongs = await Interactions.findAll({
+    attributes: [[Sequelize.fn('SUM', Sequelize.col('play_count')), 'numberOfPlays']],
+    order: [[Sequelize.fn('SUM', Sequelize.col('play_count')), 'DESC']],
+    limit: 20,
+    group: 'song_id',
+    include: [{
+      model: Songs,
+      include: [{ model: Artists, attributes: [['name', 'artistName']] },
+        { model: Albums, attributes: [['name', 'albumName'], 'coverImg'] },
+      ],
+    }],
+  });
+  return res.json(topSongs);
+});
+
 // post songs
 router.post('/', async (req, res) => {
   try {
@@ -52,26 +69,21 @@ router.post('/', async (req, res) => {
   }
 });
 
-module.exports = router;
+// delete song
+router.delete('/:id', async (req, res) => {
+  const delSong = await Songs.destroy({
+    where: {
+      id: req.params.id,
+    },
+  });
+  return res.json(delSong);
+});
 
-// // a GET request to /top_songs/ returns a list of top 20 songs
-// app.get('/api/top_songs', (req, res) => {
-//   const sql = `SELECT s.*, sum(play_count) AS number_of_plays, a.name AS artist_name, al.cover_img ,al.name AS album_name, s.title AS song_name, s.id AS song_id
-//   FROM interactions i
-//   JOIN songs s
-//   ON i.song_id = s.id
-//   JOIN artists a
-//   ON s.artist_id = a.id
-//   JOIN albums al
-//   ON s.album_id = al.id
-//   GROUP BY song_id
-//   ORDER BY number_of_plays DESC
-//   LIMIT 20;`;
-//   mysqlCon.query(sql, (error, results) => {
-//     if (error) {
-//       res.send(error.message);
-//       throw error;
-//     }
-//     return res.send(results);
-//   });
-// });
+// update song
+router.put('/:id', async (req, res) => {
+  const song = await Songs.findByPk(req.params.id);
+  await song.update(req.body);
+  res.json(song);
+});
+
+module.exports = router;

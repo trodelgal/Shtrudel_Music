@@ -6,6 +6,10 @@ app.use(express.json());
 
 app.use('/api', require('./api'));
 
+// app.delete('/apidel/:target/:id', async (req,res) => {
+
+// })
+// `DELETE FROM ${req.params.table} WHERE id=${req.params.id}`
 
 
 // // a GET request to /top_artists/ returns a list of top 10 artists

@@ -17,6 +17,12 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.Albums,{
         foreignKey:'albumId'
       })
+      this.hasMany(models.Interactions,{
+        foreignKey:'songId'
+      })
+      this.belongsToMany(models.Playlists, {through: models.Playlists_songs},{
+        foreignKey: 'songId'
+      });
     }
   };
   Songs.init({
