@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, BelongsTo
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class users_playlists extends Model {
@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.Playlists,{
+        foreignKey: 'playlistId'
+      })
     }
   };
   users_playlists.init({

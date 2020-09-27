@@ -38,33 +38,16 @@ router.get('/:id/songs', async (req, res) => {
 
 // get top albums
 router.get('/top/albums', async (req, res) => {
-  const topAlbum = await Albums.findAll({
-    group: ['id'],
-    limit: 20,
-    include: [{ model: Artists, attributes: [['name', 'artistName']] },
-      {
-        model: Songs,
-        attributes: ['id'],
-        include: [{
-          model: Interactions,
-          group: ['song_id'],
-          attributes: ['playCount'],
-        }],
-      }],
+  const topAlbum = await Songs.findAll({
+    group: ['album_id'],
+    order: [[Sequelize.fn('SUM', Sequelize.col('play_count')), 'DESC']],
+    include: [{
+      model: Interactions,
+      attributes: [[Sequelize.fn('SUM', Sequelize.col('play_count')), 'numberOfInteractions']],
+    }, { model: Albums }],
   });
   return res.json(topAlbum);
 });
-//   const sql = `SELECT a.*, ar.name AS artist_name, sum(i.play_count)
-//   FROM albums a
-//   JOIN songs s
-//   ON a.id = s.album_id
-//   JOIN interactions i
-//   ON i.song_id = s.id
-//   JOIN artists ar
-//   ON ar.id = a.artist_id
-//   GROUP BY a.id
-//   ORDER BY sum(i.play_count) DESC
-//   LIMIT 20;`;
 
 // post album
 router.post('/', async (req, res) => {

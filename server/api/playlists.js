@@ -1,6 +1,8 @@
 const { Router } = require('express');
 const Sequelize = require('sequelize');
-const { Playlists, Songs, Users } = require('../models');
+const {
+  Playlists, Songs, Users, users_playlists,
+} = require('../models');
 
 const { Op } = Sequelize;
 
@@ -36,10 +38,14 @@ router.get('/:id/songs', async (req, res) => {
 
 // top playlists
 router.get('/top/playlists', async (req, res) => {
-  const playlists = await Playlists.findAll({
-    include: [{ model: Users}],
-  })
-  return res.json(playlists)
+  const playlists = await users_playlists.findAll({
+    group: 'playlist_id',
+    attributes: ['playlistId', [Sequelize.fn('COUNT', Sequelize.col('playlist_id')), 'numberOfusers']],
+    order: [[Sequelize.fn('COUNT', Sequelize.col('playlist_id')), 'DESC']],
+    include: [{ model: Playlists }],
+    limit: 20,
+  });
+  return res.json(playlists);
 });
 
 // delete playlist
