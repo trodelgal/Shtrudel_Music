@@ -25,8 +25,12 @@ const songMock = {
   trackNumber: 1,
 };
 
-describe('api v1', () => {
+describe('artist api test', () => {
   beforeEach(async () => {
+    await Artists.destroy({ truncate: true, force: true });
+    await Songs.destroy({ truncate: true, force: true });
+  });
+  afterAll(async () => {
     await Artists.destroy({ truncate: true, force: true });
     await Songs.destroy({ truncate: true, force: true });
   });
@@ -48,10 +52,10 @@ describe('api v1', () => {
     const { body: newArtist } = await request(app).post('/api/artists').send(artistMock);
     const { body: newSong } = await request(app).post('/api/songs').send(songMock);
     const { body: getArtistSongs } = await request(app).get(`/api/artists/${newArtist.id}/songs`);
-    console.log('getArtistSongs', getArtistSongs[0].Songs[0].name);
+    console.log('getArtistSongs', getArtistSongs[0].Songs[0].title);
 
     expect(getArtistSongs[0].id).toBe(newArtist.id);
-    expect(getArtistSongs[0].Songs[0].name).toBe(newSong.name);
+    expect(getArtistSongs[0].Songs[0].title).toBe(newSong.title);
     expect(getArtistSongs[0].Songs[0].id).toBe(newSong.id);
   });
 

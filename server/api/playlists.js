@@ -48,6 +48,12 @@ router.get('/top/playlists', async (req, res) => {
   return res.json(playlists);
 });
 
+// post artist
+router.post('/', async (req, res) => {
+  const newPlaylist = await Playlists.create(req.body);
+  return res.json(newPlaylist);
+});
+
 // delete playlist
 router.delete('/:id', async (req, res) => {
   const delPlaylist = await Playlists.destroy({
