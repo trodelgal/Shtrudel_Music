@@ -12,7 +12,8 @@
     "password": "G15162411t",
     "database": "spotify_test",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "define": { "underscored": true}
   },
   "production": {
     "username": "root",

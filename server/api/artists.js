@@ -62,12 +62,8 @@ router.get('/top/artist', async (req, res) => {
 
 // post artist
 router.post('/', async (req, res) => {
-  try {
-    const newArtist = await Artists.create(req.body);
-    return res.json(newArtist);
-  } catch (e) {
-    console.error(e);
-  }
+  const newArtist = await Artists.create(req.body);
+  return res.json(newArtist);
 });
 
 // delete artist
@@ -82,7 +78,7 @@ router.delete('/:id', async (req, res) => {
 
 // update artist
 router.put('/:artistId', async (req, res) => {
-  const artist = await Artist.findByPk(req.params.artistId);
+  const artist = await Artists.findByPk(req.params.artistId);
   await artist.update(req.body);
   res.json(artist);
 });

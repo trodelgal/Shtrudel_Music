@@ -40,7 +40,7 @@ router.get('/:id/songs', async (req, res) => {
 router.get('/top/playlists', async (req, res) => {
   const playlists = await users_playlists.findAll({
     group: 'playlist_id',
-    attributes: ['playlistId', [Sequelize.fn('COUNT', Sequelize.col('playlist_id')), 'numberOfusers']],
+    attributes: [[Sequelize.fn('COUNT', Sequelize.col('playlist_id')), 'numberOfusers']],
     order: [[Sequelize.fn('COUNT', Sequelize.col('playlist_id')), 'DESC']],
     include: [{ model: Playlists }],
     limit: 20,
