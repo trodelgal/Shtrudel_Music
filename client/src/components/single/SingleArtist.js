@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { FileMusic } from 'react-bootstrap-icons';
 import {Card} from 'react-bootstrap';
 import Carousel from 'react-elastic-carousel';
-import axios from 'axios';
+import network from '../../service/network';
    
 
 function SingleArtist(){
@@ -20,9 +20,9 @@ function SingleArtist(){
 
     const getSongsOfArtist = useCallback(async () =>{
         try{
-            const songs = await axios.get(`/api/single/artist/${id}`);
+            const songs = await network.get(`/api/single/artist/${id}`);
             setSongsOfArtist(songs.data)
-            const albums = await axios.get(`/api/single/artist/albums/${id}`);
+            const albums = await network.get(`/api/single/artist/albums/${id}`);
             setAlbumsOfArtist(albums.data)
         }catch(e){
             console.error(e.message)

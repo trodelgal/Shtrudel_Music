@@ -7,6 +7,12 @@ import '../App.css';
 
 
 function Header({openArtistModal,openAlbumModal,openSongModal}){
+    const name = localStorage.getItem('name');
+    const logout=()=>{
+        localStorage.removeItem("token");
+        localStorage.removeItem("name");
+        window.location='/'
+    }
     return(
 
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark"  fixed="top">
@@ -14,17 +20,22 @@ function Header({openArtistModal,openAlbumModal,openSongModal}){
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
-                <Nav.Link ><Link className="navLink" to={`/`}>Home</Link></Nav.Link>
+                <Nav.Link ><Link className="navLink" to={`/home`}>Home</Link></Nav.Link>
                 <Nav.Link><Link className="navLink" to={`/songs`}>Songs</Link></Nav.Link>
                 <Nav.Link><Link className="navLink" to={`/artists`}>Artists</Link></Nav.Link>
                 <Nav.Link><Link className="navLink" to={`/playlist`}>Playlists</Link></Nav.Link>
                 <Nav.Link><Link className="navLink" to={`/albums`}>Albums</Link></Nav.Link>
+            </Nav>
+            <Nav className="mr-auto">
+                hello, {name}
             </Nav>
             <Nav>
                 <NavDropdown title="HELP US TO GROW" id="collasible-nav-dropdown">
                     <NavDropdown.Item > <span onClick={()=>openArtistModal()}>Add Artist</span></NavDropdown.Item>
                     <NavDropdown.Item onClick={openAlbumModal}>Add Album</NavDropdown.Item>
                     <NavDropdown.Item onClick={openSongModal}>Add Song</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
                 </NavDropdown>
             </Nav>
         </Navbar.Collapse>

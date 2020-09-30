@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import {Card} from 'react-bootstrap';
-import axios from 'axios';
+import network from '../../service/network';
 
 function Albums(){
     const [albumsToDesplay, setAlbumsToDesplay] = useState([]) 
@@ -9,7 +9,7 @@ function Albums(){
     
     const getAlbums= async () =>{
         try{
-            const artists = await axios.get(`/api/albums/${search}`);
+            const artists = await network.get(`/api/albums/${search}`);
             setAlbumsToDesplay(artists.data)
         }catch(e){
             console.error(e.message)

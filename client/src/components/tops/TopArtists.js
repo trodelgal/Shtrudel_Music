@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import {Card} from 'react-bootstrap';
 import Carousel from 'react-elastic-carousel';
-import axios from 'axios';
+import network from '../../service/network';
 
 function TopArtists(){
     const [topTenArtists, setTopTenArtists] = useState([]);
 
     const getTopArtists = async () => {
         try{
-            const artists = await axios.get(`/api/top_artists`);
+            const artists = await network.get(`/api/top_artists`);
             setTopTenArtists(artists.data); 
         }catch(e){
             console.error(e.message);

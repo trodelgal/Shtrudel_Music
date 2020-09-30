@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { FileMusic } from 'react-bootstrap-icons';
 import ListGroup from 'react-bootstrap/ListGroup';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import axios  from 'axios';
+import network from '../../service/network';
    
 
 function SinglePlaylist(){
@@ -16,7 +16,7 @@ function SinglePlaylist(){
 
     const getSongsOfPlaylist =useCallback(async () =>{
         try{
-            const playlist = await axios.get(`/api/single/playlist/${id}`);
+            const playlist = await network.get(`/api/single/playlist/${id}`);
             setSongsOfPlaylist(playlist.data)
             setCreatedDate(playlist.data[0].created_at)
         }catch(e){

@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql');
+const jwt = require('jsonwebtoken');
+const checkToken = require('./middleware/auth');
 
 const app = express();
 
@@ -12,6 +14,7 @@ function logger(req, res, next) {
 }
 
 app.use(logger);
+// app.use(checkToken);
 
 const mysqlCon = mysql.createConnection({
   host: 'localhost',
@@ -26,8 +29,34 @@ mysqlCon.connect((err) => {
   console.log('Connected music_streamer_demo!');
 });
 
+app.post('/api/login', async (req, res) => {
+  const { username, password } = req.body;
+  const sql = `SELECT name FROM users WHERE name = '${username}' AND password = '${password}';`;
+  await mysqlCon.query(sql, (error, results) => {
+    if (error) {
+      res.send(error.message);
+      console.log(error.message);
+      throw error;
+    }
+    if (results[0] === undefined) {
+      return res.status(500).json({
+        errorMessage: 'wrong login details',
+      });
+    }
+    const token = jwt.sign({ username },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: '24h', // expires in 24 hours
+      });
+    return res.json({
+      success: true,
+      token,
+    });
+  });
+});
+
 // a GET request to /top_songs/ returns a list of top 20 songs
-app.get('/api/top_songs', (req, res) => {
+app.get('/api/top_songs', checkToken, (req, res) => {
   const sql = `SELECT s.*, sum(play_count) AS number_of_plays, a.name AS artist_name, al.cover_img ,al.name AS album_name, s.title AS song_name, s.id AS song_id
   FROM interactions i
   JOIN songs s
@@ -49,7 +78,7 @@ app.get('/api/top_songs', (req, res) => {
 });
 
 // a GET request to /top_artists/ returns a list of top 10 artists
-app.get('/api/top_artists', (req, res) => {
+app.get('/api/top_artists', checkToken, (req, res) => {
   const sql = `SELECT a.* ,count(s.artist_id) AS number_of_songs 
   FROM songs s 
   JOIN artists a 
@@ -67,7 +96,7 @@ app.get('/api/top_artists', (req, res) => {
 });
 
 // a GET request to /top_albums/ returns a list of top 20 albums
-app.get('/api/top_albums', (req, res) => {
+app.get('/api/top_albums', checkToken, (req, res) => {
   const sql = `SELECT a.*, ar.name AS artist_name, sum(i.play_count)
   FROM albums a  
   JOIN songs s 
@@ -89,7 +118,7 @@ app.get('/api/top_albums', (req, res) => {
 });
 
 // a GET request to /top_playlist/ returns a list of top 20 playlist
-app.get('/api/top_playlist', (req, res) => {
+app.get('/api/top_playlist', checkToken, (req, res) => {
   const sql = `SELECT *, count(playlist_id) AS number_of_users_use_this_playlist
   FROM user_playlists up 
   JOIN playlist p
@@ -107,7 +136,7 @@ app.get('/api/top_playlist', (req, res) => {
 });
 
 // a GET request to /artists /playlist /songs /albums - get all data
-app.get('/api/:table/', (req, res) => {
+app.get('/api/:table/', checkToken, (req, res) => {
   const sql = `SELECT * FROM ${req.params.table};`;
   mysqlCon.query(sql, (error, results) => {
     if (error) {
@@ -119,7 +148,7 @@ app.get('/api/:table/', (req, res) => {
 });
 
 // a GET request to /artists /playlist /songs /albums - to use search
-app.get('/api/:table/:name', (req, res) => {
+app.get('/api/:table/:name', checkToken, (req, res) => {
   const whereColumn = req.params.table === 'songs' ? 'title' : 'name';
   const sql = `SELECT * 
   FROM ${req.params.table} 
@@ -135,7 +164,7 @@ app.get('/api/:table/:name', (req, res) => {
 
 // a POST request to /songs/albums/playlist/artists
 app.post('/api/:table', async (req, res) => {
-  mysqlCon.query(`INSERT INTO ${req.params.table} SET ?`, req.body, (error, results) => {
+  mysqlCon.query(`INSERT INTO ${req.params.table} SET ?`, req.body, (error) => {
     if (error) {
       return res.send(error.message);
     }
@@ -156,7 +185,7 @@ app.put('/api/:table/:id', async (req, res) => {
 });
 
 // a DELETE request to /song/123 delete the details of song 123
-app.delete('/api/:table/:id', async (req, res) => {
+app.delete('/api/:table/:id', checkToken, async (req, res) => {
   mysqlCon.query(`DELETE FROM ${req.params.table} WHERE id=${req.params.id}`, (error, results) => {
     if (error) {
       return res.send(error.message);
@@ -167,7 +196,7 @@ app.delete('/api/:table/:id', async (req, res) => {
 
 // get data to show each single song
 
-app.get('/api/single/song/:id', (req, res) => {
+app.get('/api/single/song/:id', checkToken, (req, res) => {
   const sql = `SELECT songs.*, artists.name AS artist, albums.name AS album
   FROM songs
   JOIN artists 
@@ -185,7 +214,7 @@ app.get('/api/single/song/:id', (req, res) => {
 });
 
 // get data to show the songs of each artist
-app.get('/api/single/artist/:id', (req, res) => {
+app.get('/api/single/artist/:id', checkToken, (req, res) => {
   const sql = `SELECT artists.*, songs.title AS song_name, songs.length, songs.youtube_link ,songs.id AS song_id 
   FROM artists 
   JOIN songs 
@@ -202,7 +231,7 @@ app.get('/api/single/artist/:id', (req, res) => {
 
 // get data to show the albums of each artist
 
-app.get('/api/single/artist/albums/:id', (req, res) => {
+app.get('/api/single/artist/albums/:id', checkToken, (req, res) => {
   const sql = `SELECT ar.*, al.name AS album_name, al.cover_img AS album_image, al.id AS album_id
   FROM artists ar
   JOIN albums al
@@ -219,7 +248,7 @@ app.get('/api/single/artist/albums/:id', (req, res) => {
 
 // get data to show the album
 
-app.get('/api/single/albums/:id', (req, res) => {
+app.get('/api/single/albums/:id', checkToken, (req, res) => {
   const sql = `SELECT al.*, ar.name AS artist_name, s.title AS song_name, s.length, s.youtube_link, s.id AS song_id 
   FROM albums al
   JOIN artists ar
@@ -237,7 +266,7 @@ app.get('/api/single/albums/:id', (req, res) => {
 });
 
 // get data to show playlist
-app.get('/api/single/playlist/:id', (req, res) => {
+app.get('/api/single/playlist/:id', checkToken, (req, res) => {
   const sql = `SELECT p.* , s.title AS song_name, s.length, s.youtube_link, s.id AS song_id
   FROM playlist p
   JOIN playlist_songs ps

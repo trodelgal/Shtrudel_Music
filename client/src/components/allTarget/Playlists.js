@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import {Card} from 'react-bootstrap';
-import axios from 'axios';
+import network from '../../service/network';
 
 function Playlists(){
     const [playlistsToDesplay, setPlaylistsToDesplay] = useState([]) 
@@ -9,7 +9,7 @@ function Playlists(){
 
     const getPlaylists = async () =>{
         try{
-            const playlists = await axios.get(`/api/playlist/${search}`);
+            const playlists = await network.get(`/api/playlist/${search}`);
             setPlaylistsToDesplay(playlists.data)
         }catch(e){
             console.error(e.message)

@@ -78,6 +78,11 @@ h2{
   font-size: 1.1em;
   transition: 0.2s;
 }
+.login{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 /* #songLyrics{
   width: 250px;
   white-space: nowrap;

@@ -4,8 +4,7 @@ import Youtube from './Youtube';
 import ListGroup from 'react-bootstrap/ListGroup';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Modal from 'react-bootstrap/Modal'
-import axios from 'axios';
-
+import network from '../../service/network';
 
 function SingleSong(){
     const [songData, setSongData] = useState([]);
@@ -20,14 +19,14 @@ function SingleSong(){
 
     const getSongData = useCallback(async () =>{
         try{
-                const song = await axios.get(`/api/single/song/${id}`);
+                const song = await network.get(`/api/single/song/${id}`);
                 setSongData(song.data)
                 setYoutubeId(getIdSong(song.data[0].youtube_link))
                 if(queryFrom){
-                    const side = await axios.get(`/api/single/${queryFrom.slice(1)}/${queryId}`);
+                    const side = await network.get(`/api/single/${queryFrom.slice(1)}/${queryId}`);
                     setSideData(side.data)
                 }else{
-                    const side = await axios.get(`/api/top_songs`);
+                    const side = await network.get(`/api/top_songs`);
                     setSideData(side.data)
             }
         }catch(e){
@@ -49,7 +48,7 @@ function SingleSong(){
     }
 
     async function changeSong(value){
-        const song = await axios.get(`/api/single/song/${value.song_id}`);
+        const song = await network.get(`/api/single/song/${value.song_id}`);
         setSongData(song.data)
         setYoutubeId(getIdSong(song.data[0].youtube_link))
     }

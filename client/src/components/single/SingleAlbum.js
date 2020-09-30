@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { FileMusic } from 'react-bootstrap-icons';
-import axios from 'axios';
+import network from '../../service/network';
    
 
 function SingleAlbum(){
@@ -16,7 +16,7 @@ function SingleAlbum(){
 
     const getAlbumDetails = useCallback(async () =>{
         try{
-            const album = await axios.get(`/api/single/albums/${id}`);
+            const album = await network.get(`/api/single/albums/${id}`);
             setAlbumDetails(album.data)
             setCreatedDate(album.data[0].created_at)
         }catch(e){

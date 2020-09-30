@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal'
 import Header from './Header';
-import axios from 'axios';
+import network from '../service/network';
 
 function SimpleModal() {
   const [allArtists, setAllArtists] = useState([]);
@@ -34,7 +34,7 @@ function SimpleModal() {
             lyrics: lyrics.value,
             track_number: TrackNumber.value
     }
-    const res = await axios.post('/api/songs',postSongObj);
+    const res = await network.post('/api/songs',postSongObj);
     setAdd(res.data)
     setResponse(true)
   }
@@ -48,7 +48,7 @@ async function postArtist () {
             cover_img: artistImage.value,
             uploaded_at: artistUpload.value
     }
-    const res = await axios.post('/api/artists',postArtistObj);
+    const res = await network.post('/api/artists',postArtistObj);
     setAdd(res.data)
     setResponse(true)
 }
@@ -67,16 +67,16 @@ async function postAlbum () {
             uploaded_at: albumUpload.value,
             cover_img: albumImage.value
     }
-    const res = await axios.post('/api/albums',postAlbumObj);
+    const res = await network.post('/api/albums',postAlbumObj);
     setAdd(res.data)
     setResponse(true)
 }
 
 useEffect(()=>{
     const ajax = async () =>{
-      const artists = await axios.get(`/api/artists/`);
+      const artists = await network.get(`/api/artists/`);
       setAllArtists(artists.data);
-      const albums = await axios.get('/api/albums/');
+      const albums = await network.get('/api/albums/');
       setAllAlbums(albums.data);
     }
     ajax();
@@ -177,7 +177,7 @@ useEffect(()=>{
         <select id="albumId">
             {
               allAlbums.map(value => {
-                if(value.artist_id==artistIdSong){
+                if(value.artist_id === artistIdSong){
                   return(
                   <option>{value.id} {value.name}</option>
                   )
