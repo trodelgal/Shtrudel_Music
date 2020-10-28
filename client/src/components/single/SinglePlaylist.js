@@ -6,6 +6,7 @@ import { FileMusic } from 'react-bootstrap-icons';
 import ListGroup from 'react-bootstrap/ListGroup';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import network from '../../service/network';
+import {playlistPageShowed} from '../../service/AnalyticsManager';
    
 
 function SinglePlaylist(){
@@ -27,8 +28,12 @@ function SinglePlaylist(){
         getSongsOfPlaylist()
     },[])
 
-    console.log(songsOfPlaylist);
-    console.log(createdDate);
+    useEffect(()=>{
+        if(songsOfPlaylist[0]){
+            playlistPageShowed(songsOfPlaylist[0].name)
+        }
+    },[songsOfPlaylist])
+
     if (songsOfPlaylist[0] !== undefined){
         body = (
             <div className="single">

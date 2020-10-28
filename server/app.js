@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
+const Joi = require('joi');
+const bcrypt = require('bcrypt');
 const checkToken = require('./middleware/auth');
 
 const app = express();
@@ -30,29 +32,39 @@ mysqlCon.connect((err) => {
 });
 
 app.post('/api/login', async (req, res) => {
-  const { username, password } = req.body;
-  const sql = `SELECT name FROM users WHERE name = '${username}' AND password = '${password}';`;
-  await mysqlCon.query(sql, (error, results) => {
-    if (error) {
-      res.send(error.message);
-      console.log(error.message);
-      throw error;
-    }
-    if (results[0] === undefined) {
-      return res.status(500).json({
-        errorMessage: 'wrong login details',
+  try{
+    const { email, password } = req.body;
+    const sql = `SELECT * FROM users WHERE email = '${email}';`;
+    await mysqlCon.query(sql, async (error, results) => {
+      if (error) {
+        res.send(error.message);
+        throw error;
+      }
+      if (results[0] === undefined) {
+        return res.status(500).json({
+          errorMessage: 'wrong login details',
+        });
+      }else{
+      const validPass = await bcrypt.compare(password,results[0].password);
+      if(!validPass){
+        return res.status(500).json({
+          errorMessage: 'wrong login details',
+        });
+      }
+      const token = jwt.sign({ email },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: '24h', // expires in 24 hours
+        });
+      return res.json({
+        name:results[0].name,
+        success: true,
+        token,
       });
-    }
-    const token = jwt.sign({ username },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: '24h', // expires in 24 hours
-      });
-    return res.json({
-      success: true,
-      token,
-    });
-  });
+    }});
+  }catch(err) {
+    throw err;
+  }
 });
 
 // a GET request to /top_songs/ returns a list of top 20 songs
@@ -171,6 +183,33 @@ app.post('/api/:table', async (req, res) => {
     console.log(`${req.params.table} added`);
     return res.send(`${req.params.table} added`);
   });
+});
+
+// validation
+const schema = Joi.object({
+  name: Joi.string().min(6).pattern(/^([^0-9]*)$/).required(),
+  email: Joi.string().min(6).required().email(),
+  password: Joi.string().min(6).required(),
+  is_admin: Joi.boolean().falsy('N'),
+  created_at: Joi.date() ,
+  upload_at: Joi.date() 
+})
+
+app.post('/api/user/register', async (req, res) => {
+  try{
+    const value = await schema.validateAsync(req.body);
+    const salt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(req.body.password, salt);
+    value.password = hashPassword;
+    mysqlCon.query(`INSERT INTO users SET ?`, value, (error) => {
+      if (error) {
+        return res.send(error.message);
+      }
+      return res.send(value);
+    });
+  }catch(e){
+    res.send(e.message)
+  }
 });
 
 // a PUT request to /artist/123 update the artist 123

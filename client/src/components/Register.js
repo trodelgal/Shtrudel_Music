@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import {Navbar, Nav} from 'react-bootstrap';
+import {Navbar, Nav, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import logo from './files/logo.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import network from '../service/network';
+import axios from 'axios';
 
 function Register() {
     const [username,setUsername] = useState('');
@@ -10,6 +11,7 @@ function Register() {
     const [password,setPassword] = useState('');
     const [secondPassword,setSecondPassword] = useState('');
     const [error,setError] = useState('');
+
 const createAcount= async () => {
     let postUserObj = {
         name: username ,
@@ -19,17 +21,26 @@ const createAcount= async () => {
         created_at: new Date().toISOString().slice(0,10) ,
         upload_at: new Date().toISOString().slice(0,10) 
     }
+    if(username!=='' && email!=='' && password!=='' && secondPassword!==''){
     if(password===secondPassword){
-    const res = await network.post('/api/users',postUserObj);
-    if (res.data === 'users added') {
+    const res = await axios.post('/api/user/register',postUserObj);
+    if (res.data.name) {
         window.location = '/';
       } else {
-        setError(res)
+        if(res.data.split('_')[1] === 'DUP'){
+          setError('email already exists');
+        }else if(res.data.split('/')[1] === '^([^0-9]*)$'){
+          setError("Your user name can't contain numbers");
+        }else{
+          setError(res.data)
+        }
       }
     }else{
-        setError('password and confirm password is not the same')
+        setError('password and confirm password are not the same')
     }
-}
+}else{
+  setError('you must fill in all the details')
+}}
 
 
   return (
@@ -52,8 +63,9 @@ const createAcount= async () => {
         <input className="loginInput" placeholder="email" type="email" value={email} onChange={({ target: { value } }) => setEmail(value)} /><br/>
         <input className="loginInput" placeholder="password" type="password" value={password} onChange={({ target: { value } }) => setPassword(value)} /><br/>
         <input className="loginInput" placeholder="Confirm password" type="password" value={secondPassword} onChange={({ target: { value } }) => setSecondPassword(value)} /><br/>
-        <button onClick={createAcount}>Create new account</button><br/>
-        {error ? <div>*{error}</div> : null}
+        <Button variant="dark"  onClick={createAcount}>Create new account</Button ><br/>
+        <Link to="/">Already have account - Sign in</Link>
+        {error ? <div style={{color: 'red'}}>*{error}</div> : null}
     </div>
     </>
   );

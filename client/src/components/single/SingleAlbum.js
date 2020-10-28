@@ -5,6 +5,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { FileMusic } from 'react-bootstrap-icons';
 import network from '../../service/network';
+import {albumPageShowed} from '../../service/AnalyticsManager';
    
 
 function SingleAlbum(){
@@ -26,6 +27,12 @@ function SingleAlbum(){
     useEffect(()=>{
         getAlbumDetails()
     },[])
+
+    useEffect(()=>{
+        if(albumDetails[0]){
+            albumPageShowed(albumDetails[0].name)
+        }
+    },[albumDetails])
 
     if (albumDetails[0] !== undefined){
         body = (

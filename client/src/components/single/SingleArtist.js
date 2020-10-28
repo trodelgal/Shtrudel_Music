@@ -9,6 +9,7 @@ import { FileMusic } from 'react-bootstrap-icons';
 import {Card} from 'react-bootstrap';
 import Carousel from 'react-elastic-carousel';
 import network from '../../service/network';
+import {artistPageShowed} from '../../service/AnalyticsManager';
    
 
 function SingleArtist(){
@@ -32,9 +33,12 @@ function SingleArtist(){
         getSongsOfArtist()
     },[])
 
-    console.log(songsOfArtist);
-    console.log(albumsOfArtist);
-
+    useEffect(()=>{
+        if(songsOfArtist[0]){
+            artistPageShowed(songsOfArtist[0].name)
+        }
+    },[songsOfArtist])
+    
   const breakPoints=[
         {width: 1 ,itemsToShow: 1},
         {width: 500 ,itemsToShow: 3},

@@ -177,7 +177,7 @@ useEffect(()=>{
         <select id="albumId">
             {
               allAlbums.map(value => {
-                if(value.artist_id === artistIdSong){
+                if(value.artist_id == artistIdSong){
                   return(
                   <option>{value.id} {value.name}</option>
                   )
