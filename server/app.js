@@ -178,6 +178,7 @@ app.get('/api/:table/:name', checkToken, (req, res) => {
 app.post('/api/:table', async (req, res) => {
   mysqlCon.query(`INSERT INTO ${req.params.table} SET ?`, req.body, (error) => {
     if (error) {
+      console.log(error);
       return res.send(error.message);
     }
     console.log(`${req.params.table} added`);

@@ -25,4 +25,7 @@ export function  playlistPageShowed(playlistName){
     const userName = localStorage.getItem('name');
     mixpanel.track("playlist page showed",{"userName": userName, "playlistName":playlistName});
 }
+export function  newRegister(userName){
+    mixpanel.track("new register",{"userName": userName});
+}
 
