@@ -1,75 +1,73 @@
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Main from './tops/Main';
-import SingleSong from './single/SingleSong';
-import SingleArtist from './single/SingleArtist';
-import SinglePlaylist from './single/SinglePlaylist';
-import SingleAlbum from './single/SingleAlbum';
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Main from "./tops/Main";
+import SingleSong from "./single/SingleSong";
+import SingleArtist from "./single/SingleArtist";
+import SinglePlaylist from "./single/SinglePlaylist";
+import SingleAlbum from "./single/SingleAlbum";
 import SimpleModal from "./SimpleModal";
-import Playlists from './allTarget/Playlists';
-import Artists from './allTarget/Artists';
-import Albums from './allTarget/Albums';
-import Songs from './allTarget/Songs';
-import Image from 'react-bootstrap/Image';
-import Login from './Login';
-import Register from './Register';
-import error from './files/error.png';
+import Playlists from "./allTarget/Playlists";
+import Artists from "./allTarget/Artists";
+import Albums from "./allTarget/Albums";
+import Songs from "./allTarget/Songs";
+import Image from "react-bootstrap/Image";
+import Login from "./Login";
+import Register from "./Register";
+import error from "./files/error.png";
 
 function MyRouter() {
-    const token = localStorage.getItem('token')
-    
- return (
- <Router>
-    <Switch>
+  const token = localStorage.getItem("token");
+
+  return (
+    <Router>
+      <Switch>
         <Route exact path="/">
-            {
-                token? <Main/>: <Login/>
-            }
+          <Login />
         </Route>
         <Route exact path="/register">
-            <Register/>
+          <Register />
         </Route>
         <Route exact path="/home">
-        <SimpleModal/>
-            <Main/>
+          <SimpleModal />
+          <Main />
         </Route>
         <Route exact path="/songs">
-        <SimpleModal/>
-            <Songs/>
+          <SimpleModal />
+          <Songs />
         </Route>
         <Route exact path="/artists">
-        <SimpleModal/>
-            <Artists/>
+          <SimpleModal />
+          <Artists />
         </Route>
         <Route exact path="/playlist">
-        <SimpleModal/>
-            <Playlists/>
+          <SimpleModal />
+          <Playlists />
         </Route>
         <Route exact path="/albums">
-        <SimpleModal/>
-            <Albums/>
+          <SimpleModal />
+          <Albums />
         </Route>
         <Route exact path="/songs/:id">
-        <SimpleModal/>
-            <SingleSong />
+          <SimpleModal />
+          <SingleSong />
         </Route>
         <Route exact path="/artists/:id">
-        <SimpleModal/>
-            <SingleArtist/>
+          <SimpleModal />
+          <SingleArtist />
         </Route>
         <Route exact path="/playlist/:id">
-        <SimpleModal/>
-            <SinglePlaylist/>
+          <SimpleModal />
+          <SinglePlaylist />
         </Route>
         <Route exact path="/albums/:id">
-        <SimpleModal/>
-            <SingleAlbum/>
+          <SimpleModal />
+          <SingleAlbum />
         </Route>
         <Route>
-           <Image src={error} width='100%' height='300px' fluid/>
+          <Image src={error} width="100%" height="300px" fluid />
         </Route>
-    </Switch>       
- </Router>
- );
+      </Switch>
+    </Router>
+  );
 }
 export default MyRouter;

@@ -9,6 +9,7 @@ const checkToken = require('./middleware/auth');
 const app = express();
 
 app.use(express.json());
+app.use(express.static('../client/build'))
 
 function logger(req, res, next) {
   console.log(`request fired ${req.url} ${req.method}`);
@@ -41,13 +42,13 @@ app.post('/api/login', async (req, res) => {
         throw error;
       }
       if (results[0] === undefined) {
-        return res.status(500).json({
+        return res.status(401).json({
           errorMessage: 'wrong login details',
         });
       }else{
       const validPass = await bcrypt.compare(password,results[0].password);
       if(!validPass){
-        return res.status(500).json({
+        return res.status(401).json({
           errorMessage: 'wrong login details',
         });
       }
