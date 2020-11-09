@@ -1,0 +1,91 @@
+.App {
+  /* text-align: center; */
+  background-color: black;
+  margin-top: 75px;
+  color: white;
+  min-height: 1000px;
+}
+h2{
+  margin: 10vh;
+}
+.card{
+  height: 15rem;
+  color: white;
+  background-color: black!important;
+  font-size: small;
+}
+.card-text{
+  color: rgba(255,255,255,.5);
+}
+
+.allTarget{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.navLink{
+  color: rgba(255,255,255,.5);
+}
+
+.top{
+  display: flex;
+}
+.all{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.searchInput{
+  margin: 10px;
+  height: calc(1.5em + .75rem + 2px);
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  transition: border-color .15s
+}
+.single{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#singleSong{
+  display: flex;
+}
+#iframe{
+  width: 60%;
+  padding: 5%;
+}
+#side{
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+.list-group-item{
+  background-color: black!important ;
+  color: white!important;
+}
+.list-group-item :hover{
+  background-color: rgb(41, 35, 35)!important ;
+  font-size: 1.1em;
+  transition: 0.2s;
+}
+.login{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* #songLyrics{
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+} */
