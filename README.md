@@ -13,11 +13,11 @@
 - Artist page with artist songs and albums.
 - Album page with album songs.
 - Playlist page with playlist songs.
-- Song page- play the song, on the side, song details and song list that depends on the page that you came from.
+- Song page- play the song, on the side, song details and songs list that depends on the page that you came from.
 - Option to add artists, albums and songs.
 - Statistic with google-statistics and mixpanel.
 
-## app gif
+## APP GIF
 
 ![app-gif](./readme-files/appGif.gif)
 
