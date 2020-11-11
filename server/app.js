@@ -1,221 +1,47 @@
-const express = require('express');
+const express = require("express");
+
+const playlists = require('./data/playlist');
+
+const albums = require('./data/albums');
 
 const app = express();
+const { Client } = require("@elastic/elasticsearch");
+
+const client = new Client({
+  cloud: {
+    id:
+      "my-cluster:ZXVyb3BlLXdlc3QzLmdjcC5jbG91ZC5lcy5pbyRmNzMxYmQ1MWNmZDM0MzU5YjE1NjY0NWQ1NDZjOGM5YiQwMWYzYmM3MWQxZTc0ZmI4OTM4Njk2YTcwMGM0MzU4Mg==",
+  },
+  auth: {
+    username: "elastic",
+    password: "qHwY9vazBIE7U5d2FLUhV9gz",
+  },
+});
 
 app.use(express.json());
 
-app.use('/api', require('./api'));
+app.use("/api", require("./api"));
 
-// app.delete('/apidel/:target/:id', async (req,res) => {
-
-// })
-// `DELETE FROM ${req.params.table} WHERE id=${req.params.id}`
-
-
-// // a GET request to /top_artists/ returns a list of top 10 artists
-// app.get('/api/top_artists', (req, res) => {
-//   const sql = `SELECT a.* ,count(s.artist_id) AS number_of_songs 
-//   FROM songs s 
-//   JOIN artists a 
-//   ON s.artist_id = a.id 
-//   group by artist_id 
-//   order by number_of_songs DESC 
-//   LIMIT 20;`;
-//   mysqlCon.query(sql, (error, results) => {
-//     if (error) {
-//       res.send(error.message);
-//       throw error;
+// client.search({
+//     index: 'kibana_sample_data_ecommerce',
+//     body: {
+//       query: {
+//         match: {
+//             customer_full_name: {
+//               query : "Nir Rivera"
+//             }
+//           }
+//       }
 //     }
-//     return res.send(results);
-//   });
-// });
-
-// // a GET request to /top_albums/ returns a list of top 20 albums
-// app.get('/api/top_albums', (req, res) => {
-//   const sql = `SELECT a.*, ar.name AS artist_name, sum(i.play_count)
-//   FROM albums a  
-//   JOIN songs s 
-//   ON a.id = s.album_id 
-//   JOIN interactions i 
-//   ON i.song_id = s.id 
-//   JOIN artists ar
-//   ON ar.id = a.artist_id
-//   GROUP BY a.id 
-//   ORDER BY sum(i.play_count) DESC 
-//   LIMIT 20;`;
-//   mysqlCon.query(sql, (error, results) => {
-//     if (error) {
-//       res.send(error.message);
-//       throw error;
+//   }, (err, result) => {
+//     if (err) {
+//         console.log(err)
+//     } else {
+//         console.log(result.body.hits.hits)
 //     }
-//     return res.send(results);
 //   });
-// });
 
-// // a GET request to /top_playlist/ returns a list of top 20 playlist
-// app.get('/api/top_playlist', (req, res) => {
-//   const sql = `SELECT *, count(playlist_id) AS number_of_users_use_this_playlist
-//   FROM user_playlists up 
-//   JOIN playlist p
-//   ON p.id = up.playlist_id 
-//   GROUP BY playlist_id 
-//   ORDER BY number_of_users_use_this_playlist DESC 
-//   LIMIT 20;`;
-//   mysqlCon.query(sql, (error, results) => {
-//     if (error) {
-//       res.send(error.message);
-//       throw error;
-//     }
-//     return res.send(results);
-//   });
-// });
 
-// // a GET request to /artists /playlist /songs /albums - get all data
-// app.get('/api/:table/', (req, res) => {
-//   const sql = `SELECT * FROM ${req.params.table};`;
-//   mysqlCon.query(sql, (error, results) => {
-//     if (error) {
-//       res.send(error.message);
-//       throw error;
-//     }
-//     return res.send(results);
-//   });
-// });
 
-// // a GET request to /artists /playlist /songs /albums - to use search
-// app.get('/api/:table/:name', (req, res) => {
-//   const whereColumn = req.params.table === 'songs' ? 'title' : 'name';
-//   const sql = `SELECT * 
-//   FROM ${req.params.table} 
-//   WHERE ${whereColumn} LIKE '%${req.params.name}%'`;
-//   mysqlCon.query(sql, (error, results) => {
-//     if (error) {
-//       res.send(error.message);
-//       throw error;
-//     }
-//     return res.send(results);
-//   });
-// });
-
-// // a POST request to /songs/albums/playlist/artists
-// app.post('/api/:table', async (req, res) => {
-//   mysqlCon.query(`INSERT INTO ${req.params.table} SET ?`, req.body, (error, results) => {
-//     if (error) {
-//       return res.send(error.message);
-//     }
-//     console.log(`${req.params.table} added`);
-//     return res.send(`${req.params.table} added`);
-//   });
-// });
-
-// // a PUT request to /artist/123 update the artist 123
-// app.put('/api/:table/:id', async (req, res) => {
-//   const { body } = req;
-//   mysqlCon.query(`UPDATE ${req.params.table} SET ? WHERE id=${req.params.id}`, body, (error, results) => {
-//     if (error) {
-//       return res.send(error.message);
-//     }
-//     return res.send(results);
-//   });
-// });
-
-// // a DELETE request to /song/123 delete the details of song 123
-// app.delete('/api/:table/:id', async (req, res) => {
-//   mysqlCon.query(`DELETE FROM ${req.params.table} WHERE id=${req.params.id}`, (error, results) => {
-//     if (error) {
-//       return res.send(error.message);
-//     }
-//     return res.send(results);
-//   });
-// });
-
-// // get data to show each single song
-
-// app.get('/api/single/song/:id', (req, res) => {
-//   const sql = `SELECT songs.*, artists.name AS artist, albums.name AS album
-//   FROM songs
-//   JOIN artists 
-//   ON songs.artist_id = artists.id
-//   JOIN albums
-//   ON songs.album_id = albums.id
-//   WHERE songs.id = ${req.params.id};`;
-//   mysqlCon.query(sql, (error, results) => {
-//     if (error) {
-//       res.send(error.message);
-//       throw error;
-//     }
-//     return res.send(results);
-//   });
-// });
-
-// // get data to show the songs of each artist
-// app.get('/api/single/artist/:id', (req, res) => {
-//   const sql = `SELECT artists.*, songs.title AS song_name, songs.length, songs.youtube_link ,songs.id AS song_id 
-//   FROM artists 
-//   JOIN songs 
-//   ON songs.artist_id = artists.id
-//   WHERE artists.id = ${req.params.id};`;
-//   mysqlCon.query(sql, (error, results) => {
-//     if (error) {
-//       res.send(error.message);
-//       throw error;
-//     }
-//     return res.send(results);
-//   });
-// });
-
-// // get data to show the albums of each artist
-
-// app.get('/api/single/artist/albums/:id', (req, res) => {
-//   const sql = `SELECT ar.*, al.name AS album_name, al.cover_img AS album_image, al.id AS album_id
-//   FROM artists ar
-//   JOIN albums al
-//   ON ar.id = al.artist_id
-//   where ar.id = ${req.params.id};`;
-//   mysqlCon.query(sql, (error, results) => {
-//     if (error) {
-//       res.send(error.message);
-//       throw error;
-//     }
-//     return res.send(results);
-//   });
-// });
-
-// // get data to show the album
-
-// app.get('/api/single/albums/:id', (req, res) => {
-//   const sql = `SELECT al.*, ar.name AS artist_name, s.title AS song_name, s.length, s.youtube_link, s.id AS song_id 
-//   FROM albums al
-//   JOIN artists ar
-//   ON al.artist_id= ar.id
-//   JOIN songs s
-//   ON s.album_id = al.id
-//   WHERE al.id = ${req.params.id};`;
-//   mysqlCon.query(sql, (error, results) => {
-//     if (error) {
-//       res.send(error.message);
-//       throw error;
-//     }
-//     return res.send(results);
-//   });
-// });
-
-// // get data to show playlist
-// app.get('/api/single/playlist/:id', (req, res) => {
-//   const sql = `SELECT p.* , s.title AS song_name, s.length, s.youtube_link, s.id AS song_id
-//   FROM playlist p
-//   JOIN playlist_songs ps
-//   ON p.id = ps.playlist_id
-//   JOIN songs s
-//   ON s.id = ps.song_id
-//   WHERE p.id = ${req.params.id};`;
-//   mysqlCon.query(sql, (error, results) => {
-//     if (error) {
-//       res.send(error.message);
-//       throw error;
-//     }
-//     return res.send(results);
-//   });
-// });
 
 module.exports = app;

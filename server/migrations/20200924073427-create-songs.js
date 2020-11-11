@@ -24,7 +24,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       lyrics: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       track_number: {
         type: Sequelize.INTEGER
