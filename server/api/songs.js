@@ -13,14 +13,14 @@ router.get("/", async (req, res) => {
 });
 
 // elasticsearch searchInput
-router.get("/elasticsearch/:search", async (req, res) => {
-  try {
-    const result = await searchElastic("songs", req.params.search);
-    res.send(result);
-  } catch (err) {
-    res.send(err);
-  }
-});
+// router.get("/elasticsearch/:search", async (req, res) => {
+//   try {
+//     const result = await searchElastic("songs", req.params.search);
+//     res.send(result);
+//   } catch (err) {
+//     res.send(err);
+//   }
+// });
 
 // get search- sequelize
 router.get("/:name", async (req, res) => {

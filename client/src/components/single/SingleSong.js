@@ -20,14 +20,14 @@ function SingleSong(){
 
     const getSongData = useCallback(async () =>{
         try{
-                const song = await axios.get(`/api/single/song/${id}`);
+                const song = await axios.get(`/api/songs/${id}/single`);
                 setSongData(song.data)
-                setYoutubeId(getIdSong(song.data[0].youtube_link))
+                setYoutubeId(getIdSong(song.data[0].youtubeLink))
                 if(queryFrom){
-                    const side = await axios.get(`/api/single/${queryFrom.slice(1)}/${queryId}`);
+                    const side = await axios.get(`/api/${queryFrom.slice(1)}/${queryId}`);
                     setSideData(side.data)
                 }else{
-                    const side = await axios.get(`/api/top_songs`);
+                    const side = await axios.get(`/api/songs/all/top`);
                     setSideData(side.data)
             }
         }catch(e){
@@ -49,9 +49,9 @@ function SingleSong(){
     }
 
     async function changeSong(value){
-        const song = await axios.get(`/api/single/song/${value.song_id}`);
+        const song = await axios.get(`/api/songs/${value.id}/singl`);
         setSongData(song.data)
-        setYoutubeId(getIdSong(song.data[0].youtube_link))
+        setYoutubeId(getIdSong(song.data[0].youtubeLink))
     }
 
     return(
@@ -61,7 +61,7 @@ function SingleSong(){
             </div> 
             <div id="side">
                 {
-                songData.map(value=>{
+                songData.map((value, index) =>{
                     return(
                         <>
                             <div>Name: {value.title}</div>
