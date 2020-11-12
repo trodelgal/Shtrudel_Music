@@ -1,81 +1,98 @@
-const { Router } = require('express');
-const Sequelize = require('sequelize');
-const {
-  Songs, Albums, Artists, Interactions,
-} = require('../models');
+const { Router } = require("express");
+const Sequelize = require("sequelize");
+const { Songs, Albums, Artists, Interactions } = require("../models");
 const { Op } = Sequelize;
-
-const { Client } = require("@elastic/elasticsearch");
-
-const client = new Client({
-  cloud: {
-    id:
-      "my-cluster:ZXVyb3BlLXdlc3QzLmdjcC5jbG91ZC5lcy5pbyRmNzMxYmQ1MWNmZDM0MzU5YjE1NjY0NWQ1NDZjOGM5YiQwMWYzYmM3MWQxZTc0ZmI4OTM4Njk2YTcwMGM0MzU4Mg==",
-  },
-  auth: {
-    username: "elastic",
-    password: "qHwY9vazBIE7U5d2FLUhV9gz",
-  },
-});
+const { searchElastic, postElastic,updateElasticData } = require("./elasticFunction");
 
 const router = Router();
 
 // get all
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   const allSongs = await Songs.findAll();
   return res.json(allSongs);
 });
 
-// get search
-router.get('/:name', async (req, res) => {
-  const allSong = await Songs.findAll({
-    where: {
-      title: {
-        [Op.like]: `%${req.params.name}%`,
+// elasticsearch searchInput
+router.get("/elasticsearch/:search", async (req, res) => {
+  try {
+    const result = await searchElastic("songs", req.params.search);
+    res.send(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+// get search- sequelize
+router.get("/:name", async (req, res) => {
+  try {
+    const allSong = await Songs.findAll({
+      where: {
+        title: {
+          [Op.like]: `%${req.params.name}%`,
+        },
       },
-    },
-  });
-  return res.json(allSong);
+    });
+    return res.json(allSong);
+  } catch (err) {
+    return res.json(err);
+  }
 });
 
 // get one song
-router.get('/:id/single', async (req, res) => {
-  const song = await Songs.findAll({
-    where: {
-      id: req.params.id,
-    },
-    include: [{
-      model: Albums,
-      attributes: ['name'],
-    }, {
-      model: Artists,
-      attributes: ['name'],
-    }],
-  });
-  return res.json(song);
+router.get("/:id/single", async (req, res) => {
+  try {
+    const song = await Songs.findAll({
+      where: {
+        id: req.params.id,
+      },
+      include: [
+        {
+          model: Albums,
+          attributes: ["name"],
+        },
+        {
+          model: Artists,
+          attributes: ["name"],
+        },
+      ],
+    });
+    return res.json(song);
+  } catch (err) {
+    return res.json(err);
+  }
 });
 
 // get top_songs
-router.get('/top/songs', async (req, res) => {
-  const topSongs = await Interactions.findAll({
-    attributes: [[Sequelize.fn('SUM', Sequelize.col('play_count')), 'numberOfPlays']],
-    order: [[Sequelize.fn('SUM', Sequelize.col('play_count')), 'DESC']],
-    limit: 20,
-    group: 'song_id',
-    include: [{
-      model: Songs,
-      include: [{ model: Artists, attributes: [['name', 'artistName']] },
-        { model: Albums, attributes: [['name', 'albumName'], 'coverImg'] },
+router.get("/top/songs", async (req, res) => {
+  try {
+    const topSongs = await Interactions.findAll({
+      attributes: [
+        [Sequelize.fn("SUM", Sequelize.col("play_count")), "numberOfPlays"],
       ],
-    }],
-  });
-  return res.json(topSongs);
+      order: [[Sequelize.fn("SUM", Sequelize.col("play_count")), "DESC"]],
+      limit: 20,
+      group: "song_id",
+      include: [
+        {
+          model: Songs,
+          include: [
+            { model: Artists, attributes: [["name", "artistName"]] },
+            { model: Albums, attributes: [["name", "albumName"], "coverImg"] },
+          ],
+        },
+      ],
+    });
+    return res.json(topSongs);
+  } catch (err) {
+    return res.json(err);
+  }
 });
 
 // post songs
-router.post('/', async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const newSong = await Songs.create(req.body);
+    postElastic("songs", req.body);
     return res.json(newSong);
   } catch (e) {
     console.error(e);
@@ -83,43 +100,37 @@ router.post('/', async (req, res) => {
 });
 
 // delete song
-router.delete('/:id', async (req, res) => {
-  const delSong = await Songs.destroy({
-    where: {
-      id: req.params.id,
-    },
-  });
-  return res.json(delSong);
+router.delete("/:id", async (req, res) => {
+  try {
+    const delSong = await Songs.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+    return res.json(delSong);
+  } catch (err) {
+    return res.json(err);
+  }
 });
 
 // update song
-router.put('/:id', async (req, res) => {
-  const song = await Songs.findByPk(req.params.id);
-  await song.update(req.body);
-  res.json(song);
+router.put("/:id", async (req, res) => {
+  try {
+    const song = await Songs.findByPk(req.params.id);
+    await song.update(req.body);
+    res.json(song);
+  } catch (err) {
+    return res.json(err);
+  }
 });
-
-// update elasticsearch data
-router.put("/elasticsearch/data", async (req, res) => {
-  try{
-      const allSongs = await Songs.findAll();
-      const elasticData = await client.index(
-        {
-          index: "shtrudel_music",
-          body: { songs : allSongs },
-        },
-        (err, result) => {
-          if (err) {
-              return err;
-          } else {
-            return result;
-          }
-        }
-      );
-      res.send(elasticData);
-  }catch(err) {
-      console.log(err);
-      res.send(err)
+router.put("/elastic/data", async (req, res) => {
+  try {
+    const allSongs = await Songs.findAll();
+    const res = updateElasticData('songs', allSongs)
+    // await song.update(req.body);
+    res.json(res);
+  } catch (err) {
+    return res.json(err);
   }
 });
 
