@@ -29,8 +29,8 @@ function Songs(){
             {
                 songsToDesplay.map((value,index)=>{
                     return(
-                        <Link to={`/songs/${value.id}`}>
-                            <ListGroup.Item  > 
+                        <Link key={index} to={`/songs/${value.id}`}>
+                            <ListGroup.Item > 
                             <div style={{display:'flex', justifyContent:'space-between'}}> 
                                 <div><FileMusic style={{color:'white'}}/></div>   
                                 <div> {value.title} </div>

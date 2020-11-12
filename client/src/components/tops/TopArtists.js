@@ -7,14 +7,14 @@ import axios from 'axios';
 function TopArtists(){
     const [topTenArtists, setTopTenArtists] = useState([]);
 
+    // fetch top artists
     const getTopArtists = async () => {
         try{
-            const artists = await axios.get(`/api/top_artists`);
+            const artists = await axios.get(`/api/artists/all/top`);
             setTopTenArtists(artists.data); 
         }catch(e){
             console.error(e.message);
-        }
-        
+        }  
     } 
     useEffect(()=>{
         getTopArtists()
@@ -36,9 +36,9 @@ function TopArtists(){
                     {
                         topTenArtists.map((value,index)=>{
                             return(
-                                <Card style={{ width: '12rem',height:'10rem',margin:'5px', padding:'5px' }}>
-                                    <Link to={`/artists/${value.id}`}><Card.Img style={{borderRadius:'50%'}} variant="top" src={value.cover_img} height="100px" width="180px" roundedCircle /></Link>
-                                    <Card.Title style={{textAlign: 'center'}}>{value.name}</Card.Title>
+                                <Card key={index} style={{ width: '12rem',height:'10rem',margin:'5px', padding:'5px' }}>
+                                    <Link to={`/artists/${value.Artist.id}`}><Card.Img style={{borderRadius:'50%'}} variant="top" src={value.Artist.coverImg} height="100px" width="180px" roundedCircle /></Link>
+                                    <Card.Title style={{textAlign: 'center'}}>{value.Artist.name}</Card.Title>
                                 </Card>
                             )
                         })

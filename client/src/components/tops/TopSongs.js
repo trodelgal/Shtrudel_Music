@@ -6,9 +6,10 @@ import axios from 'axios';
 
 function TopSongs(){
     const [topTwentySongs, setTopTwentySongs] = useState([]);
+    // fetch top songs from DB
     const getTopSongs = async () => {
             try{
-                const songs = await axios.get(`/api/top_songs`);
+                const songs = await axios.get(`/api/songs/all/top`);
                 setTopTwentySongs(songs.data); 
             }catch(e){
                 console.error(e.message);
@@ -33,14 +34,14 @@ function TopSongs(){
                 {
                     topTwentySongs.map((value,index)=>{
                         return(
-                            <Card style={{ width: '12rem',margin:'5px',  textAlign: 'center', padding:'5px' }}>
-                                <Link to={`/songs/${value.id}`}><Card.Img variant="top" src={value.cover_img} height="100px" width="180px" /></Link>
+                            <Card key={index} style={{ width: '12rem',margin:'5px',  textAlign: 'center', padding:'5px' }}>
+                                <Link to={`/songs/${value.Song.id}`}><Card.Img variant="top" src={value.Song.Album.coverImg} height="100px" width="180px" /></Link>
                                 <Card.Body>
-                                    <Card.Title>{value.title}</Card.Title>
+                                    <Card.Title>{value.Song.title}</Card.Title>
                                     <Card.Text>
-                                        <div >{value.length}</div>
-                                        <span>{value.artist_name} | </span>
-                                        <span>{value.album_name}</span>
+                                        <div >{value.Song.length}</div>
+                                        <span>{value.Song.Artist.artistName} | </span>
+                                        <span>{value.Song.Album.albumName}</span>
                                     </Card.Text>
                                 </Card.Body>
                             </Card>

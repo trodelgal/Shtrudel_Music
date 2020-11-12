@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const Sequelize = require("sequelize");
 const { Artists, Songs, Albums } = require("../models");
-const { searchElastic } = require("./elasticFunction");
+const { searchElastic, updateElasticData, deletetElastic, updateElastic,getAllElastic } = require("./elasticFunction");
 
 const { Op } = Sequelize;
 
@@ -9,33 +9,18 @@ const router = Router();
 // get all
 router.get("/", async (req, res) => {
   try {
-    const allArtists = await Artists.findAll();
-    return res.json(allArtists);
-  } catch (err) {
-    return res.json(err);
-  }
-});
-// get search
-router.get("/:name", async (req, res) => {
-  try {
-    const allArtists = await Artists.findAll({
-      where: {
-        name: {
-          [Op.like]: `%${req.params.name}%`,
-        },
-      },
-    });
-    return res.json(allArtists);
+    const allArtists = await getAllElastic("artists");
+    return res.json(allArtists.body.hits.hits);
   } catch (err) {
     return res.json(err);
   }
 });
 
 // elasticsearch searchInput
-router.get("/elasticsearch/:search", async (req, res) => {
+router.get("/:search", async (req, res) => {
   try {
     const result = await searchElastic("artists", req.params.search);
-    res.send(result.body);
+    res.send(result.body.hits.hits);
   } catch (err) {
     res.send(err);
   }
@@ -62,7 +47,7 @@ router.get("/:id/songs", async (req, res) => {
 router.get("/:id/albums", async (req, res) => {
   try {
     const artist = await Artists.findAll({
-      // where: { id: req.params.id },
+      where: { id: req.params.id },
       include: [
         {
           model: Albums,
@@ -73,7 +58,6 @@ router.get("/:id/albums", async (req, res) => {
           ],
         },
       ],
-      // raw : true
     });
     return res.json(artist);
   } catch (err) {
@@ -82,7 +66,7 @@ router.get("/:id/albums", async (req, res) => {
 });
 
 // get top artists
-router.get("/top/artist", async (req, res) => {
+router.get("/all/top", async (req, res) => {
   try {
     const topArtists = await Songs.findAll({
       attributes: [
@@ -118,6 +102,7 @@ router.delete("/:id", async (req, res) => {
         id: req.params.id,
       },
     });
+    deletetElastic("artists",req.params.id )
     return res.json(delArtist);
   } catch (err) {
     return res.json(err);
@@ -129,7 +114,18 @@ router.put("/:artistId", async (req, res) => {
   try {
     const artist = await Artists.findByPk(req.params.artistId);
     await artist.update(req.body);
+    updateElastic("artists",req.params.id,req.body)
     res.json(artist);
+  } catch (err) {
+    return res.json(err);
+  }
+});
+//add initial data to elasticsearch
+router.put("/elastic/data", async (req, res) => {
+  try {
+    const allArtists = await Artists.findAll();
+    const res = updateElasticData('artists', allArtists)
+    res.json(res);
   } catch (err) {
     return res.json(err);
   }

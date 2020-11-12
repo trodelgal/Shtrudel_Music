@@ -13,12 +13,28 @@ const client = new Client({
 });
 
 
+//get all
+  const getAllElastic = async (index)=>{
+    console.log("hii");
+          const result = await client.search(
+              {
+                index: index,
+                body: {
+                  query: {
+                   match_all: {},
+                  },
+                },
+              })
+              return result
+}
 //search in elastic search.
   const searchElastic = async (index,search)=>{
+    console.log("bii");
       if(index === 'songs'){
           const result = await client.search(
               {
                 index: index,
+                size:3,
                 body: {
                   query: {
                     prefix: {
@@ -32,6 +48,7 @@ const client = new Client({
           const result = await client.search(
               {
                 index: index,
+                size:3,
                 body: {
                   query: {
                     prefix: {
@@ -81,5 +98,13 @@ const deletetElastic= async (index, id)=>{
       });
       return newPost;
 }
+// updata elasticsearch data
+const updateElastic= async (index, id, body)=>{
+const updateDoc = await client.update({
+  index: index,
+  id: id,
+  body: body,
+})
+}
 
-module.exports = {searchElastic, updateElasticData, postElastic, }
+module.exports = {searchElastic, updateElasticData, postElastic, deletetElastic, updateElastic, getAllElastic}

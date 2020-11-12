@@ -7,6 +7,7 @@ function Albums(){
     const [albumsToDesplay, setAlbumsToDesplay] = useState([]) 
     const [search, setSearch] = useState('') 
     
+    // albums search
     const getAlbums= async () =>{
         try{
             const artists = await axios.get(`/api/albums/${search}`);
@@ -29,9 +30,9 @@ function Albums(){
                     return(
                         <Card style={{ width: '15rem',margin:'5px', textAlign: 'center' }}>
                             <Card.Title>{value.name}</Card.Title>
-                            <Link to={`/albums/${value.id}`}><Card.Img variant="top" src={value.cover_img} height="100px" width="180px" /></Link>
+                            <Link to={`/albums/${value.id}`}><Card.Img variant="top" src={value.coverImg} height="100px" width="180px" /></Link>
                             <Card.Text>
-                                    {value.created_at.slice(0,10)}
+                                    {value.createdAt.slice(0,10)}
                             </Card.Text>
                         </Card>
                     )
