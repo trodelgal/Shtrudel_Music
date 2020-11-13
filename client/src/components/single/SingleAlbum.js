@@ -34,7 +34,7 @@ function SingleAlbum() {
       <ListGroup style={{ width: "150vh" }} className="my-2">
         {albumDetails[0].Songs.map((value, index) => {
           return (
-            <Link key={index} to={`/songs/${value.song_id}?albums=${value.id}`}>
+            <Link key={index} to={`/songs/${value.id}?albums=${value.albumId}`}>
               <ListGroup.Item>
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}

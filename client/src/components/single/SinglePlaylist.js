@@ -34,7 +34,7 @@ function SinglePlaylist() {
           <ListGroup style={{ width: "150vh" }} className="my-2">
             {songsOfPlaylist[0].Songs.map((value, index) => {
               return (
-                <Link key={index} to={`/songs/${value.id}?playlists=${id}`}>
+                <Link key={index} to={`/songs/${value.Playlists_songs.SongId}?playlists=${songsOfPlaylist[0].id}`}>
                   <ListGroup.Item>
                     <div
                       style={{
