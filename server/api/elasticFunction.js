@@ -15,7 +15,6 @@ const client = new Client({
 
 //get all
   const getAllElastic = async (index)=>{
-    console.log("hii");
           const result = await client.search(
               {
                 index: index,
@@ -29,7 +28,6 @@ const client = new Client({
 }
 //search in elastic search.
   const searchElastic = async (index,search)=>{
-    console.log("bii");
       if(index === 'songs'){
           const result = await client.search(
               {

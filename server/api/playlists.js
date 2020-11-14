@@ -32,7 +32,7 @@ router.get("/:id/songs", async (req, res) => {
   try {
     const allplaylistss = await Playlists.findAll({
       where: { id: req.params.id },
-      include: [{ model: Songs, attributes: [["title", "name"], "length"] }],
+      include: [{ model: Songs, attributes: [["title", "name"], "length", "id"] }],
     });
     return res.json(allplaylistss);
   } catch (err) {

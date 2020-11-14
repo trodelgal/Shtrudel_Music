@@ -14,11 +14,12 @@ function SinglePlaylist() {
   const getSongsOfPlaylist = useCallback(async () => {
     try {
       const playlist = await axios.get(`/api/playlists/${id}/songs`);
+      console.log(playlist.data);
       setSongsOfPlaylist(playlist.data);
     } catch (e) {
       console.error(e.message);
     }
-  }, []);
+  }, [id]);
   useEffect(() => {
     getSongsOfPlaylist();
   }, []);

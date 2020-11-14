@@ -37,7 +37,7 @@ function TopPlaylists(){
                     topTwentyPlaylists.map((value,index)=>{
                         return(
                             <Card key={index} style={{ width: '12rem', height:'12rem',margin:'5px',textAlign: 'center', padding:'5px' }}>
-                                <Link to={`/playlist/${value.Playlist.id}`}><Card.Img variant="top" src={value.Playlist.coverImg} height="100px" width="180px" /></Link>
+                                <Link to={`/playlists/${value.Playlist.id}`}><Card.Img variant="top" src={value.Playlist.coverImg} height="100px" width="180px" /></Link>
                                 <Card.Title >{value.Playlist.name}</Card.Title>
                                 <Card.Text>{value.Playlist.createdAt.slice(0,10)} </Card.Text>
                             </Card>

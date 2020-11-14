@@ -29,7 +29,7 @@ function Playlists(){
                     return(
                     <Card key={index} style={{ width: '12rem',margin:'5px',textAlign: 'center' }}>
                         <Card.Title ><b>{value._source.name}</b></Card.Title>
-                        <Link to={`/playlist/${value._source.id}`}><Card.Img variant="top" src={value._source.coverImg} height="100px" width="180px" /></Link>
+                        <Link to={`/playlists/${value._source.id}`}><Card.Img variant="top" src={value._source.coverImg} height="100px" width="180px" /></Link>
                         <Card.Text>{value._source.createdAt.slice(0,10)} </Card.Text>
                     </Card>
                     )

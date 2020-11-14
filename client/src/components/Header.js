@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {Navbar, NavDropdown,Nav} from 'react-bootstrap';
+import {Navbar, NavDropdown,Nav, FormControl} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from './files/logo.png';
 import '../App.css';
@@ -17,7 +17,7 @@ function Header({openArtistModal,openAlbumModal,openSongModal}){
                 <Nav.Link ><Link className="navLink" to={`/`}>Home</Link></Nav.Link>
                 <Nav.Link><Link className="navLink" to={`/songs`}>Songs</Link></Nav.Link>
                 <Nav.Link><Link className="navLink" to={`/artists`}>Artists</Link></Nav.Link>
-                <Nav.Link><Link className="navLink" to={`/playlist`}>Playlists</Link></Nav.Link>
+                <Nav.Link><Link className="navLink" to={`/playlists`}>Playlists</Link></Nav.Link>
                 <Nav.Link><Link className="navLink" to={`/albums`}>Albums</Link></Nav.Link>
             </Nav>
             <Nav>
@@ -26,6 +26,7 @@ function Header({openArtistModal,openAlbumModal,openSongModal}){
                     <NavDropdown.Item onClick={openAlbumModal}>Add Album</NavDropdown.Item>
                     <NavDropdown.Item onClick={openSongModal}>Add Song</NavDropdown.Item>
                 </NavDropdown>
+                {/* <FormControl type="text" placeholder="Search" className="mr-sm-2" /> */}
             </Nav>
         </Navbar.Collapse>
     </Navbar>

@@ -27,7 +27,7 @@ function MyRouter() {
         <Route exact path="/artists">
             <Artists/>
         </Route>
-        <Route exact path="/playlist">
+        <Route exact path="/playlists">
             <Playlists/>
         </Route>
         <Route exact path="/albums">
@@ -39,7 +39,7 @@ function MyRouter() {
         <Route exact path="/artists/:id">
             <SingleArtist/>
         </Route>
-        <Route exact path="/playlist/:id">
+        <Route exact path="/playlists/:id">
             <SinglePlaylist/>
         </Route>
         <Route exact path="/albums/:id">

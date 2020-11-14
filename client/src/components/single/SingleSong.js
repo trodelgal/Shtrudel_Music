@@ -28,6 +28,7 @@ function SingleSong() {
         const side = await axios.get(
           `/api/${queryFrom.slice(1)}/${queryId}/songs`
         );
+        console.log(side.data);
         setSideData(side.data);
       } else {
           let i = Math.floor(Math.random()*10)
