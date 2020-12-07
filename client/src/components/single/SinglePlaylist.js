@@ -1,74 +1,68 @@
 import React, { useCallback } from "react";
-import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FileMusic } from 'react-bootstrap-icons';
-import ListGroup from 'react-bootstrap/ListGroup';
-import 'bootstrap/dist/css/bootstrap.min.css'
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { FileMusic } from "react-bootstrap-icons";
+import ListGroup from "react-bootstrap/ListGroup";
+import "bootstrap/dist/css/bootstrap.min.css";
 import network from '../../service/network';
-import {playlistPageShowed} from '../../service/AnalyticsManager';
-   
+import { changeSideSongs, changeFromId } from '../../redux/Actions';
+import { useDispatch } from "react-redux";
 
-function SinglePlaylist(){
-    const [songsOfPlaylist, setSongsOfPlaylist] = useState([]) 
-    const [createdDate, setCreatedDate] = useState('') 
-    let {id} = useParams();
-    let body = '';
+function SinglePlaylist() {
+  const [songsOfPlaylist, setSongsOfPlaylist] = useState([]);
+  const dispatch = useDispatch();
+  let { id } = useParams();
 
-    const getSongsOfPlaylist =useCallback(async () =>{
-        try{
-            const playlist = await network.get(`/api/single/playlist/${id}`);
-            setSongsOfPlaylist(playlist.data)
-            setCreatedDate(playlist.data[0].created_at)
-        }catch(e){
-            console.error(e.message)
-        }
-    },[])
-    useEffect(()=>{
-        getSongsOfPlaylist()
-    },[])
+  const getSongsOfPlaylist = useCallback(async () => {
+    try {
+      const playlist = await network.get(`/api/playlists/${id}/songs`);
+      setSongsOfPlaylist(playlist.data);
+      console.log(playlist.data);
+      dispatch(changeSideSongs(playlist.data))
+      dispatch(changeFromId(id))
+    } catch (e) {
+      console.error(e.message);
+    }
+  }, [id]);
+  useEffect(() => {
+    getSongsOfPlaylist();
+  }, []);
 
-    useEffect(()=>{
-        if(songsOfPlaylist[0]){
-            playlistPageShowed(songsOfPlaylist[0].name)
-        }
-    },[songsOfPlaylist])
-
-    if (songsOfPlaylist[0] !== undefined){
-        body = (
-            <div className="single">
-                <h1>{songsOfPlaylist[0].name}</h1>
-                <img src={songsOfPlaylist[0].cover_img} alt="playlist" />
-                <div>{createdDate.slice(0,10)}</div>
-                <h2>Songs</h2>
-                <ListGroup style={{width:'150vh'}} className="my-2">
-                {
-                    songsOfPlaylist.map(value=>{
-                        return(  
-                            <Link to={`/songs/${value.song_id}?playlist=${value.id}`}>
-                                <ListGroup.Item  > 
-                                    <div style={{display:'flex', justifyContent:'space-between'}}> 
-                                        <div><FileMusic style={{color:'white'}}/></div>     
-                                        <div> {value.song_name} </div>
-                                        <div>{value.length}</div>
-                                    </div>                            
-                                </ListGroup.Item>
-                            </Link>
-                        )
-                    }) 
-                }
-                </ListGroup>
-            </div>
-            )
-        }
-
-   
-
-    return(
-        <div>
-            {body}
+  return (
+    <>
+      {songsOfPlaylist[0] && (
+        <div className="single">
+          <h1>{songsOfPlaylist[0].name}</h1>
+          <img src={songsOfPlaylist[0].coverImg} alt="playlist" />
+          <div>{songsOfPlaylist[0].createdAt.slice(0, 10)}</div>
+          <h2>Songs</h2>
+          <ListGroup style={{ width: "150vh" }} className="my-2">
+            {songsOfPlaylist[0].Songs.map((value, index) => {
+              return (
+                <Link key={index} to={`/songs/${value.Playlists_songs.SongId}?playlists=${songsOfPlaylist[0].id}`}>
+                  <ListGroup.Item>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <div>
+                        <FileMusic style={{ color: "white" }} />
+                      </div>
+                      <div> {value.title} </div>
+                      <div>{value.length}</div>
+                    </div>
+                  </ListGroup.Item>
+                </Link>
+              );
+            })}
+          </ListGroup>
         </div>
-    )
+      )}
+    </>
+  );
 }
 
 export default SinglePlaylist;

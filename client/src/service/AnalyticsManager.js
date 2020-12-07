@@ -28,4 +28,3 @@ export function  playlistPageShowed(playlistName){
 export function  newRegister(userName){
     mixpanel.track("new register",{"userName": userName});
 }
-

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import {Card} from 'react-bootstrap';
 import network from '../../service/network';
@@ -9,7 +9,7 @@ function Playlists(){
 
     const getPlaylists = async () =>{
         try{
-            const playlists = await network.get(`/api/playlist/${search}`);
+            const playlists = await network.get(`/api/playlists/${search}`);
             setPlaylistsToDesplay(playlists.data)
         }catch(e){
             console.error(e.message)
@@ -27,10 +27,10 @@ function Playlists(){
             {
                 playlistsToDesplay.map((value,index)=>{
                     return(
-                    <Card style={{ width: '12rem',margin:'5px',textAlign: 'center' }}>
-                        <Card.Title ><b>{value.name}</b></Card.Title>
-                        <Link to={`/playlist/${value.id}`}><Card.Img variant="top" src={value.cover_img} height="100px" width="180px" /></Link>
-                        <Card.Text>{value.created_at.slice(0,10)} </Card.Text>
+                    <Card key={index} style={{ width: '12rem',margin:'5px',textAlign: 'center' }}>
+                        <Card.Title ><b>{value._source.name}</b></Card.Title>
+                        <Link to={`/playlists/${value._source.id}`}><Card.Img variant="top" src={value._source.coverImg} height="100px" width="180px" /></Link>
+                        <Card.Text>{value._source.createdAt.slice(0,10)} </Card.Text>
                     </Card>
                     )
                 })

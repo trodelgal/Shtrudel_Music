@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Modal from "react-bootstrap/Modal";
 import Header from "./Header";
-import network from "../service/network";
+import axios from "axios";
 
 function SimpleModal() {
   const [allArtists, setAllArtists] = useState([]);
@@ -43,7 +43,7 @@ function SimpleModal() {
       lyrics: songLyricsRef.current.value,
       track_number: songtrackNumRef.current.value,
     };
-    const res = await network.post("/api/songs", postSongObj);
+    const res = await axios.post("/api/songs", postSongObj);
     setAdd(res.data);
     setResponse(true);
   }
@@ -54,7 +54,7 @@ function SimpleModal() {
       cover_img: artistCoverImgRef.current.value,
       uploaded_at: artistUploadAtRef.current.value,
     };
-    const res = await network.post("/api/artists", postArtistObj);
+    const res = await axios.post("/api/artists/", postArtistObj);
     setAdd(res.data);
     setResponse(true);
   }
@@ -67,16 +67,16 @@ function SimpleModal() {
       uploaded_at: albumUploadAtRef.current.value,
       cover_img: albumCoverImageRef.current.value,
     };
-    const res = await network.post("/api/albums", postAlbumObj);
+    const res = await axios.post("/api/albums/", postAlbumObj);
     setAdd(res.data);
     setResponse(true);
   }
 
   useEffect(() => {
     const ajax = async () => {
-      const artists = await network.get(`/api/artists/`);
+      const artists = await axios.get(`/api/artists/`);
       setAllArtists(artists.data);
-      const albums = await network.get("/api/albums/");
+      const albums = await axios.get(`/api/albums/`);
       setAllAlbums(albums.data);
     };
     ajax();
@@ -141,10 +141,10 @@ function SimpleModal() {
           <div>
             Artist:
             <select id="artistId" ref={albumArtistRef}>
-              {allArtists.map((value) => {
+              {allArtists.map((value ,index) => {
                 return (
-                  <option>
-                    {value.id} {value.name}
+                  <option key={index}>
+                    {value._source.id} {value._source.name}
                   </option>
                 );
               })}
@@ -183,10 +183,10 @@ function SimpleModal() {
               onChange={(e) => setArtistIdSong(e.target.value.slice(0, 2))}
               id="songArtistId"
             >
-              {allArtists.map((value) => {
+              {allArtists.map((value, index) => {
                 return (
-                  <option>
-                    {value.id} {value.name}
+                  <option key={index}>
+                    {value._source.id} {value._source.name}
                   </option>
                 );
               })}
@@ -194,10 +194,10 @@ function SimpleModal() {
             <br />
             Album:
             <select id="albumId" ref={songAlbumRef}>
-              {allAlbums.map((value) => {
-                if (value.artist_id == artistIdSong) {
+              {allAlbums.map((value,index) => {
+                if (value.artistId == artistIdSong) {
                   return (
-                    <option>
+                    <option key={index}>
                       {value.id} {value.name}
                     </option>
                   );

@@ -52,7 +52,7 @@ function Register() {
       postUserObj.secondPassword !== ""
     ) {
       if (passwordRef.current.value === secondPasswordRef.current.value) {
-        const res = await axios.post("/api/user/register", postUserObj);
+        const res = await axios.post("/api/register", postUserObj);
         if (res.data.name) {
           newRegister(usernameRef.current.value);
           window.location = "/";
