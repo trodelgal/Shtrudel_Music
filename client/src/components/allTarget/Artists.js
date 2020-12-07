@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import {Card} from 'react-bootstrap';
-import axios from 'axios';
+import network from '../../service/network';
 
 function Artists(){
     const [artistsToDesplay, setArtistsToDesplay] = useState([]) 
@@ -9,7 +9,7 @@ function Artists(){
     
     const getArtists =async () =>{
         try{
-            const artists = await axios.get(`/api/artists/${search}`);
+            const artists = await network.get(`/api/artists/${search}`);
             console.log(artists.data);
             setArtistsToDesplay(artists.data)
         }catch(e){

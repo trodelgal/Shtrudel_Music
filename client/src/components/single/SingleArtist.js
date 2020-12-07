@@ -8,19 +8,22 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { FileMusic } from "react-bootstrap-icons";
 import { Card } from "react-bootstrap";
 import Carousel from "react-elastic-carousel";
-import axios from "axios";
+import network from '../../service/network';
+import { changeSideSongs, changeFromId } from '../../redux/Actions';
+import { useDispatch } from "react-redux";
 
 function SingleArtist() {
   const [artistDetails, setArtistDetails] = useState([]);
-  // const [albumsOfArtist, setAlbumsOfArtist]= useState([])
+  const dispatch = useDispatch()
   let { id } = useParams();
 
   const getartistDetails = useCallback(async () => {
     try {
-      const artistDetails = await axios.get(`/api/artists/${id}/albums`);
+      const artistDetails = await network.get(`/api/artists/${id}/albums`);
       setArtistDetails(artistDetails.data);
-      // const albums = await axios.get(`/api/single/artist/albums/${id}`);
-      // setAlbumsOfArtist(albums.data)
+      const artistSongs = await network.get(`/api/artists/${id}/songs`);
+      dispatch(changeSideSongs(artistSongs.data))
+      dispatch(changeFromId(id))
     } catch (e) {
       console.error(e.message);
     }

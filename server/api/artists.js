@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const Sequelize = require("sequelize");
 const { Artists, Songs, Albums } = require("../models");
-const { searchElastic, updateElasticData, deletetElastic, updateElastic,getAllElastic } = require("./elasticFunction");
+const { searchElastic, updateElasticData, deletetElastic, updateElastic,getAllElastic, postElastic } = require("./elasticFunction");
 
 const { Op } = Sequelize;
 

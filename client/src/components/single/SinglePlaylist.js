@@ -5,17 +5,22 @@ import { Link } from "react-router-dom";
 import { FileMusic } from "react-bootstrap-icons";
 import ListGroup from "react-bootstrap/ListGroup";
 import "bootstrap/dist/css/bootstrap.min.css";
-import axios from "axios";
+import network from '../../service/network';
+import { changeSideSongs, changeFromId } from '../../redux/Actions';
+import { useDispatch } from "react-redux";
 
 function SinglePlaylist() {
   const [songsOfPlaylist, setSongsOfPlaylist] = useState([]);
+  const dispatch = useDispatch();
   let { id } = useParams();
 
   const getSongsOfPlaylist = useCallback(async () => {
     try {
-      const playlist = await axios.get(`/api/playlists/${id}/songs`);
-      console.log(playlist.data);
+      const playlist = await network.get(`/api/playlists/${id}/songs`);
       setSongsOfPlaylist(playlist.data);
+      console.log(playlist.data);
+      dispatch(changeSideSongs(playlist.data))
+      dispatch(changeFromId(id))
     } catch (e) {
       console.error(e.message);
     }
@@ -46,7 +51,7 @@ function SinglePlaylist() {
                       <div>
                         <FileMusic style={{ color: "white" }} />
                       </div>
-                      <div> {value.name} </div>
+                      <div> {value.title} </div>
                       <div>{value.length}</div>
                     </div>
                   </ListGroup.Item>

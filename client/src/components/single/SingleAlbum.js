@@ -4,16 +4,21 @@ import { Link } from "react-router-dom";
 import ListGroup from "react-bootstrap/ListGroup";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FileMusic } from "react-bootstrap-icons";
-import axios from "axios";
+import network from '../../service/network';
+import { changeSideSongs, changeFromId } from '../../redux/Actions';
+import { useDispatch } from "react-redux";
 
 function SingleAlbum() {
   const [albumDetails, setAlbumDetails] = useState([]);
+  const dispatch = useDispatch();
   let { id } = useParams();
 
   const getAlbumDetails = async () => {
     try {
-      const album = await axios.get(`/api/albums/${id}/songs`);
+      const album = await network.get(`/api/albums/${id}/songs`);
       setAlbumDetails(album.data);
+      dispatch(changeSideSongs(album.data))
+      dispatch(changeFromId(id))
     } catch (e) {
       console.error(e.message);
     }

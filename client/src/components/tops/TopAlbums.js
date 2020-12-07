@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import {Card} from 'react-bootstrap';
 import Carousel from 'react-elastic-carousel';
-import axios from 'axios';
+import network from '../../service/network';
 
 function TopAlbums(){
     const [topTwentyAlbums, setTopTwentyAlbums] = useState([]);
@@ -10,7 +10,7 @@ function TopAlbums(){
     // fetch top twenty albums
     const getTopAlbums = async () => {
         try{
-            const albums = await axios.get('/api/albums/all/top');
+            const albums = await network.get('/api/albums/all/top');
             setTopTwentyAlbums(albums.data); 
         }catch(e){
             console.error(e.message);

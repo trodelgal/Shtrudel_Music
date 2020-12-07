@@ -4,41 +4,45 @@ import Youtube from "./Youtube";
 import ListGroup from "react-bootstrap/ListGroup";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Modal from "react-bootstrap/Modal";
-import axios from "axios";
+import network from '../../service/network';
+import { useSelector, useDispatch } from "react-redux";
 
 function SingleSong() {
+  const sideSongs = useSelector((state) => state.sideSongs);
   const [songData, setSongData] = useState([]);
   const [youtubeId, setYoutubeId] = useState("");
-  const [sideData, setSideData] = useState([]);
+  const [sideData, setSideData] = useState(sideSongs);
   const [showlyrics, setShowLyrics] = useState(false);
-
+  const queryId = useSelector((state) => state.fromId);
   let { id } = useParams();
-  let queryId = useLocation().search.split("=")[1];
   let queryFrom = useLocation().search.split("=")[0];
   let query = useLocation().search;
 
+
   // get the data of the song for play it
-  const getSongData = useCallback(async () => {
+  const getSongData =useCallback(async () => {
     try {
-      const song = await axios.get(`/api/songs/${id}/single`);
+      const song = await network.get(`/api/songs/${id}/single`);
       setSongData(song.data);
       setYoutubeId(getIdSong(song.data[0].youtubeLink));
-      if (queryFrom) {
-        // data for side bar
-        const side = await axios.get(
-          `/api/${queryFrom.slice(1)}/${queryId}/songs`
-        );
-        console.log(side.data);
-        setSideData(side.data);
-      } else {
-          let i = Math.floor(Math.random()*10)
-        const side = await axios.get(`/api/artists/${song.data[0].artistId}/songs`);
-        setSideData(side.data);
-      }
+      if (sideData===null) {
+        if (queryFrom) {
+          // data for side bar
+          const side = await network.get(
+            `/api/${queryFrom.slice(1)}/${queryId}/songs`
+          );
+          setSideData(side.data);
+        } else {
+          const side = await network.get(
+            `/api/artists/${song.data[0].artistId}/songs`
+          );
+          setSideData(side.data);
+        }
+      } 
     } catch (e) {
       console.error(e.message);
     }
-  }, []);
+  },[])
 
   useEffect(() => {
     getSongData();
@@ -54,8 +58,7 @@ function SingleSong() {
   }
 
   async function changeSong(value) {
-    const song = await axios.get(`/api/songs/${value.id}/single`);
-    console.log(song.data);
+    const song = await network.get(`/api/songs/${value.id}/single`);
     setSongData(song.data);
     setYoutubeId(getIdSong(song.data[0].youtubeLink));
   }
@@ -98,10 +101,10 @@ function SingleSong() {
             style={{ width: "90%", padding: "8%", color: "black" }}
             className="my-2"
           >
-            {sideData[0] &&
+            {(sideData && sideData[0]) &&
               sideData[0].Songs.map((value, index) => {
-                let play =
-                  value.id === songData[0].id ? "#343a40" : "black";
+                console.log(value);
+                let play =(songData[0] && value.id === songData[0].id) ? "#343a40" : "black";
                 return (
                   <ListGroup.Item key={index}>
                     <Link

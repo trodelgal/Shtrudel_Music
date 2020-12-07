@@ -5,20 +5,28 @@ import SingleSong from './single/SingleSong';
 import SingleArtist from './single/SingleArtist';
 import SinglePlaylist from './single/SinglePlaylist';
 import SingleAlbum from './single/SingleAlbum';
-import SimpleModal from "./SimpleModal";
+import Header from "./Header";
 import Playlists from './allTarget/Playlists';
 import Artists from './allTarget/Artists';
 import Albums from './allTarget/Albums';
 import Songs from './allTarget/Songs';
 import Image from 'react-bootstrap/Image';
+import Login from "./Login";
+import Register from "./Register";
 import error from './files/error.png';
 
 function MyRouter() {
  return (
  <Router>
-    <SimpleModal/>
+    <Header/>
     <Switch>
         <Route exact path="/">
+            <Login/>
+        </Route>
+        <Route exact path="/register">
+            <Register/>
+        </Route>
+        <Route exact path="/home">
             <Main/>
         </Route>
         <Route exact path="/songs">

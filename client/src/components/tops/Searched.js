@@ -1,85 +1,200 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { Card } from "react-bootstrap";
+import Carousel from "react-elastic-carousel";
 
 export const SearchedArtists = React.memo(({ searchData }) => {
-    return (
-      <>
-        <div>Artists</div>
-        {searchData &&
-          searchData.map((value, index) => {
-            if (value._index === "artists") {
+  const artists = searchData.filter((item) => item._index === "artists");
+  // carousel option
+  const breakPoints = [
+    { width: 1, itemsToShow: 1 },
+    { width: 500, itemsToShow: 3 },
+    { width: 768, itemsToShow: 5 },
+    { width: 1200, itemsToShow: 7 },
+    { width: 1500, itemsToShow: 9 },
+  ];
+  return (
+    <>
+      {artists[0] && (
+        <>
+          <h2>Artists</h2>
+          <Carousel breakPoints={breakPoints}>
+            {artists.map((value, index) => {
               return (
-                  <div>
+                <Card
+                  key={index}
+                  style={{
+                    width: "12rem",
+                    margin: "5px",
+                    textAlign: "center",
+                    padding: "5px",
+                  }}
+                >
                   <Link to={`/artists/${value._source.id}`}>
-                  <img src={value._source.coverImg} style={{height:50, width:50}} />
-                  {value._source.name}
+                    <Card.Img
+                      variant="top"
+                      src={value._source.coverImg}
+                      height="100px"
+                      width="180px"
+                    />
                   </Link>
-                  </div>
+                  <Card.Body>
+                    <Card.Title>{value._source.name}</Card.Title>
+                    <Card.Text>
+                      <div>{value._source.name}</div>
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
               );
-            }
-          })}
-      </>
-    );
-  });
+            })}
+          </Carousel>
+        </>
+      )}
+    </>
+  );
+});
 
-  export const SearchedAlbums = React.memo(({ searchData }) => {
-    return (
-      <>
-        <div>Albums</div>
-        {searchData &&
-          searchData.map((value, index) => {
-            if (value._index === "albums") {
+export const SearchedAlbums = React.memo(({ searchData }) => {
+  const albums = searchData.filter((item) => item._index === "albums");
+  const breakPoints = [
+    { width: 1, itemsToShow: 1 },
+    { width: 500, itemsToShow: 3 },
+    { width: 768, itemsToShow: 5 },
+    { width: 1200, itemsToShow: 7 },
+    { width: 1500, itemsToShow: 9 },
+  ];
+  return (
+    <>
+      {albums[0] && (
+        <>
+          <h2>Albums</h2>
+          <Carousel breakPoints={breakPoints}>
+            {albums.map((value, index) => {
               return (
-                <div>
-                    <Link to={`/albums/${value._source.id}`}>
-                  <img src={value._source.coverImg} style={{height:50, width:50}} />
-                  {value._source.name}
+                <Card
+                  key={index}
+                  style={{
+                    width: "12rem",
+                    margin: "5px",
+                    textAlign: "center",
+                    padding: "5px",
+                  }}
+                >
+                  <Link to={`/albums/${value._source.id}`}>
+                    <Card.Img
+                      variant="top"
+                      src={value._source.coverImg}
+                      height="100px"
+                      width="180px"
+                    />
                   </Link>
-                </div>
+                  <Card.Body>
+                    <Card.Title>{value._source.name}</Card.Title>
+                    <Card.Text>
+                      <div>{value._source.name}</div>
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
               );
-            }
-          })}
-      </>
-    );
-  });
+            })}
+          </Carousel>
+        </>
+      )}
+    </>
+  );
+});
 
-  export const SearchedPlaylists = React.memo(({ searchData }) => {
-    return (
-      <>
-        <div>Playlists</div>
-        {searchData &&
-          searchData.map((value, index) => {
-            if (value._index === "playlists") {
+export const SearchedPlaylists = React.memo(({ searchData }) => {
+  const playlists = searchData.filter((item) => item._index === "playlists");
+  const breakPoints = [
+    { width: 1, itemsToShow: 1 },
+    { width: 500, itemsToShow: 3 },
+    { width: 768, itemsToShow: 5 },
+    { width: 1200, itemsToShow: 7 },
+    { width: 1500, itemsToShow: 9 },
+  ];
+  return (
+    <>
+      {playlists[0] && (
+        <>
+          <h2>Playlists</h2>
+          <Carousel breakPoints={breakPoints}>
+            {playlists.map((value, index) => {
               return (
-                <div>
-                    <Link to={`/playlists/${value._source.id}`}>
-                  <img src={value._source.coverImg} style={{height:50, width:50}} />
-                  {value._source.name}
+                <Card
+                  key={index}
+                  style={{
+                    width: "12rem",
+                    margin: "5px",
+                    textAlign: "center",
+                    padding: "5px",
+                  }}
+                >
+                  <Link to={`/playlists/${value._source.id}`}>
+                    <Card.Img
+                      variant="top"
+                      src={value._source.coverImg}
+                      height="100px"
+                      width="180px"
+                    />
                   </Link>
-                </div>
+                  <Card.Body>
+                    <Card.Title>{value._source.name}</Card.Title>
+                    <Card.Text>
+                      <div>{value._source.name}</div>
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
               );
-            }
-          })}
-      </>
-    );
-  });
+            })}
+          </Carousel>
+        </>
+      )}
+    </>
+  );
+});
 
-  export const SearchedSongs = React.memo(({ searchData }) => {
-    return (
-      <>
-        <div>Songs</div>
-        {searchData &&
-          searchData.map((value, index) => {
-            if (value._index === "songs") {
-              return (
-                <div>
-                     <Link to={`/songs/${value._source.id}`}>
-                  {value._source.title}
-                  </Link>
-                </div>
-              );
-            }
-          })}
-      </>
-    );
-  });
+export const SearchedSongs = React.memo(({ searchData }) => {
+  const songs = searchData.filter((item) => item._index === "songs");
+  const breakPoints = [
+    { width: 1, itemsToShow: 1 },
+    { width: 500, itemsToShow: 3 },
+    { width: 768, itemsToShow: 5 },
+    { width: 1200, itemsToShow: 7 },
+    { width: 1500, itemsToShow: 9 },
+  ];
+  return (
+    <>
+      {songs[0] && (
+        <>
+          <h2>Songs</h2>
+          <Carousel breakPoints={breakPoints}>
+            {searchData &&
+              searchData.map((value, index) => {
+                return (
+                  <Card
+                    key={index}
+                    style={{
+                      width: "12rem",
+                      margin: "5px",
+                      textAlign: "center",
+                      padding: "5px",
+                    }}
+                  >
+                    <Link to={`/songs/${value._source.id}`}>
+                      <Card.Body>
+                        <Card.Title>{value._source.title}</Card.Title>
+                        <Card.Text>
+                          <div>{value._source.title}</div>
+                        </Card.Text>
+                      </Card.Body>
+                    </Link>
+                  </Card>
+                );
+              })}
+          </Carousel>
+        </>
+      )}
+    </>
+  );
+});

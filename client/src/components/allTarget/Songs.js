@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FileMusic } from 'react-bootstrap-icons';
-import axios from 'axios';
+import network from '../../service/network';
 
 function Songs(){
     const [songsToDesplay, setSongToDesplay] = useState([]) 
@@ -11,7 +11,7 @@ function Songs(){
 
     const getSongs =async () =>{
         try{
-            const songs = await axios.get(`/api/songs/${search}`);
+            const songs = await network.get(`/api/songs/${search}`);
             setSongToDesplay(songs.data)
         }catch(e){
             console.error(e.message)

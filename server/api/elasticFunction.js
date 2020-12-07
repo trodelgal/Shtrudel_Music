@@ -1,4 +1,5 @@
 const { Client } = require("@elastic/elasticsearch");
+
 // connect to elastic search
 const client = new Client({
     node: 'http://localhost:9200'
