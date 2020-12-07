@@ -8,6 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import network from '../../service/network';
 import { changeSideSongs, changeFromId } from '../../redux/Actions';
 import { useDispatch } from "react-redux";
+import {playlistPageShowed} from '../../service/AnalyticsManager';
 
 function SinglePlaylist() {
   const [songsOfPlaylist, setSongsOfPlaylist] = useState([]);
@@ -25,9 +26,16 @@ function SinglePlaylist() {
       console.error(e.message);
     }
   }, [id]);
+  
   useEffect(() => {
     getSongsOfPlaylist();
   }, []);
+
+  useEffect(()=>{
+    if(songsOfPlaylist[0]){
+        playlistPageShowed(songsOfPlaylist[0].name)
+    }
+},[songsOfPlaylist])
 
   return (
     <>

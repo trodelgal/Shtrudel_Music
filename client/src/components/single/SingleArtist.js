@@ -11,6 +11,7 @@ import Carousel from "react-elastic-carousel";
 import network from '../../service/network';
 import { changeSideSongs, changeFromId } from '../../redux/Actions';
 import { useDispatch } from "react-redux";
+import {artistPageShowed} from '../../service/AnalyticsManager';
 
 function SingleArtist() {
   const [artistDetails, setArtistDetails] = useState([]);
@@ -28,9 +29,16 @@ function SingleArtist() {
       console.error(e.message);
     }
   }, []);
+
   useEffect(() => {
     getartistDetails();
   }, []);
+
+  useEffect(()=>{
+    if(artistDetails[0]){
+        artistPageShowed(artistDetails[0].name)
+    }
+},[artistDetails])
 
   const breakPoints = [
     { width: 1, itemsToShow: 1 },

@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Modal from "react-bootstrap/Modal";
 import network from '../../service/network';
 import { useSelector, useDispatch } from "react-redux";
+import {songPlayed} from '../../service/AnalyticsManager';
 
 function SingleSong() {
   const sideSongs = useSelector((state) => state.sideSongs);
@@ -47,6 +48,12 @@ function SingleSong() {
   useEffect(() => {
     getSongData();
   }, []);
+
+  useEffect(()=>{
+    if(songData[0]){
+        songPlayed(songData[0].title)
+    }
+},[songData])
 
   function getIdSong(link) {
     let video_id = link.split("v=")[1];

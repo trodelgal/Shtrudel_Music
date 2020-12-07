@@ -7,6 +7,7 @@ import { FileMusic } from "react-bootstrap-icons";
 import network from '../../service/network';
 import { changeSideSongs, changeFromId } from '../../redux/Actions';
 import { useDispatch } from "react-redux";
+import {albumPageShowed} from '../../service/AnalyticsManager';
 
 function SingleAlbum() {
   const [albumDetails, setAlbumDetails] = useState([]);
@@ -23,9 +24,16 @@ function SingleAlbum() {
       console.error(e.message);
     }
   };
+
   useEffect(() => {
     getAlbumDetails();
   }, []);
+
+  useEffect(()=>{
+    if(albumDetails[0]){
+        albumPageShowed(albumDetails[0].name)
+    }
+},[albumDetails])
 
   return (
       <>
