@@ -12,12 +12,9 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.changeColumn(
+    await queryInterface.removeColumn(
       'Artists',
-      'cover_img',
-      {
-        type: Sequelize.STRING,
-      }
+      'cover_img'
     )
 }
 };

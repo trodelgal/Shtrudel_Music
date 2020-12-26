@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('users_playlists', {
+    await queryInterface.createTable('Users_playlists', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -23,10 +23,15 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: new Date()
-      }
+      },
+      deleted_at: {
+        type: Sequelize.DATE,
+        allowNull: true,
+        validate: {},
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('users_playlists');
+    await queryInterface.dropTable('Users_playlists');
   }
 };

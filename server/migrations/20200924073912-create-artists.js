@@ -23,7 +23,12 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: new Date()
-      }
+      },
+      deleted_at: {
+        type: Sequelize.DATE,
+        allowNull: true,
+        validate: {},
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {

@@ -9,6 +9,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('Artists', null, {});
+    await queryInterface.bulkDelete('Artists', null, {});
   }
 };
