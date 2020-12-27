@@ -16,12 +16,13 @@ import Register from "./Register";
 import error from './files/error.png';
 
 function MyRouter() {
+    const token = localStorage.getItem("token");
  return (
  <Router>
     <Header/>
     <Switch>
         <Route exact path="/">
-            <Login/>
+            {token?<Main/>:<Login/>}
         </Route>
         <Route exact path="/register">
             <Register/>

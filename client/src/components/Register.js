@@ -5,6 +5,7 @@ import logo from "./files/logo.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { newRegister } from "../service/AnalyticsManager";
+import { useHistory } from "react-router-dom";
 
 function Register() {
   const [error, setError] = useState("");
@@ -12,6 +13,7 @@ function Register() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const secondPasswordRef = useRef();
+  const history = useHistory();
 
   const nextInput = (e, field) => {
     if (e.keyCode === 13) {
@@ -55,7 +57,7 @@ function Register() {
         const res = await axios.post("/api/register", postUserObj);
         if (res.data.name) {
           newRegister(usernameRef.current.value);
-          window.location = "/";
+          history.push("/");
         } else {
           if (res.data.split("_")[1] === "DUP") {
             setError("email already exists");

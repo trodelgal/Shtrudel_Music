@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Card } from "react-bootstrap";
 import Carousel from "react-elastic-carousel";
-import network from '../../service/network';
+import network from "../../service/network";
 
 function TopSongs() {
   const [topTwentySongs, setTopTwentySongs] = useState([]);
@@ -33,38 +33,40 @@ function TopSongs() {
     <>
       <h2>Top Songs</h2>
       <div className="top">
-        <Carousel breakPoints={breakPoints}>
-          {topTwentySongs.map((value, index) => {
-            return (
-              <Card
-                key={index}
-                style={{
-                  width: "12rem",
-                  margin: "5px",
-                  textAlign: "center",
-                  padding: "5px",
-                }}
-              >
-                <Link to={`/songs/${value.Song.id}`}>
-                  <Card.Img
-                    variant="top"
-                    src={value.Song.Album.coverImg}
-                    height="100px"
-                    width="180px"
-                  />
-                </Link>
-                <Card.Body>
-                  <Card.Title>{value.Song.title}</Card.Title>
-                  <Card.Text>
-                    <div>{value.Song.length}</div>
-                    <span>{value.Song.Artist.artistName} | </span>
-                    <span>{value.Song.Album.albumName}</span>
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            );
-          })}
-        </Carousel>
+        {topTwentySongs[0] && (
+          <Carousel breakPoints={breakPoints}>
+            {topTwentySongs.map((value, index) => {
+              return (
+                <Card
+                  key={index}
+                  style={{
+                    width: "12rem",
+                    margin: "5px",
+                    textAlign: "center",
+                    padding: "5px",
+                  }}
+                >
+                  <Link to={`/songs/${value.Song.id}`}>
+                    <Card.Img
+                      variant="top"
+                      src={value.Song.Album.coverImg}
+                      height="100px"
+                      width="180px"
+                    />
+                  </Link>
+                  <Card.Body>
+                    <Card.Title>{value.Song.title}</Card.Title>
+                    <Card.Text>
+                      <div>{value.Song.length}</div>
+                      <span>{value.Song.Artist.artistName} | </span>
+                      <span>{value.Song.Album.albumName}</span>
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              );
+            })}
+          </Carousel>
+        )}
       </div>
     </>
   );

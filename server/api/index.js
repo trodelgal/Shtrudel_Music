@@ -14,7 +14,7 @@ function logger(req, res, next) {
 router.use(logger);
 
 router.use('/songs', checkToken, require('./songs'));
-router.use('/albums', checkToken, require('./albums'));
+router.use('/albums', require('./albums'));
 router.use('/artists', checkToken, require('./artists'));
 router.use('/playlists', checkToken, require('./playlists'));
 

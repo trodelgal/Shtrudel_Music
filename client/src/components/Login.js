@@ -5,11 +5,13 @@ import { Navbar, Nav, Button } from "react-bootstrap";
 import logo from "./files/logo.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { userLoggedIn } from "../service/AnalyticsManager";
+import { useHistory } from "react-router-dom";
 
 function Login() {
   const [error, setError] = useState("");
   const emailRef = useRef();
   const passwordRef = useRef();
+  const history = useHistory();
 
   useEffect(()=>{
     emailRef.current.focus();
@@ -36,7 +38,7 @@ function Login() {
     if (response.data && response.data.success && response.data.token) {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("name", response.data.name);
-      window.location = "/home";
+      history.push("/home");
       userLoggedIn();
     } else {
       setError(response.response.data.errorMessage);

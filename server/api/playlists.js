@@ -54,7 +54,7 @@ router.get("/all/top", async (req, res) => {
     });
     return res.json(playlists);
   } catch (err) {
-    return res.json(err);
+    return res.json(err.message);
   }
 });
 
