@@ -29,8 +29,8 @@ function Artists(){
                 artistsToDesplay.map((value,index)=>{
                     return(
                         <Card key={index} style={{ width: '18rem',margin:'5px', textAlign: 'center' }}>
-                            <Link to={`/artists/${value._source.id}`}><Card.Img style={{borderRadius:'50%'}} variant="top" src={value._source.coverImg} height="100px" width="180px" roundedCircle /></Link>
-                            <Card.Title><b>{value._source.name}</b></Card.Title>
+                            <Link to={`/artists/${value.id}`}><Card.Img style={{borderRadius:'50%'}} variant="top" src={value.coverImg} height="100px" width="180px" roundedCircle /></Link>
+                            <Card.Title><b>{value.name}</b></Card.Title>
                         </Card>
                     )
                 })

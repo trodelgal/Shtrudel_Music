@@ -1,5 +1,4 @@
 const { Router } = require('express');
-const { searchElastic } = require("./elasticFunction");
 const { Users } = require("../models");
 const jwt = require('jsonwebtoken');
 const Joi = require('joi');
@@ -17,19 +16,6 @@ router.use('/songs', checkToken, require('./songs'));
 router.use('/albums', require('./albums'));
 router.use('/artists', checkToken, require('./artists'));
 router.use('/playlists', checkToken, require('./playlists'));
-
-router.get('/search/:search', checkToken,  async (req, res)=>{
-  try{
-    const artists = await searchElastic("artists", req.params.search);
-    const albums = await searchElastic("albums", req.params.search);
-    const songs = await searchElastic("songs", req.params.search);
-    const playlists = await searchElastic("playlists", req.params.search);
-    const results = [...artists.body.hits.hits, ...albums.body.hits.hits, ...songs.body.hits.hits,...playlists.body.hits.hits]
-    res.json(results);
-  }catch(err){
-    res.json(err)
-  }
-})
 
 router.post('/login', async (req, res) => {
   try{

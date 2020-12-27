@@ -26,29 +26,10 @@ function Main() {
 
   return (
     <div className="main">
-      <input className="searchInput" onChange={(e) => setSearch(e.target.value)} placeholder="search"/>
-        {/* <FormControl
-          aria-label="Small"
-          aria-describedby="inputGroup-sizing-sm"
-          placeholder="Search"
-          onChange={(e) => setSearch(e.target.value)}
-          style={{margin:10, backgroundColor:"#2e2d2d"}}
-        /> */}
-      {search ? (
-        <>
-          <SearchedArtists searchData={searchData} />
-          <SearchedAlbums searchData={searchData} />
-          <SearchedPlaylists searchData={searchData} />
-          <SearchedSongs searchData={searchData} />
-        </>
-      ) : (
-        <>
           <TopSongs />
           <TopArtists />
           <TopPlaylists />
           <TopAlbums />
-        </>
-      )}
     </div>
   );
 }

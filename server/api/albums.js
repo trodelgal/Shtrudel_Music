@@ -1,7 +1,6 @@
 const { Router } = require("express");
 const Sequelize = require("sequelize");
 const { Albums, Songs, Artists, Interactions } = require("../models");
-const { searchElastic, updateElasticData, deletetElastic, updateElastic } = require("./elasticFunction");
 
 const { Op } = Sequelize;
 
@@ -15,6 +14,7 @@ router.get("/", async (req, res) => {
     return res.json(err);
   }
 });
+
 router.get("/:name", async (req, res) => {
   try {
     const allAlbums = await Albums.findAll({
@@ -29,21 +29,6 @@ router.get("/:name", async (req, res) => {
     return res.json(err);
   }
 });
-
-// elasticsearch searchInput
-// router.get("/elasticsearch/:search", async (req, res) => {
-//   try {
-//     if(req.params.search !== ''){
-//       const result = await searchElastic("albums", req.params.search);
-//       return res.send(result.body);
-//     }else{
-//       const allAlbums = await Albums.findAll({})
-//       return res.send(allAlbums);
-//     }
-//   } catch (err) {
-//     res.send(err);
-//   }
-// });
 
 // get data on one album
 router.get("/:id/songs", async (req, res) => {
@@ -95,7 +80,6 @@ router.get("/all/top", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const newAlbum = await Albums.create(req.body);
-    postElastic("albums", req.body);
     return res.json(newAlbum);
   } catch (e) {
     console.error(e);
@@ -110,7 +94,6 @@ router.delete("/:id", async (req, res) => {
         id: req.params.id,
       },
     });
-    deletetElastic("albums",req.params.id )
     return res.json(delAlbum);
   } catch (err) {
     return res.json(err);
@@ -122,22 +105,11 @@ router.put("/:id", async (req, res) => {
   try {
     const album = await Albums.findByPk(req.params.id);
     await album.update(req.body);
-    updateElastic("albums",req.params.id,req.body)
     return res.json(album);
   } catch (err) {
     return res.json(err);
   }
 });
 
-//add initial data to elasticsearch
-router.put("/elastic/data", async (req, res) => {
-  try {
-    const allAlbums = await Albums.findAll();
-    const res = updateElasticData('albums', allAlbums)
-    res.json(res);
-  } catch (err) {
-    return res.json(err);
-  }
-});
 
 module.exports = router;
