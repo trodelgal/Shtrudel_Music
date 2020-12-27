@@ -1,14 +1,14 @@
-'use strict';
+// 'use strict';
 
 
-const users = require('../data/users');
+// const users = require('../data/users');
 
-module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('Users', users, {});
-  },
+// module.exports = {
+//   up: async (queryInterface, Sequelize) => {
+//     await queryInterface.bulkInsert('Users', users, {});
+//   },
 
-  down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('Users', null, {});
-  }
-};
+//   down: async (queryInterface, Sequelize) => {
+//     await queryInterface.bulkDelete('Users', null, {});
+//   }
+// };
