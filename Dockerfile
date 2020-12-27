@@ -21,7 +21,7 @@ EXPOSE 8080
 
 COPY /server .
 
-# CMD ["./wait-for-it/wait-for-it.sh", "mysql:3306", "--", "npm", "run", "spinup"]
+# CMD ["./wait-for-it/wait-for-it.sh", "mysql:3306", "--", "npm", "run", "spinupseed"]
 
 CMD ["npm", "run", "spinupseed"]
 
