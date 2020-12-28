@@ -29,7 +29,7 @@ function Main() {
           <TopSongs />
           <TopArtists />
           <TopPlaylists />
-          <TopAlbums />
+          {/* <TopAlbums /> */}
     </div>
   );
 }
